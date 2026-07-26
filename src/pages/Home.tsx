@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
-import { ArrowRight, ChevronRight, Zap } from "lucide-react";
+import { ArrowRight, ChevronRight, Zap, Cpu } from "lucide-react";
 import { siteConfig } from "../data/site";
 
 export default function Home() {
@@ -211,7 +211,7 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* Premium Logo Breathing & 3D Tilt Card */}
+          {/* Premium Logo & Floating 3D Hardware Components */}
           <motion.div 
             style={{ 
               x: logoX, 
@@ -223,33 +223,89 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-            className="flex-1 flex justify-center relative perspective-1000"
+            className="flex-1 flex justify-center relative perspective-1000 my-8 md:my-0"
           >
-            {/* Layer 4: Soft Breathing Red Radial Aura (8s cycle) */}
+            {/* Soft Breathing Red Radial Aura (8s cycle) */}
             <motion.div 
               animate={{ 
-                scale: [0.98, 1.02, 0.98],
-                opacity: [0.4, 0.7, 0.4]
+                scale: [0.98, 1.04, 0.98],
+                opacity: [0.4, 0.75, 0.4]
               }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute w-[280px] h-[280px] md:w-[340px] md:h-[340px] bg-[radial-gradient(circle,_rgba(200,16,46,0.45)_0%,_transparent_70%)] blur-[70px] pointer-events-none"
+              className="absolute w-[280px] h-[280px] md:w-[360px] md:h-[360px] bg-[radial-gradient(circle,_rgba(200,16,46,0.5)_0%,_transparent_70%)] blur-[75px] pointer-events-none"
             ></motion.div>
 
-            {/* Apple-style Glassmorphism Breathing Card */}
+            {/* FLOATING 3D POWER ELECTRONICS HARDWARE COMPONENTS */}
+            
+            {/* 1. Microcontroller / IC Chip (Top Left) */}
+            <motion.div
+              animate={{
+                y: [0, -14, 0],
+                rotateZ: [-4, 4, -4],
+                rotateX: [0, 10, 0]
+              }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -top-6 -left-4 md:-top-8 md:-left-8 z-30 bg-black/80 backdrop-blur-md border border-red-500/40 p-3 rounded-2xl shadow-[0_0_20px_rgba(200,16,46,0.5)] flex items-center gap-2.5"
+            >
+              <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/50 flex items-center justify-center text-primary shadow-[0_0_10px_rgba(200,16,46,0.8)]">
+                <Cpu className="w-5 h-5 text-red-500 animate-pulse" />
+              </div>
+              <div className="text-[11px] font-mono-data">
+                <div className="text-white font-bold tracking-wider">MOSFET / IGBT</div>
+                <div className="text-red-400/80 text-[9px]">Gate Driver</div>
+              </div>
+            </motion.div>
+
+            {/* 2. Power Circuit / Transformer Node (Bottom Right) */}
+            <motion.div
+              animate={{
+                y: [0, 16, 0],
+                rotateZ: [6, -4, 6],
+                rotateY: [0, -12, 0]
+              }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              className="absolute -bottom-6 -right-4 md:-bottom-8 md:-right-8 z-30 bg-black/80 backdrop-blur-md border border-red-500/40 p-3 rounded-2xl shadow-[0_0_20px_rgba(200,16,46,0.5)] flex items-center gap-2.5"
+            >
+              <div className="w-8 h-8 rounded-lg bg-primary/20 border border-primary/50 flex items-center justify-center text-primary shadow-[0_0_10px_rgba(200,16,46,0.8)]">
+                <Zap className="w-5 h-5 text-amber-400" />
+              </div>
+              <div className="text-[11px] font-mono-data">
+                <div className="text-white font-bold tracking-wider">DC-DC Converter</div>
+                <div className="text-amber-400/80 text-[9px]">PWM Inverter</div>
+              </div>
+            </motion.div>
+
+            {/* 3. PCB Oscillator Node (Top Right) */}
+            <motion.div
+              animate={{
+                y: [0, -10, 0],
+                x: [0, 8, 0],
+                rotateZ: [3, -3, 3]
+              }}
+              transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="absolute -top-4 -right-2 md:-top-6 md:-right-4 z-20 bg-black/70 backdrop-blur-md border border-white/10 p-2.5 rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.15)] flex items-center gap-2"
+            >
+              <div className="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center text-white">
+                <span className="material-symbols-outlined text-sm text-primary">memory</span>
+              </div>
+              <span className="text-[10px] font-mono-data text-neutral-300 font-semibold">DSP / FPGA</span>
+            </motion.div>
+
+            {/* Main Apple-style Glassmorphism Breathing Logo Card */}
             <motion.div
               animate={{ 
                 scale: [1, 1.02, 1]
               }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-full max-w-[280px] md:max-w-[310px] aspect-square rounded-3xl p-6 flex items-center justify-center bg-black/60 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-300"
+              className="relative w-full max-w-[280px] md:max-w-[320px] aspect-square rounded-3xl p-6 flex items-center justify-center bg-black/60 backdrop-blur-2xl border border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.9)] transition-all duration-300 z-10"
             >
-              {/* Subtle top reflection edge */}
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+              {/* Top glass reflection line */}
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
 
               <img 
                 src="/logo.jpg" 
                 alt="IEEE PELS SSN Logo" 
-                className="w-full h-full object-contain rounded-2xl filter brightness-[1.05] contrast-[1.05]" 
+                className="w-full h-full object-contain rounded-2xl filter brightness-[1.06] contrast-[1.06]" 
               />
             </motion.div>
           </motion.div>
