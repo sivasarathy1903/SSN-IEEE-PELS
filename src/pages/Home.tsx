@@ -45,7 +45,7 @@ export default function Home() {
         ></motion.div>
 
         {/* Seamless 3D Canvas spanning full-width of Hero with gradient blend */}
-        <div className="absolute inset-0 -translate-x-[10%] md:translate-x-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 -translate-x-[30%] w-[160%] md:translate-x-0 md:w-full z-0 pointer-events-none">
           <HeroPCBScene />
           <div className="absolute inset-0 bg-gradient-to-b from-[#050706]/85 via-[#050706]/45 to-[#050706] md:bg-gradient-to-r md:from-[#050706] md:via-[#050706]/50 md:to-transparent pointer-events-none" />
         </div>
