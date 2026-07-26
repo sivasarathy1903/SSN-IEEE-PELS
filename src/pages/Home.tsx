@@ -1,35 +1,11 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
+import { motion, useTransform, useScroll } from "framer-motion";
 import { ArrowRight, ChevronRight, Zap } from "lucide-react";
 import { siteConfig } from "../data/site";
 import HeroPCBScene from "../components/HeroPCBScene";
 
 export default function Home() {
-  // Mouse position tracking for ultra-smooth 3D parallax
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Parallax layers
-  const textX = useTransform(mouseX, [-500, 500], [-2, 2]);
-  const textY = useTransform(mouseY, [-500, 500], [-2, 2]);
-
-  const bgX = useTransform(mouseX, [-500, 500], [-10, 10]);
-  const bgY = useTransform(mouseY, [-500, 500], [-10, 10]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - (rect.left + rect.width / 2);
-    const y = e.clientY - (rect.top + rect.height / 2);
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
-
   // Scroll opacity reaction
   const { scrollY } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.4]);
@@ -45,8 +21,6 @@ export default function Home() {
       {/* Hero Section – Seamless Full-Bleed 3D Showcase */}
       <motion.section 
         style={{ opacity: heroOpacity }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
         className="relative h-[calc(100vh-80px)] min-h-[460px] max-h-[640px] flex items-center overflow-hidden bg-[#050706] text-white select-none" 
         id="home"
       >
@@ -64,7 +38,6 @@ export default function Home() {
 
         {/* Layer 1: Ambient Slow Red Glow (20-30s cycle) */}
         <motion.div 
-          style={{ x: bgX, y: bgY }}
           animate={{ opacity: [0.12, 0.18, 0.12], scale: [1, 1.08, 1] }}
           transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(200,16,46,0.25)_0%,_transparent_70%)] blur-[100px] pointer-events-none z-0"
@@ -83,7 +56,6 @@ export default function Home() {
           {/* LEFT – Text + Buttons */}
           <div className="w-full md:w-[52%] lg:w-[48%] shrink-0">
             <motion.div
-              style={{ x: textX, y: textY }}
               initial="hidden"
               animate="visible"
               variants={{
