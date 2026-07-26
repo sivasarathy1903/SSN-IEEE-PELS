@@ -128,13 +128,13 @@ export function ImageMarquee() {
               {/* Main Folder Front Card */}
               <div className="relative glass-card border border-white/15 bg-neutral-900/90 rounded-2xl overflow-hidden p-5 shadow-2xl group-hover:border-[#C8102E]/60 transition-all duration-300">
                 {/* Folder Top Tab Graphic */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#C8102E]/20 border border-[#C8102E]/40 text-[#C8102E]">
-                    <Folder className="w-4 h-4" />
-                    <span className="font-mono-data text-[11px] font-semibold">{folder.category}</span>
+                <div className="flex items-center justify-between gap-2 mb-4 h-9">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#C8102E]/20 border border-[#C8102E]/40 text-[#C8102E] shrink min-w-0">
+                    <Folder className="w-3.5 h-3.5 shrink-0" />
+                    <span className="font-mono-data text-[10px] sm:text-[11px] font-semibold truncate">{folder.category}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-neutral-400 font-mono-data">
-                    <Images className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-1 text-[11px] text-neutral-400 font-mono-data shrink-0">
+                    <Images className="w-3.5 h-3.5 text-[#C8102E]" />
                     <span>{folder.count} photos</span>
                   </div>
                 </div>
