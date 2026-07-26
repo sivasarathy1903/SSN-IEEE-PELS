@@ -17,6 +17,42 @@ export default function Home() {
       <section className="relative h-[90vh] flex items-center overflow-hidden" id="home">
         <div className="absolute inset-0 bg-gradient-to-b from-surface/40 via-transparent to-surface z-[1]"></div>
         
+        {/* Falling Light Emojis Animation */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+          {[
+            { emoji: "⚡", left: "10%", duration: 6, delay: 0 },
+            { emoji: "💡", left: "25%", duration: 8, delay: 2 },
+            { emoji: "✨", left: "40%", duration: 5, delay: 1 },
+            { emoji: "⚡", left: "55%", duration: 7, delay: 3 },
+            { emoji: "💡", left: "70%", duration: 9, delay: 0.5 },
+            { emoji: "✨", left: "85%", duration: 6, delay: 2.5 },
+            { emoji: "⚡", left: "92%", duration: 8, delay: 1.5 },
+            { emoji: "💡", left: "18%", duration: 7, delay: 4 },
+            { emoji: "✨", left: "62%", duration: 5.5, delay: 3.5 }
+          ].map((item, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ y: "-10vh", opacity: 0, scale: 0.5 }}
+              animate={{ 
+                y: "105vh", 
+                opacity: [0, 1, 1, 0],
+                rotate: [0, 180, 360],
+                scale: [0.6, 1.2, 0.8]
+              }}
+              transition={{ 
+                duration: item.duration, 
+                repeat: Infinity, 
+                delay: item.delay,
+                ease: "linear"
+              }}
+              className="absolute text-2xl md:text-3xl filter drop-shadow-[0_0_12px_rgba(255,215,0,0.8)] select-none"
+              style={{ left: item.left }}
+            >
+              {item.emoji}
+            </motion.div>
+          ))}
+        </div>
+
         {/* Animated Background Elements */}
         <motion.div 
           animate={{ rotate: 360, scale: [1, 1.2, 1] }}
@@ -76,7 +112,7 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* Massive Animated Logo */}
+          {/* Animated Compact Logo */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.3, rotate: -15, filter: "blur(10px)" }}
             animate={{ opacity: 1, scale: 1, rotate: 0, filter: "blur(0px)" }}
@@ -86,26 +122,26 @@ export default function Home() {
             {/* Multi-layered Animated Aura */}
             <motion.div 
               animate={{ 
-                scale: [1, 1.25, 1],
-                opacity: [0.3, 0.7, 0.3],
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.6, 0.3],
                 rotate: [0, 180, 360]
               }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute w-[360px] h-[360px] md:w-[450px] md:h-[450px] bg-gradient-to-r from-primary via-red-600 to-amber-500 rounded-full blur-[80px] opacity-40 pointer-events-none"
+              className="absolute w-[260px] h-[260px] md:w-[320px] md:h-[320px] bg-gradient-to-r from-primary via-red-600 to-amber-500 rounded-full blur-[60px] opacity-40 pointer-events-none"
             ></motion.div>
 
             <motion.div
               animate={{ 
-                y: [0, -18, 0],
-                rotateZ: [0, 1.5, -1.5, 0]
+                y: [0, -12, 0],
+                rotateZ: [0, 1, -1, 0]
               }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-full max-w-[420px] aspect-square rounded-3xl p-6 flex items-center justify-center bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_0_50px_rgba(200,16,46,0.3)] hover:shadow-[0_0_80px_rgba(200,16,46,0.6)] transition-all duration-500"
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-full max-w-[280px] md:max-w-[310px] aspect-square rounded-3xl p-5 flex items-center justify-center bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_0_40px_rgba(200,16,46,0.35)] hover:shadow-[0_0_60px_rgba(200,16,46,0.6)] transition-all duration-500"
             >
               <img 
                 src="/logo.jpg" 
                 alt="IEEE PELS SSN Logo" 
-                className="w-full h-full object-contain rounded-2xl drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)] filter brightness-110 contrast-110 group-hover:scale-105 transition-transform duration-500" 
+                className="w-full h-full object-contain rounded-2xl drop-shadow-[0_8px_20px_rgba(0,0,0,0.8)] filter brightness-110 contrast-110 group-hover:scale-105 transition-transform duration-500" 
               />
             </motion.div>
           </motion.div>

@@ -30,11 +30,13 @@ export default function EventDetail() {
           <div className="absolute inset-0 bg-gradient-to-t from-background via-surface/80 to-transparent"></div>
         </div>
         <div className="relative z-10 max-w-container-max mx-auto px-margin-lg w-full">
-          <Link to="/events" className="inline-flex items-center gap-2 text-on-surface-variant hover:text-white mb-6 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Back to Events
-          </Link>
-          <div className="inline-block px-3 py-1 rounded-full bg-primary/20 border border-primary/30 mb-4">
-            <span className="font-label-caps text-xs text-primary uppercase">{event.category}</span>
+          <div className="flex flex-wrap items-center gap-4 mb-6">
+            <Link to="/events" className="inline-flex items-center gap-2 text-on-surface-variant hover:text-white transition-colors bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+              <ArrowLeft className="w-4 h-4" /> Back to Events
+            </Link>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/20 border border-primary/30">
+              <span className="font-label-caps text-xs text-primary font-bold uppercase tracking-wider">{event.category}</span>
+            </div>
           </div>
           <h1 className="font-headline-xl text-headline-xl text-white mb-6 max-w-4xl">{event.name}</h1>
           <div className="flex flex-wrap gap-6 text-on-surface-variant font-body-md">
