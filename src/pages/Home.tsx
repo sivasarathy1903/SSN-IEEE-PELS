@@ -131,11 +131,11 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Main Content Layout – 45/55 split */}
+        {/* Main Content Layout – Seamless Split */}
         <div className="relative z-10 w-full h-full flex flex-col md:flex-row items-stretch">
 
           {/* LEFT – 45%: Text + Buttons */}
-          <div className="flex items-center w-full md:w-[45%] px-8 md:px-12 lg:px-16 xl:px-24 py-20 md:py-0 shrink-0">
+          <div className="flex items-center w-full md:w-[45%] px-8 md:px-12 lg:px-16 xl:px-24 py-20 md:py-0 shrink-0 z-10">
             <motion.div
               style={{ x: textX, y: textY }}
               initial="hidden"
@@ -147,32 +147,33 @@ export default function Home() {
                   transition: { staggerChildren: 0.15, delayChildren: 0.2 }
                 }
               }}
-              className="w-full max-w-2xl"
+              className="w-full max-w-xl"
             >
-              {/* Live Badge */}
+              {/* Live Pill Badge */}
               <motion.div
                 variants={{
                   hidden: { opacity: 0, y: 30 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
                 }}
-                className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md mb-8"
+                className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-8"
               >
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(200,16,46,0.8)]"></span>
-                <span className="font-mono-data text-xs text-primary tracking-widest uppercase font-semibold">IEEE PELS SSN CHAPTER</span>
+                <span className="w-2 h-2 rounded-full bg-[#C8102E] animate-pulse shadow-[0_0_8px_rgba(200,16,46,0.9)]"></span>
+                <span className="font-mono-data text-xs text-neutral-300 tracking-widest uppercase font-semibold">IEEE PELS SSN CHAPTER</span>
               </motion.div>
 
-              {/* Main Headline */}
+              {/* Main Headline with Red Accent matching screenshot */}
               <motion.h1
                 variants={{
                   hidden: { opacity: 0, y: 30 },
                   visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
                 }}
-                className="font-headline-xl text-headline-xl mb-6 text-white leading-[1.08] tracking-tight"
+                className="font-headline-xl text-5xl lg:text-6xl xl:text-7xl mb-6 text-white leading-[1.08] tracking-tight font-extrabold"
               >
                 IEEE Power <br />
-                <span className="bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent">
-                  Electronics Society
-                </span>
+                <span className="text-[#C8102E]">
+                  Electronics
+                </span> <br />
+                Society
               </motion.h1>
 
               {/* Tagline */}
@@ -181,9 +182,10 @@ export default function Home() {
                   hidden: { opacity: 0, y: 30 },
                   visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
                 }}
-                className="font-body-lg text-lg text-on-surface-variant mb-10 max-w-xl font-light leading-relaxed"
+                className="font-body-lg text-lg text-neutral-400 mb-10 max-w-lg font-light leading-relaxed"
               >
-                {siteConfig.tagline}
+                Innovating Power Electronics.<br />
+                Inspiring Future Engineers.
               </motion.p>
 
               {/* CTA Buttons */}
@@ -196,37 +198,36 @@ export default function Home() {
               >
                 <Link
                   to="/events"
-                  className="bg-primary text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-3 transition-all duration-200 hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_8px_25px_rgba(200,16,46,0.4)] group active:scale-100"
+                  className="bg-[#C8102E] text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-3 transition-all duration-200 hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_8px_25px_rgba(200,16,46,0.5)] group active:scale-100 font-semibold"
                 >
                   Explore Events
                   <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5" />
                 </Link>
                 <Link
                   to="/projects"
-                  className="border border-white/15 bg-white/[0.04] text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-2 backdrop-blur-xl transition-all duration-200 hover:bg-white/[0.08] hover:border-white/30 hover:scale-[1.02] active:scale-100"
+                  className="border border-white/15 bg-white/[0.04] text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-2 backdrop-blur-xl transition-all duration-200 hover:bg-white/[0.08] hover:border-white/30 hover:scale-[1.02] active:scale-100 font-semibold"
                 >
                   Explore Projects
-                  <ChevronRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </motion.div>
             </motion.div>
           </div>
 
-          {/* RIGHT – 55%: Full-height 3D canvas */}
-          <div className="relative w-full md:w-[55%] h-[60vw] md:h-full flex-1 min-h-[500px]">
-            {/* Breathing red aura */}
+          {/* RIGHT – 55%: Full-height 3D Canvas Scene */}
+          <div className="relative w-full md:w-[55%] h-[60vw] md:h-full flex-1 min-h-[550px]">
+            {/* Ambient Red Studio Aura */}
             <motion.div
-              animate={{ scale: [0.95, 1.06, 0.95], opacity: [0.28, 0.55, 0.28] }}
+              animate={{ scale: [0.95, 1.05, 0.95], opacity: [0.3, 0.6, 0.3] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(200,16,46,0.3)_0%,_transparent_68%)] blur-[100px] pointer-events-none z-0"
+              className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(200,16,46,0.35)_0%,_transparent_70%)] blur-[110px] pointer-events-none z-0"
             />
             <Suspense
               fallback={
                 <div className="absolute inset-0 flex items-center justify-center z-10">
                   <div className="flex flex-col items-center gap-4">
-                    {/* Silhouette placeholder */}
                     <div className="w-48 h-48 rounded-2xl bg-primary/[0.06] border border-primary/10 backdrop-blur-sm animate-pulse" />
-                    <span className="text-[10px] font-mono-data text-primary/40 tracking-[0.25em] uppercase mt-2">Initialising Scene</span>
+                    <span className="text-[10px] font-mono-data text-primary/40 tracking-[0.25em] uppercase mt-2">Initialising 3D Showcase</span>
                   </div>
                 </div>
               }
@@ -237,21 +238,50 @@ export default function Home() {
 
         </div>
 
-        {/* Premium Scroll Indicator */}
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 0.4, y: 0 }}
-          transition={{ delay: 1.4, duration: 0.8 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none"
-        >
-          <div className="w-5 h-8 rounded-full border-2 border-white/40 flex justify-center p-1">
-            <motion.div 
-              animate={{ y: [0, 10, 0], opacity: [0.8, 0.2, 0.8] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1 h-1.5 rounded-full bg-white"
-            ></motion.div>
+        {/* Bottom Feature Metrics Bar & Scroll Indicator matching screenshot */}
+        <div className="absolute bottom-6 inset-x-0 z-20 px-8 md:px-16 pointer-events-none flex flex-col md:flex-row items-center justify-between gap-4">
+          {/* Feature Pillars */}
+          <div className="flex items-center gap-8 text-neutral-400 text-xs font-mono-data">
+            <div className="flex items-center gap-2.5">
+              <Zap className="w-4 h-4 text-[#C8102E]" />
+              <div>
+                <div className="text-white font-semibold">Power Electronics</div>
+                <div className="text-neutral-500 text-[10px]">Innovation</div>
+              </div>
+            </div>
+            <div className="hidden sm:flex items-center gap-2.5">
+              <span className="material-symbols-outlined text-sm text-[#C8102E]">memory</span>
+              <div>
+                <div className="text-white font-semibold">Hands-on</div>
+                <div className="text-neutral-500 text-[10px]">Learning</div>
+              </div>
+            </div>
+            <div className="hidden lg:flex items-center gap-2.5">
+              <span className="material-symbols-outlined text-sm text-[#C8102E]">groups</span>
+              <div>
+                <div className="text-white font-semibold">Industry</div>
+                <div className="text-neutral-500 text-[10px]">Collaboration</div>
+              </div>
+            </div>
           </div>
-        </motion.div>
+
+          {/* Scroll to Explore Mouse */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 0.6, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="flex flex-col items-center gap-1.5"
+          >
+            <div className="w-5 h-8 rounded-full border border-white/30 flex justify-center p-1">
+              <motion.div
+                animate={{ y: [0, 8, 0], opacity: [0.8, 0.2, 0.8] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="w-1 h-1.5 rounded-full bg-white"
+              ></motion.div>
+            </div>
+            <span className="text-[9px] font-mono-data tracking-[0.25em] text-neutral-400 uppercase">SCROLL TO EXPLORE</span>
+          </motion.div>
+        </div>
       </motion.section>
 
       {/* About Preview Section */}

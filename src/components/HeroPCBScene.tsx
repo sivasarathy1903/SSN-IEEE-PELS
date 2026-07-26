@@ -1,463 +1,578 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   RoundedBox,
   Text,
-  Edges,
   Billboard,
-  Sparkles,
   useTexture,
+  Line,
 } from "@react-three/drei";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 
-// ─── Camera rig: smooth mouse parallax ───────────────────────────────────────
+// ─── Camera Rig (Mouse Parallax: Max 2° tilt / 8px translation) ─────────────
 function CameraRig({ mx, my }: { mx: number; my: number }) {
   const { camera } = useThree();
   useFrame(() => {
-    camera.position.x += (mx * 1.2 - camera.position.x) * 0.04;
-    camera.position.y += (-my * 0.8 - camera.position.y) * 0.04;
-    camera.lookAt(0, 0.3, 0);
+    // Gentle parallax according to user specs
+    camera.position.x += (mx * 0.4 - camera.position.x) * 0.04;
+    camera.position.y += (-my * 0.3 - camera.position.y) * 0.04;
+    camera.rotation.x = -my * 0.025;
+    camera.rotation.y = mx * 0.025;
   });
   return null;
 }
 
-// ─── Central IEEE PELS Chip ───────────────────────────────────────────────────
-function PELSChip({ mx, my }: { mx: number; my: number }) {
-  const group = useRef<THREE.Group>(null!);
-  const glow = useRef<THREE.Mesh>(null!);
-  const logoTex = useTexture("/logo.jpg");
+// ─── High-Detail Procedural PCB Texture Generator ────────────────────────────
+function usePCBTexture() {
+  return useMemo(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 2048;
+    canvas.height = 2048;
+    const ctx = canvas.getContext("2d")!;
 
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime();
-    group.current.position.y = Math.sin(t * 0.38) * 0.18;
-    group.current.rotation.x += (-my * 0.012 - group.current.rotation.x) * 0.05;
-    group.current.rotation.y += (mx * 0.012 - group.current.rotation.y) * 0.05;
-    const m = glow.current.material as THREE.MeshBasicMaterial;
-    m.opacity = 0.28 + Math.sin(t * 0.6) * 0.18;
-  });
+    // Matte black PCB base
+    ctx.fillStyle = "#050706";
+    ctx.fillRect(0, 0, 2048, 2048);
 
-  return (
-    <group ref={group} position={[0, 0.3, 0]}>
-      {/* Outer PCB substrate – 5.8 wide */}
-      <RoundedBox args={[5.8, 5.8, 0.22]} radius={0.35} smoothness={8}>
-        <meshStandardMaterial color="#060606" metalness={0.65} roughness={0.28} />
-      </RoundedBox>
-
-      {/* Metallic glowing border ring */}
-      <RoundedBox args={[5.95, 5.95, 0.10]} radius={0.38} smoothness={8} position={[0, 0, 0.10]}>
-        <meshStandardMaterial
-          color="#130307"
-          metalness={0.96}
-          roughness={0.08}
-          emissive="#C8102E"
-          emissiveIntensity={0.55}
-        />
-        <Edges color="#C8102E" threshold={15} />
-      </RoundedBox>
-
-      {/* Logo texture – fills chip face */}
-      <mesh position={[0, 0, 0.22]}>
-        <planeGeometry args={[5.0, 5.0]} />
-        <meshStandardMaterial
-          map={logoTex}
-          metalness={0.15}
-          roughness={0.55}
-        />
-      </mesh>
-
-      {/* Red glow disc underneath logo */}
-      <mesh ref={glow} position={[0, 0, 0.18]}>
-        <circleGeometry args={[2.8, 64]} />
-        <meshBasicMaterial color="#C8102E" transparent opacity={0.32} depthWrite={false} />
-      </mesh>
-
-      {/* Corner gold pads × 4 */}
-      {([[-2.5, -2.5], [2.5, -2.5], [-2.5, 2.5], [2.5, 2.5]] as [number, number][]).map(([x, y], i) => (
-        <mesh key={i} position={[x, y, 0.22]}>
-          <boxGeometry args={[0.28, 0.28, 0.06]} />
-          <meshStandardMaterial color="#C8102E" metalness={0.92} roughness={0.08} emissive="#C8102E" emissiveIntensity={0.7} />
-        </mesh>
-      ))}
-
-      {/* Chip ambient light */}
-      <pointLight color="#C8102E" intensity={4} distance={6} position={[0, 0, 2]} />
-    </group>
-  );
-}
-
-// ─── PCB Surface ──────────────────────────────────────────────────────────────
-function PCBSurface() {
-  const planeRef = useRef<THREE.Mesh>(null!);
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime();
-    (planeRef.current.material as THREE.MeshBasicMaterial).opacity =
-      0.055 + Math.sin(t * 0.7) * 0.025;
-  });
-
-  return (
-    <group position={[0, -4.2, -1.5]} rotation={[-Math.PI / 2.4, 0, 0]}>
-      {/* Main PCB plane */}
-      <mesh>
-        <planeGeometry args={[22, 14]} />
-        <meshStandardMaterial color="#020902" metalness={0.25} roughness={0.75} transparent opacity={0.88} />
-      </mesh>
-      {/* Trace glow overlay */}
-      <mesh ref={planeRef} position={[0, 0, 0.01]}>
-        <planeGeometry args={[22, 14]} />
-        <meshBasicMaterial color="#C8102E" transparent opacity={0.06} depthWrite={false} />
-      </mesh>
-    </group>
-  );
-}
-
-// ─── Animated current pulse on PCB traces ─────────────────────────────────────
-function PCBTraces() {
-  const pulse1 = useRef<THREE.Mesh>(null!);
-  const pulse2 = useRef<THREE.Mesh>(null!);
-
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime();
-    // Horizontal trace pulse
-    pulse1.current.position.x = -9 + ((t * 1.8) % 18);
-    (pulse1.current.material as THREE.MeshBasicMaterial).opacity =
-      0.55 + Math.sin(t * 4) * 0.3;
-    // Vertical trace pulse
-    pulse2.current.position.y = -5 + ((t * 1.4) % 10);
-    (pulse2.current.material as THREE.MeshBasicMaterial).opacity =
-      0.4 + Math.sin(t * 3.5 + 1) * 0.25;
-  });
-
-  return (
-    <group position={[0, -2.8, -0.3]}>
-      {/* Static horizontal traces */}
-      {([-2.5, -0.8, 0.8, 2.5] as number[]).map((y, i) => (
-        <mesh key={i} position={[0, y, 0]}>
-          <planeGeometry args={[18, 0.012]} />
-          <meshBasicMaterial color="#C8102E" transparent opacity={0.10} />
-        </mesh>
-      ))}
-      {/* Static vertical traces */}
-      {([-4, -1, 1, 4] as number[]).map((x, i) => (
-        <mesh key={i} position={[x, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <planeGeometry args={[10, 0.012]} />
-          <meshBasicMaterial color="#C8102E" transparent opacity={0.08} />
-        </mesh>
-      ))}
-      {/* Animated pulses */}
-      <mesh ref={pulse1} position={[-9, -0.8, 0.003]}>
-        <planeGeometry args={[1.2, 0.012]} />
-        <meshBasicMaterial color="#ff3355" transparent opacity={0.7} depthWrite={false} />
-      </mesh>
-      <mesh ref={pulse2} position={[-1, -5, 0.003]} rotation={[0, 0, Math.PI / 2]}>
-        <planeGeometry args={[1.0, 0.012]} />
-        <meshBasicMaterial color="#ff3355" transparent opacity={0.6} depthWrite={false} />
-      </mesh>
-    </group>
-  );
-}
-
-// ─── Hardware component ───────────────────────────────────────────────────────
-type Shape = "mosfet" | "inductor" | "capacitor" | "diode" | "ic" | "regulator";
-
-interface HWProps {
-  position: [number, number, number];
-  label: string;
-  shape?: Shape;
-  speed?: number;
-  amp?: number;
-  rotSpeed?: number;
-  delay?: number;
-  scale?: number;
-}
-
-function HardwareComp({
-  position,
-  label,
-  shape = "ic",
-  speed = 0.32,
-  amp = 0.22,
-  rotSpeed = 0.003,
-  delay = 0,
-  scale = 1,
-}: HWProps) {
-  const ref = useRef<THREE.Group>(null!);
-  const [hov, setHov] = useState(false);
-
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime() + delay;
-    ref.current.position.y = position[1] + Math.sin(t * speed) * amp;
-    ref.current.rotation.y += rotSpeed * (hov ? 2.5 : 1);
-    ref.current.rotation.x = Math.sin(t * 0.22) * 0.06;
-  });
-
-  const body = () => {
-    switch (shape) {
-      case "mosfet":
-        return (
-          <>
-            <mesh scale={[scale, scale, scale]}>
-              <boxGeometry args={[0.9, 1.3, 0.38]} />
-              <meshStandardMaterial color="#0d0d0d" metalness={0.85} roughness={0.18} />
-            </mesh>
-            {([-0.28, 0, 0.28] as number[]).map((x, i) => (
-              <mesh key={i} position={[x * scale, -1.05 * scale, 0]} scale={[scale, scale, scale]}>
-                <boxGeometry args={[0.07, 0.38, 0.07]} />
-                <meshStandardMaterial color="#999" metalness={1} roughness={0.08} />
-              </mesh>
-            ))}
-            <Edges color="#C8102E" threshold={15} />
-          </>
-        );
-
-      case "inductor":
-        return (
-          <>
-            <mesh scale={[scale, scale, scale]}>
-              <torusGeometry args={[0.72, 0.26, 20, 48]} />
-              <meshStandardMaterial color="#7a3a0a" metalness={0.5} roughness={0.38} />
-            </mesh>
-            <mesh scale={[scale, scale, scale]}>
-              <torusGeometry args={[0.72, 0.29, 10, 48]} />
-              <meshBasicMaterial color="#C8102E" transparent opacity={0.18} wireframe />
-            </mesh>
-          </>
-        );
-
-      case "capacitor":
-        return (
-          <>
-            <mesh scale={[scale, scale, scale]}>
-              <cylinderGeometry args={[0.38, 0.38, 1.1, 40]} />
-              <meshStandardMaterial color="#141414" metalness={0.72} roughness={0.28} />
-            </mesh>
-            <mesh position={[0, 0.56 * scale, 0]} scale={[scale, scale, scale]}>
-              <cylinderGeometry args={[0.38, 0.38, 0.06, 40]} />
-              <meshStandardMaterial color="#555" metalness={0.92} roughness={0.08} />
-            </mesh>
-            <mesh position={[0.32 * scale, 0, 0]} scale={[scale, scale, scale]}>
-              <boxGeometry args={[0.1, 1.05, 0.18]} />
-              <meshBasicMaterial color="#fff" transparent opacity={0.45} />
-            </mesh>
-          </>
-        );
-
-      case "diode":
-        return (
-          <>
-            <mesh scale={[scale, scale, scale]}>
-              <cylinderGeometry args={[0.18, 0.18, 0.82, 20]} />
-              <meshStandardMaterial color="#1a1a1a" metalness={0.65} roughness={0.42} />
-            </mesh>
-            {([0.48, -0.48] as number[]).map((y, i) => (
-              <mesh key={i} position={[0, y * scale, 0]} scale={[scale, scale, scale]}>
-                <cylinderGeometry args={[0.07, 0.07, 0.22, 14]} />
-                <meshStandardMaterial color="#aaa" metalness={1} roughness={0.08} />
-              </mesh>
-            ))}
-            <mesh position={[-0.15 * scale, 0, 0]} scale={[scale, scale, scale]}>
-              <boxGeometry args={[0.07, 0.76, 0.22]} />
-              <meshBasicMaterial color="#C8102E" transparent opacity={0.65} />
-            </mesh>
-          </>
-        );
-
-      case "regulator":
-        return (
-          <>
-            <mesh scale={[scale, scale, scale]}>
-              <boxGeometry args={[1.1, 0.7, 0.22]} />
-              <meshStandardMaterial color="#080808" metalness={0.82} roughness={0.2} />
-            </mesh>
-            {([-0.35, -0.12, 0.12, 0.35] as number[]).map((x, i) => (
-              <>
-                <mesh key={`t${i}`} position={[x * scale, 0.48 * scale, 0]} scale={[scale, scale, scale]}>
-                  <boxGeometry args={[0.07, 0.2, 0.06]} />
-                  <meshStandardMaterial color="#ccc" metalness={1} roughness={0.1} />
-                </mesh>
-                <mesh key={`b${i}`} position={[x * scale, -0.48 * scale, 0]} scale={[scale, scale, scale]}>
-                  <boxGeometry args={[0.07, 0.2, 0.06]} />
-                  <meshStandardMaterial color="#ccc" metalness={1} roughness={0.1} />
-                </mesh>
-              </>
-            ))}
-            <Edges color="#C8102E" threshold={15} />
-          </>
-        );
-
-      default: // ic
-        return (
-          <>
-            <mesh scale={[scale, scale, scale]}>
-              <boxGeometry args={[1.1, 0.82, 0.2]} />
-              <meshStandardMaterial color="#080808" metalness={0.82} roughness={0.2} />
-            </mesh>
-            {([-0.34, -0.11, 0.11, 0.34] as number[]).map((x, i) => (
-              <>
-                <mesh key={`t${i}`} position={[x * scale, 0.52 * scale, 0]} scale={[scale, scale, scale]}>
-                  <boxGeometry args={[0.08, 0.22, 0.06]} />
-                  <meshStandardMaterial color="#bbb" metalness={1} roughness={0.1} />
-                </mesh>
-                <mesh key={`b${i}`} position={[x * scale, -0.52 * scale, 0]} scale={[scale, scale, scale]}>
-                  <boxGeometry args={[0.08, 0.22, 0.06]} />
-                  <meshStandardMaterial color="#bbb" metalness={1} roughness={0.1} />
-                </mesh>
-              </>
-            ))}
-            <Edges color="#C8102E" threshold={15} />
-          </>
-        );
+    // Subtle fiberglass weave texture
+    ctx.fillStyle = "rgba(255, 255, 255, 0.015)";
+    for (let i = 0; i < 2048; i += 8) {
+      ctx.fillRect(i, 0, 4, 2048);
+      ctx.fillRect(0, i, 2048, 4);
     }
-  };
+
+    // Copper traces routing network
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = "#4a2a18";
+    ctx.lineCap = "round";
+
+    const chipCenterX = 1180;
+    const chipCenterY = 1024;
+
+    // Component target nodes on PCB
+    const nodes = [
+      { x: 580, y: 480 },   // Inductor
+      { x: 1720, y: 420 },  // MOSFET
+      { x: 1840, y: 1080 }, // Capacitor
+      { x: 1650, y: 1650 }, // Gate Driver
+      { x: 720, y: 1620 },  // Diode
+      { x: 420, y: 1100 },  // Left bus
+    ];
+
+    // Draw main copper traces with 45-degree bends
+    nodes.forEach((node) => {
+      ctx.beginPath();
+      ctx.moveTo(chipCenterX, chipCenterY);
+      const midX = (chipCenterX + node.x) / 2;
+      ctx.lineTo(midX, chipCenterY);
+      ctx.lineTo(midX + (node.y > chipCenterY ? 80 : -80), node.y);
+      ctx.lineTo(node.x, node.y);
+      ctx.stroke();
+
+      // Parallel secondary traces
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = "rgba(180, 90, 40, 0.4)";
+      ctx.beginPath();
+      ctx.moveTo(chipCenterX, chipCenterY + 24);
+      ctx.lineTo(midX, chipCenterY + 24);
+      ctx.lineTo(midX + (node.y > chipCenterY ? 80 : -80), node.y + 24);
+      ctx.lineTo(node.x, node.y + 24);
+      ctx.stroke();
+    });
+
+    // Glowing red power traces
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = "rgba(200, 16, 46, 0.7)";
+    nodes.forEach((node) => {
+      ctx.beginPath();
+      ctx.moveTo(chipCenterX, chipCenterY);
+      const midX = (chipCenterX + node.x) / 2;
+      ctx.lineTo(midX, chipCenterY);
+      ctx.lineTo(midX + (node.y > chipCenterY ? 80 : -80), node.y);
+      ctx.lineTo(node.x, node.y);
+      ctx.stroke();
+    });
+
+    // Vias & Solder Pads
+    nodes.forEach((node) => {
+      ctx.fillStyle = "#c89632";
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, 14, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#050706";
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, 6, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // Scattered SMD 0805 pads
+    for (let i = 0; i < 120; i++) {
+      const rx = Math.random() * 1800 + 100;
+      const ry = Math.random() * 1800 + 100;
+      ctx.fillStyle = "#b58428";
+      ctx.fillRect(rx, ry, 12, 6);
+      ctx.fillRect(rx + 18, ry, 12, 6);
+    }
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    return texture;
+  }, []);
+}
+
+// ─── PCB Surface Mesh ────────────────────────────────────────────────────────
+function PCBSurface() {
+  const pcbTexture = usePCBTexture();
+  return (
+    <mesh position={[0, -0.6, -0.4]} rotation={[-0.55, 0.12, 0.04]} receiveShadow>
+      <planeGeometry args={[26, 18]} />
+      <meshStandardMaterial
+        map={pcbTexture}
+        roughness={0.42}
+        metalness={0.3}
+        bumpScale={0.02}
+      />
+    </mesh>
+  );
+}
+
+// ─── Central Processor Package (IEEE PELS SSN Microprocessor) ────────────────
+function CentralChip({ mx, my }: { mx: number; my: number }) {
+  const group = useRef<THREE.Group>(null!);
+  const logoTexture = useTexture("/logo.jpg");
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    // Very slow float (max 0.08 units)
+    group.current.position.y = 0.15 + Math.sin(t * 0.35) * 0.06;
+    // Micro tilt
+    group.current.rotation.x = -0.55 + (-my * 0.015);
+    group.current.rotation.y = 0.12 + (mx * 0.015);
+  });
+
+  return (
+    <group ref={group} position={[1.8, 0.15, 0.2]} rotation={[-0.55, 0.12, 0.04]}>
+      {/* Black Ceramic Base Substrate */}
+      <RoundedBox args={[5.2, 5.2, 0.38]} radius={0.4} smoothness={8}>
+        <meshStandardMaterial
+          color="#0a0b0e"
+          roughness={0.25}
+          metalness={0.7}
+        />
+      </RoundedBox>
+
+      {/* Brushed Metal Bevel Outer Ring */}
+      <RoundedBox args={[5.38, 5.38, 0.12]} radius={0.42} smoothness={8} position={[0, 0, 0.12]}>
+        <meshStandardMaterial
+          color="#1b1c24"
+          metalness={0.92}
+          roughness={0.12}
+          emissive="#C8102E"
+          emissiveIntensity={0.25}
+        />
+      </RoundedBox>
+
+      {/* Crisp IEEE PELS SSN Logo Printed Flat on Surface */}
+      <mesh position={[0, 0, 0.201]}>
+        <planeGeometry args={[4.5, 4.5]} />
+        <meshStandardMaterial
+          map={logoTexture}
+          roughness={0.45}
+          metalness={0.15}
+        />
+      </mesh>
+
+      {/* Soft Ambient Red Under-Edge Glow Lip */}
+      <mesh position={[0, 0, -0.1]}>
+        <planeGeometry args={[5.8, 5.8]} />
+        <meshBasicMaterial color="#C8102E" transparent opacity={0.55} depthWrite={false} />
+      </mesh>
+
+      {/* Direct Point Light under Chip casting intense red glow onto PCB */}
+      <pointLight color="#C8102E" intensity={6.5} distance={7} position={[0, 0, 0.5]} />
+    </group>
+  );
+}
+
+// ─── Toroidal Inductor (Upper Left) ──────────────────────────────────────────
+function ToroidalInductor({ position, label }: { position: [number, number, number]; label: string }) {
+  const group = useRef<THREE.Group>(null!);
+  const [hovered, setHovered] = useState(false);
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    group.current.position.y = position[1] + Math.sin(t * 0.3 + 0.5) * 0.08;
+    group.current.rotation.y = Math.sin(t * 0.15) * 0.04;
+  });
 
   return (
     <group
-      ref={ref}
+      ref={group}
       position={position}
-      onPointerEnter={() => setHov(true)}
-      onPointerLeave={() => setHov(false)}
+      rotation={[-0.55, 0.12, 0.04]}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
     >
-      {body()}
-      <pointLight color="#C8102E" intensity={hov ? 5 : 2} distance={3.5} />
-      {hov && (
-        <Billboard position={[0, 1.4 * scale, 0]}>
-          <mesh>
-            <planeGeometry args={[1.8, 0.42]} />
-            <meshBasicMaterial color="#C8102E" transparent opacity={0.14} />
-          </mesh>
-          <Text
-            fontSize={0.17}
-            color="#ffffff"
-            anchorX="center"
-            anchorY="middle"
-            letterSpacing={0.08}
+      {/* Dark Ferrite Torus Core */}
+      <mesh castShadow>
+        <torusGeometry args={[0.9, 0.38, 24, 48]} />
+        <meshStandardMaterial color="#141416" roughness={0.5} metalness={0.6} />
+      </mesh>
+
+      {/* Copper Wire Windings (28 radial Turns) */}
+      {Array.from({ length: 24 }).map((_, i) => {
+        const angle = (i / 24) * Math.PI * 2;
+        return (
+          <mesh
+            key={i}
+            position={[Math.cos(angle) * 0.9, Math.sin(angle) * 0.9, 0]}
+            rotation={[0, 0, angle + Math.PI / 2]}
           >
-            {label}
-          </Text>
-        </Billboard>
-      )}
+            <torusGeometry args={[0.42, 0.07, 12, 24]} />
+            <meshStandardMaterial
+              color="#B87333"
+              metalness={0.96}
+              roughness={0.1}
+            />
+          </mesh>
+        );
+      })}
+
+      {/* Solder Legs */}
+      <mesh position={[-0.5, -1.0, -0.2]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.4, 12]} />
+        <meshStandardMaterial color="#aaa" metalness={0.9} roughness={0.1} />
+      </mesh>
+      <mesh position={[0.5, -1.0, -0.2]}>
+        <cylinderGeometry args={[0.06, 0.06, 0.4, 12]} />
+        <meshStandardMaterial color="#aaa" metalness={0.9} roughness={0.1} />
+      </mesh>
+
+      {/* Sleek Floating Holographic Label */}
+      <HoloLabel label={label} hovered={hovered} leaderStart={[0, 1.1, 0]} labelPos={[-0.6, 1.8, 0]} />
     </group>
   );
 }
 
-// ─── Full scene ───────────────────────────────────────────────────────────────
+// ─── TO-220 MOSFET (Upper Right) ─────────────────────────────────────────────
+function MOSFETComponent({ position, label }: { position: [number, number, number]; label: string }) {
+  const group = useRef<THREE.Group>(null!);
+  const [hovered, setHovered] = useState(false);
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    group.current.position.y = position[1] + Math.sin(t * 0.32 + 1.2) * 0.07;
+  });
+
+  return (
+    <group
+      ref={group}
+      position={position}
+      rotation={[-0.55, 0.12, 0.04]}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+    >
+      {/* Black Plastic Body */}
+      <mesh position={[0, 0, 0]} castShadow>
+        <boxGeometry args={[1.2, 1.5, 0.4]} />
+        <meshStandardMaterial color="#0d0e12" roughness={0.3} metalness={0.7} />
+      </mesh>
+
+      {/* Silver Metallic Heatsink Tab */}
+      <mesh position={[0, 1.1, -0.1]}>
+        <boxGeometry args={[1.2, 0.8, 0.12]} />
+        <meshStandardMaterial color="#c5c8d0" metalness={0.98} roughness={0.1} />
+      </mesh>
+
+      {/* Tab Mounting Hole */}
+      <mesh position={[0, 1.2, -0.02]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.18, 0.18, 0.2, 16]} />
+        <meshBasicMaterial color="#000000" />
+      </mesh>
+
+      {/* 3 Metal Leads */}
+      {[-0.35, 0, 0.35].map((x, i) => (
+        <mesh key={i} position={[x, -1.2, 0]}>
+          <boxGeometry args={[0.08, 0.9, 0.06]} />
+          <meshStandardMaterial color="#b0b5c0" metalness={0.95} roughness={0.1} />
+        </mesh>
+      ))}
+
+      <HoloLabel label={label} hovered={hovered} leaderStart={[0, 1.6, 0]} labelPos={[0, 2.2, 0]} />
+    </group>
+  );
+}
+
+// ─── Electrolytic Capacitor (Far Right) ──────────────────────────────────────
+function ElectrolyticCapacitor({ position, label }: { position: [number, number, number]; label: string }) {
+  const group = useRef<THREE.Group>(null!);
+  const [hovered, setHovered] = useState(false);
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    group.current.position.y = position[1] + Math.sin(t * 0.28 + 2.0) * 0.08;
+  });
+
+  return (
+    <group
+      ref={group}
+      position={position}
+      rotation={[-0.55, 0.12, 0.04]}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+    >
+      {/* Aluminum Cylinder Body */}
+      <mesh position={[0, 0, 0]} castShadow>
+        <cylinderGeometry args={[0.85, 0.85, 2.0, 48]} />
+        <meshStandardMaterial color="#121620" metalness={0.82} roughness={0.25} />
+      </mesh>
+
+      {/* Silver Top Vent Aluminum Cap */}
+      <mesh position={[0, 1.01, 0]}>
+        <cylinderGeometry args={[0.84, 0.84, 0.04, 48]} />
+        <meshStandardMaterial color="#d0d5e0" metalness={0.98} roughness={0.08} />
+      </mesh>
+
+      {/* Silver Negative Stripe */}
+      <mesh position={[0.7, 0, 0]}>
+        <boxGeometry args={[0.15, 1.95, 0.3]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.6} />
+      </mesh>
+
+      <HoloLabel label={label} hovered={hovered} leaderStart={[0, 1.3, 0]} labelPos={[0.8, 1.9, 0]} />
+    </group>
+  );
+}
+
+// ─── Gate Driver IC - QFP (Lower Right) ──────────────────────────────────────
+function GateDriverIC({ position, label }: { position: [number, number, number]; label: string }) {
+  const group = useRef<THREE.Group>(null!);
+  const [hovered, setHovered] = useState(false);
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    group.current.position.y = position[1] + Math.sin(t * 0.34 + 0.8) * 0.06;
+  });
+
+  return (
+    <group
+      ref={group}
+      position={position}
+      rotation={[-0.55, 0.12, 0.04]}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+    >
+      {/* Square IC Molded Case */}
+      <mesh position={[0, 0, 0]} castShadow>
+        <boxGeometry args={[1.7, 1.7, 0.32]} />
+        <meshStandardMaterial color="#0b0c10" roughness={0.25} metalness={0.75} />
+      </mesh>
+
+      {/* Pin 1 Dimple Dot */}
+      <mesh position={[-0.6, 0.6, 0.17]}>
+        <cylinderGeometry args={[0.08, 0.08, 0.02, 16]} />
+        <meshBasicMaterial color="#333" />
+      </mesh>
+
+      {/* 16 Gull-Wing Metal Pins */}
+      {[-0.5, -0.18, 0.18, 0.5].map((pos, i) => (
+        <group key={i}>
+          {/* Top side pins */}
+          <mesh position={[pos, 0.95, -0.05]}>
+            <boxGeometry args={[0.08, 0.3, 0.05]} />
+            <meshStandardMaterial color="#b5bac5" metalness={0.95} roughness={0.1} />
+          </mesh>
+          {/* Bottom side pins */}
+          <mesh position={[pos, -0.95, -0.05]}>
+            <boxGeometry args={[0.08, 0.3, 0.05]} />
+            <meshStandardMaterial color="#b5bac5" metalness={0.95} roughness={0.1} />
+          </mesh>
+          {/* Left side pins */}
+          <mesh position={[-0.95, pos, -0.05]} rotation={[0, 0, Math.PI / 2]}>
+            <boxGeometry args={[0.08, 0.3, 0.05]} />
+            <meshStandardMaterial color="#b5bac5" metalness={0.95} roughness={0.1} />
+          </mesh>
+          {/* Right side pins */}
+          <mesh position={[0.95, pos, -0.05]} rotation={[0, 0, Math.PI / 2]}>
+            <boxGeometry args={[0.08, 0.3, 0.05]} />
+            <meshStandardMaterial color="#b5bac5" metalness={0.95} roughness={0.1} />
+          </mesh>
+        </group>
+      ))}
+
+      <HoloLabel label={label} hovered={hovered} leaderStart={[0, -1.1, 0]} labelPos={[0, -1.8, 0]} />
+    </group>
+  );
+}
+
+// ─── Axial Schottky Diode (Lower Left) ───────────────────────────────────────
+function AxialDiode({ position, label }: { position: [number, number, number]; label: string }) {
+  const group = useRef<THREE.Group>(null!);
+  const [hovered, setHovered] = useState(false);
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    group.current.position.y = position[1] + Math.sin(t * 0.31 + 1.7) * 0.07;
+  });
+
+  return (
+    <group
+      ref={group}
+      position={position}
+      rotation={[-0.55, 0.12, 0.8]}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+    >
+      {/* Cylindrical Diode Body */}
+      <mesh position={[0, 0, 0]} castShadow>
+        <cylinderGeometry args={[0.3, 0.3, 1.4, 32]} />
+        <meshStandardMaterial color="#101217" roughness={0.35} metalness={0.65} />
+      </mesh>
+
+      {/* Silver Cathode Band */}
+      <mesh position={[0, 0.42, 0]}>
+        <cylinderGeometry args={[0.305, 0.305, 0.22, 32]} />
+        <meshStandardMaterial color="#c0c5d0" metalness={0.95} roughness={0.1} />
+      </mesh>
+
+      {/* Axial Silver Leads */}
+      {[-0.95, 0.95].map((y, i) => (
+        <mesh key={i} position={[0, y, 0]}>
+          <cylinderGeometry args={[0.05, 0.05, 0.5, 12]} />
+          <meshStandardMaterial color="#aaaaaa" metalness={0.95} roughness={0.1} />
+        </mesh>
+      ))}
+
+      <HoloLabel label={label} hovered={hovered} leaderStart={[0, -1.0, 0]} labelPos={[0, -1.7, 0]} />
+    </group>
+  );
+}
+
+// ─── Floating Holographic Label Component ─────────────────────────────────────
+function HoloLabel({
+  label,
+  hovered,
+  leaderStart,
+  labelPos,
+}: {
+  label: string;
+  hovered: boolean;
+  leaderStart: [number, number, number];
+  labelPos: [number, number, number];
+}) {
+  return (
+    <Billboard position={[0, 0, 0]}>
+      {/* Subtle Leader Line matching screenshot */}
+      <Line
+        points={[leaderStart, labelPos]}
+        color={hovered ? "#C8102E" : "#ffffff"}
+        lineWidth={hovered ? 2 : 1}
+        transparent
+        opacity={hovered ? 0.9 : 0.45}
+      />
+      {/* Label Text Box */}
+      <group position={labelPos}>
+        <mesh>
+          <planeGeometry args={[label.length * 0.16 + 0.4, 0.42]} />
+          <meshBasicMaterial
+            color={hovered ? "#C8102E" : "#05070a"}
+            transparent
+            opacity={hovered ? 0.85 : 0.6}
+          />
+        </mesh>
+        <Text
+          fontSize={0.18}
+          color="#ffffff"
+          anchorX="center"
+          anchorY="middle"
+          letterSpacing={0.12}
+          fontWeight="bold"
+        >
+          {label}
+        </Text>
+      </group>
+    </Billboard>
+  );
+}
+
+// ─── Trace Electrical Current Pulses ──────────────────────────────────────────
+function TraceCurrentPulses() {
+  const pulseRef1 = useRef<THREE.Mesh>(null!);
+  const pulseRef2 = useRef<THREE.Mesh>(null!);
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    // Pulse 1 towards MOSFET
+    pulseRef1.current.position.x = 1.8 + Math.cos(t * 1.5) * 3.5;
+    pulseRef1.current.position.y = 0.15 + Math.sin(t * 1.5) * 2.2;
+    // Pulse 2 towards Diode
+    pulseRef2.current.position.x = 1.8 - Math.cos(t * 1.2) * 3.8;
+    pulseRef2.current.position.y = 0.15 - Math.sin(t * 1.2) * 2.5;
+  });
+
+  return (
+    <group rotation={[-0.55, 0.12, 0.04]}>
+      <mesh ref={pulseRef1} position={[1.8, 0.15, 0.1]}>
+        <sphereGeometry args={[0.12, 16, 16]} />
+        <meshBasicMaterial color="#ff3355" transparent opacity={0.85} />
+      </mesh>
+      <mesh ref={pulseRef2} position={[1.8, 0.15, 0.1]}>
+        <sphereGeometry args={[0.12, 16, 16]} />
+        <meshBasicMaterial color="#ff3355" transparent opacity={0.85} />
+      </mesh>
+    </group>
+  );
+}
+
+// ─── Scene Master ─────────────────────────────────────────────────────────────
 function Scene({ mx, my }: { mx: number; my: number }) {
   return (
     <>
-      {/* Cinematic 3-point lighting */}
-      <ambientLight intensity={0.12} />
-      <directionalLight position={[-5, 8, 4]} intensity={2.8} color="#ffffff" />
-      <pointLight position={[7, -4, 3]} intensity={5} color="#C8102E" distance={18} />
-      <pointLight position={[0, 3, -7]} intensity={2.2} color="#ffffff" distance={12} />
-      <spotLight
-        position={[0, 10, 3]}
-        intensity={1.6}
-        angle={0.38}
-        penumbra={1}
-        color="#fff4f4"
-        castShadow={false}
-      />
+      {/* Realistic Cinematic Lighting */}
+      <ambientLight intensity={0.2} />
+      {/* Key Light: Soft White top-left */}
+      <directionalLight position={[-6, 9, 6]} intensity={3.0} color="#ffffff" castShadow />
+      {/* Fill Light: IEEE Red bottom-right */}
+      <pointLight position={[8, -5, 4]} intensity={6.0} color="#C8102E" distance={18} />
+      {/* Rim Light: White behind chip */}
+      <pointLight position={[1.8, 3, -6]} intensity={3.5} color="#ffffff" distance={12} />
 
       <CameraRig mx={mx} my={my} />
 
-      {/* Central chip – hero centerpiece */}
-      <PELSChip mx={mx} my={my} />
-
-      {/* PCB base surface */}
+      {/* Ground PCB */}
       <PCBSurface />
-      <PCBTraces />
+      <TraceCurrentPulses />
 
-      {/* ── 6 hardware components distributed around chip ── */}
-      {/* Upper-left: Toroidal Inductor */}
-      <HardwareComp
-        position={[-5.8, 2.4, 0.8]}
-        label="INDUCTOR"
-        shape="inductor"
-        speed={0.26}
-        amp={0.24}
-        delay={0}
-        scale={1.4}
-      />
-      {/* Upper-right: MOSFET */}
-      <HardwareComp
-        position={[5.6, 2.8, 0.5]}
-        label="MOSFET"
-        shape="mosfet"
-        speed={0.3}
-        amp={0.20}
-        rotSpeed={0.005}
-        delay={1.5}
-        scale={1.3}
-      />
-      {/* Far right: Electrolytic Capacitor */}
-      <HardwareComp
-        position={[6.8, -0.4, -0.5]}
-        label="CAPACITOR"
-        shape="capacitor"
-        speed={0.24}
-        amp={0.28}
-        delay={0.8}
-        scale={1.35}
-      />
-      {/* Lower-right: Gate Driver IC */}
-      <HardwareComp
-        position={[4.8, -3.4, 0.3]}
-        label="GATE DRIVER"
-        shape="ic"
-        speed={0.28}
-        amp={0.18}
-        rotSpeed={0.004}
-        delay={2.5}
-        scale={1.3}
-      />
-      {/* Lower-left: Diode */}
-      <HardwareComp
-        position={[-4.4, -3.2, 0.6]}
-        label="SCHOTTKY DIODE"
-        shape="diode"
-        speed={0.36}
-        amp={0.16}
-        delay={2.0}
-        scale={1.3}
-      />
-      {/* Left: Voltage Regulator */}
-      <HardwareComp
-        position={[-6.5, -0.6, -0.4]}
-        label="VOLTAGE REGULATOR"
-        shape="regulator"
-        speed={0.22}
-        amp={0.22}
-        delay={0.5}
-        scale={1.35}
-      />
+      {/* Central IEEE PELS SSN Microprocessor */}
+      <CentralChip mx={mx} my={my} />
 
-      {/* Ambient sparkle dust */}
-      <Sparkles
-        count={70}
-        scale={16}
-        size={0.55}
-        speed={0.12}
-        color="#C8102E"
-        opacity={0.2}
-      />
+      {/* 5 Surrounding Engineering Components matching screenshot */}
+      <ToroidalInductor position={[-2.4, 2.6, 0.5]} label="INDUCTOR" />
+      <MOSFETComponent position={[5.8, 3.2, 0.6]} label="MOSFET" />
+      <ElectrolyticCapacitor position={[7.5, -0.1, 0.7]} label="CAPACITOR" />
+      <GateDriverIC position={[5.6, -3.4, 0.5]} label="GATE DRIVER" />
+      <AxialDiode position={[-1.2, -3.2, 0.6]} label="DIODE" />
     </>
   );
 }
 
-// ─── Exported component ───────────────────────────────────────────────────────
+// ─── Exported 3D Scene Component ──────────────────────────────────────────────
 export default function HeroPCBScene() {
   const [mx, setMx] = useState(0);
   const [my, setMy] = useState(0);
 
   return (
     <motion.div
-      className="w-full h-full absolute inset-0"
+      className="w-full h-full absolute inset-0 pointer-events-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1.6, ease: "easeOut", delay: 0.3 }}
+      transition={{ duration: 1.2, ease: "easeOut" }}
     >
       <Canvas
-        camera={{ position: [0, 1, 11], fov: 52 }}
+        camera={{ position: [0, 0, 10.5], fov: 46 }}
         gl={{
           antialias: true,
           toneMapping: THREE.ACESFilmicToneMapping,
