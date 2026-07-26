@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Calendar, MapPin, Users } from "lucide-react";
 import { events } from "../data/events";
+import { galleryImages } from "../components/ImageMarquee";
 
 const categories = ["All Events", "Upcoming", "Past Events", "Workshops", "Technical Talks", "Symposiums", "Competitions", "Quiz Events"];
 
@@ -100,15 +101,9 @@ export default function Events() {
                     onClick={() => navigate(`/events/${event.id}`)}
                     whileHover={{ y: -10, scale: 1.02, boxShadow: "0 20px 40px -10px rgba(227, 30, 36, 0.4)" }}
                   >
-                    <div className="relative h-48 overflow-hidden">
-                      <img 
-                        src={event.image} 
-                        alt={event.name} 
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-                      />
-                      <div className="absolute top-4 left-4 bg-surface/80 backdrop-blur-md px-3 py-1 rounded-full border border-outline/20">
-                        <span className="font-label-caps text-xs text-primary">{event.category}</span>
-                      </div>
+                    {/* Category tag only — no image */}
+                    <div className="relative h-14 overflow-hidden bg-gradient-to-r from-[#0d0e14] to-[#141620] flex items-center px-6 border-b border-white/5">
+                      <span className="font-label-caps text-xs text-primary bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">{event.category}</span>
                     </div>
                     
                     <div className="p-6 flex-grow flex flex-col">
@@ -157,6 +152,64 @@ export default function Events() {
               )}
             </AnimatePresence>
           </motion.div>
+
+          {/* Event Photo Gallery with Reveal Animation */}
+          <div className="mt-24">
+            {/* Section Header */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-12"
+            >
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+                <span className="font-mono-data text-xs text-primary uppercase tracking-widest font-semibold">Chapter Moments</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+              </div>
+              <h2 className="font-headline-lg text-3xl md:text-4xl text-white font-extrabold mb-4">
+                Event <span className="text-primary">Highlights</span>
+              </h2>
+              <p className="text-neutral-400 max-w-lg mx-auto text-sm">
+                A glimpse into our workshops, symposiums and technical sessions at IEEE PELS SSN.
+              </p>
+            </motion.div>
+
+            {/* Staggered Reveal Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {galleryImages.map((img, idx) => (
+                <motion.div
+                  key={img.src}
+                  initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.55, delay: (idx % 4) * 0.1, ease: "easeOut" }}
+                  whileHover={{ scale: 1.04, zIndex: 10 }}
+                  className={`relative overflow-hidden rounded-2xl group border border-white/10 bg-neutral-900 ${
+                    idx === 0 || idx === 5 ? "col-span-2 row-span-2 h-[360px]" : "h-[180px]"
+                  }`}
+                >
+                  <img
+                    src={img.src}
+                    alt={img.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-90 group-hover:brightness-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+
+                  <div className="absolute top-2 left-2">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-primary/80 text-white backdrop-blur-md shadow-sm border border-white/20">
+                      {img.tag}
+                    </span>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-400">
+                    <p className="text-white text-xs font-semibold truncate">{img.title}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
 
         </div>
       </section>

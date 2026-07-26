@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, User } from "lucide-react";
-import { team } from "../data/team";
+import { team, facultyCoordinator } from "../data/team";
 
 const TEAM_CATEGORIES = [
   "All Members",
@@ -27,7 +27,7 @@ export default function Team() {
     <>
       <Helmet>
         <title>Our Team | IEEE PELS SSN</title>
-        <meta name="description" content="Meet the student leaders of IEEE PELS SSN." />
+        <meta name="description" content="Meet the faculty coordinator and student leaders of IEEE PELS SSN." />
       </Helmet>
 
       <section className="py-margin-lg mt-10 min-h-screen">
@@ -38,6 +38,58 @@ export default function Team() {
               {activeCategory === "All Members" ? "Our" : activeCategory} <span className="text-primary">{activeCategory === "All Members" ? "Team" : ""}</span>
             </h1>
           </div>
+
+          {/* Featured Faculty Coordinator Card */}
+          {activeCategory === "All Members" && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-16 bg-gradient-to-r from-[#12141c] via-[#0d0e14] to-[#12141c] border border-primary/30 rounded-3xl p-8 md:p-10 relative overflow-hidden shadow-[0_0_30px_rgba(200,16,46,0.15)]"
+            >
+              <div className="absolute top-0 right-0 w-96 h-96 bg-[#C8102E]/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+                <span className="font-mono-data text-xs text-primary uppercase tracking-widest font-semibold">Faculty Coordinator</span>
+              </div>
+
+              <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+                {/* Photo */}
+                <div className="w-44 h-44 md:w-52 md:h-52 rounded-2xl overflow-hidden border-2 border-primary/40 shadow-2xl shrink-0 bg-black">
+                  <img
+                    src={facultyCoordinator.photo}
+                    alt={facultyCoordinator.name}
+                    className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+
+                {/* Details */}
+                <div className="flex-1 text-center md:text-left space-y-4">
+                  <div>
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-1">
+                      <h2 className="font-headline-lg text-3xl md:text-4xl text-white font-extrabold">{facultyCoordinator.name}</h2>
+                      <span className="px-3 py-1 bg-primary/15 border border-primary/30 text-primary text-xs rounded-full font-mono font-medium">
+                        {facultyCoordinator.degrees}
+                      </span>
+                    </div>
+                    <p className="text-lg text-neutral-300 font-semibold">{facultyCoordinator.title}</p>
+                    <p className="text-sm text-neutral-400">{facultyCoordinator.department}</p>
+                  </div>
+
+                  <div className="pt-2 flex flex-wrap justify-center md:justify-start items-center gap-4">
+                    <a
+                      href={`mailto:${facultyCoordinator.email}`}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.06] border border-white/10 text-white hover:bg-primary hover:border-primary transition-all duration-300 text-sm font-medium"
+                    >
+                      <Mail className="w-4 h-4 text-primary group-hover:text-white" />
+                      {facultyCoordinator.email}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           {/* Filter Bar */}
           <div className="flex flex-wrap gap-3 mb-16">

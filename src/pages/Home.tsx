@@ -4,6 +4,7 @@ import { motion, useTransform, useScroll } from "framer-motion";
 import { ArrowRight, ChevronRight, Zap } from "lucide-react";
 import { siteConfig } from "../data/site";
 import HeroPCBScene from "../components/HeroPCBScene";
+import { ImageMarquee } from "../components/ImageMarquee";
 
 export default function Home() {
   // Scroll opacity reaction
@@ -180,6 +181,9 @@ export default function Home() {
         </div>
       </motion.section>
 
+      {/* Infinite Moving Marquee Image Gallery */}
+      <ImageMarquee />
+
       {/* About Preview Section */}
       <section className="py-margin-lg relative">
         <div className="max-w-container-max mx-auto px-margin-lg">
@@ -208,9 +212,9 @@ export default function Home() {
               className="relative h-[500px] glass-card overflow-hidden group rounded-xl"
             >
               <img 
-                src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                alt="Engineering Laboratory" 
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60" 
+                src="/gallery/synapse_0.jpg" 
+                alt="IEEE PELS SSN Synapse Event" 
+                className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 brightness-90 group-hover:brightness-105" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
               <div className="absolute bottom-margin-md left-margin-md">

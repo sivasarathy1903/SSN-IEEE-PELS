@@ -1,5 +1,14 @@
 import type { TeamMember } from "../types";
 
+export const facultyCoordinator = {
+  name: "Dr. R. Seyezhai",
+  degrees: "B.E., M.E., Ph.D",
+  title: "Professor",
+  department: "Department of Electrical and Electronics Engineering",
+  email: "seyezhair@ssn.edu.in",
+  photo: "/faculty_seyezhai.png",
+};
+
 export const team: TeamMember[] = [
   // Office Bearers
   {
