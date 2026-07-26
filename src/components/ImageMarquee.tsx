@@ -42,7 +42,7 @@ export function ImageMarquee() {
         .animate-marquee-scroll {
           display: flex;
           gap: 1.5rem;
-          animation: marquee-scroll 80s linear infinite;
+          animation: marquee-scroll 160s linear infinite;
         }
         .animate-marquee-scroll:hover {
           animation-play-state: paused;
