@@ -7,8 +7,8 @@ export function Footer() {
       <div className="max-w-container-max mx-auto px-margin-lg">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-margin-lg mb-margin-lg">
           <div className="md:col-span-2">
-            <Link to="/" className="flex items-center gap-3.5 group mb-6 w-fit">
-              <div className="w-10 h-10 rounded-xl overflow-hidden bg-black p-0.5 border border-[#C8102E]/60 shadow-[0_0_15px_rgba(200,16,46,0.5)] group-hover:scale-105 transition-transform duration-200">
+            <Link to="/" className="flex items-center gap-3.5 mb-6 group">
+              <div className="w-10 h-10 rounded-xl overflow-hidden bg-black p-0.5 border border-[#C8102E]/60 shadow-[0_0_15px_rgba(200,16,46,0.6)] group-hover:scale-105 transition-transform duration-200">
                 <img src="/logo.jpg" alt="IEEE PELS SSN Logo" className="w-full h-full object-cover rounded-lg" />
               </div>
               <span className="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tight group-hover:text-primary transition-colors">IEEE PELS SSN</span>
