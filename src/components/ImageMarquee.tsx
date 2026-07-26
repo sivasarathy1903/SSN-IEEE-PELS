@@ -18,6 +18,12 @@ export const galleryImages: GalleryItem[] = [
   { src: "/gallery/synapse_4.jpg", title: "Firmware & Embedded Systems", tag: "Synapse '25" },
   { src: "/gallery/synapse_5.jpg", title: "Interactive Learning & Team", tag: "Synapse '25" },
   { src: "/gallery/synapse_10.jpg", title: "Microcontroller Hands-on", tag: "LTSpice Workshop" },
+  { src: "/gallery/deadend_firstprize.jpg", title: "Dead End Ahead – First Prize Winners", tag: "Dead End Ahead" },
+  { src: "/gallery/deadend_secondprize.jpg", title: "Dead End Ahead – Second Prize Winners", tag: "Dead End Ahead" },
+  { src: "/gallery/deadend_thirdprize.jpg", title: "Dead End Ahead – Third Prize Winners", tag: "Dead End Ahead" },
+  { src: "/gallery/deadend_unnamed_1.jpg", title: "Dead End Ahead – Quiz Moments", tag: "Dead End Ahead" },
+  { src: "/gallery/deadend_unnamed_2.jpg", title: "Dead End Ahead – Team Challenge", tag: "Dead End Ahead" },
+  { src: "/gallery/deadend_unnamed_3.jpg", title: "Dead End Ahead – Rapid Fire Round", tag: "Dead End Ahead" },
 ];
 
 export function ImageMarquee() {
