@@ -574,8 +574,9 @@ export default function HeroPCBScene() {
           antialias: true,
           toneMapping: THREE.ACESFilmicToneMapping,
           alpha: true,
+          powerPreference: "high-performance",
         }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
         style={{ width: "100%", height: "100%", background: "transparent" }}
         onPointerMove={(e) => {
           const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
