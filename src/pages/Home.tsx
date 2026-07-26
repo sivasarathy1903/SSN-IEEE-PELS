@@ -181,9 +181,6 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Infinite Moving Marquee Image Gallery */}
-      <ImageMarquee />
-
       {/* About Preview Section */}
       <section className="py-margin-lg relative">
         <div className="max-w-container-max mx-auto px-margin-lg">
@@ -192,7 +189,7 @@ export default function Home() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             >
               <h3 className="font-label-caps text-label-caps text-primary mb-4 uppercase tracking-[0.3em]">About Us</h3>
               <h2 className="font-headline-lg text-headline-lg mb-8 text-white">Empowering Future Engineers</h2>
@@ -208,13 +205,14 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
               className="relative h-[500px] glass-card overflow-hidden group rounded-xl"
             >
               <img 
                 src="/gallery/synapse_0.jpg" 
                 alt="IEEE PELS SSN Synapse Event" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 brightness-90 group-hover:brightness-105" 
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 group-hover:brightness-105" 
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
               <div className="absolute bottom-margin-md left-margin-md">
@@ -233,7 +231,7 @@ export default function Home() {
 
       {/* Stats Section */}
       <section className="py-24 bg-surface-container-lowest relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
           <div className="h-full w-full" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #c8102e 1px, transparent 0)", backgroundSize: "40px 40px" }}></div>
         </div>
         <div className="max-w-container-max mx-auto px-margin-lg relative z-10">
@@ -241,10 +239,10 @@ export default function Home() {
             {siteConfig.stats.map((stat, i) => (
               <motion.div 
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                transition={{ duration: 0.4, delay: i * 0.05, ease: "easeOut" }}
                 className="p-6 glass-card border-none rounded-xl"
               >
                 <div className="font-headline-xl text-headline-xl text-white mb-2">{stat.value}</div>
@@ -254,6 +252,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Infinite Moving Marquee Image Gallery (Positioned at the very end of Home page) */}
+      <ImageMarquee />
     </>
   );
 }
