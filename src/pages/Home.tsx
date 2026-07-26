@@ -50,7 +50,7 @@ export default function Home() {
         style={{ scale: heroScale, opacity: heroOpacity }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative h-[92vh] min-h-[650px] flex items-center overflow-hidden bg-black text-white select-none" 
+        className="relative h-[100vh] min-h-[700px] flex items-center overflow-hidden bg-black text-white select-none" 
         id="home"
       >
         {/* Layer 0: Faint Engineering Grid (<3% opacity) */}
@@ -131,98 +131,102 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Main Content Layout */}
-        <div className="relative z-10 max-w-container-max mx-auto px-margin-lg w-full flex flex-col md:flex-row items-center justify-between gap-12">
-          
-          {/* Text Container with Precise Motion Staggering */}
-          <motion.div 
-            style={{ x: textX, y: textY }}
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: { staggerChildren: 0.15, delayChildren: 0.2 }
-              }
-            }}
-            className="flex-1 max-w-2xl"
-          >
-            {/* Live Badge */}
-            <motion.div 
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
-              }}
-              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md mb-8"
-            >
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(200,16,46,0.8)]"></span>
-              <span className="font-mono-data text-xs text-primary tracking-widest uppercase font-semibold">IEEE PELS SSN CHAPTER</span>
-            </motion.div>
-            
-            {/* Main Title - Lines fading in with Y translation */}
-            <motion.h1 
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
-              }}
-              className="font-headline-xl text-headline-xl mb-6 text-white leading-[1.08] tracking-tight"
-            >
-              IEEE Power <br/>
-              <span className="bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent">
-                Electronics Society
-              </span>
-            </motion.h1>
-            
-            {/* Tagline */}
-            <motion.p 
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
-              }}
-              className="font-body-lg text-lg text-on-surface-variant mb-10 max-w-xl font-light leading-relaxed"
-            >
-              {siteConfig.tagline}
-            </motion.p>
-            
-            {/* Buttons */}
-            <motion.div 
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
-              }}
-              className="flex flex-wrap items-center gap-4"
-            >
-              <Link 
-                to="/events" 
-                className="bg-primary text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-3 transition-all duration-200 hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_8px_25px_rgba(200,16,46,0.4)] group active:scale-100"
-              >
-                Explore Events
-                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5" />
-              </Link>
-              <Link 
-                to="/projects" 
-                className="border border-white/15 bg-white/[0.04] text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-2 backdrop-blur-xl transition-all duration-200 hover:bg-white/[0.08] hover:border-white/30 hover:scale-[1.02] active:scale-100"
-              >
-                Explore Projects
-              </Link>
-            </motion.div>
-          </motion.div>
+        {/* Main Content Layout – 45/55 split */}
+        <div className="relative z-10 w-full h-full flex flex-col md:flex-row items-stretch">
 
-          {/* ── Cinematic 3D PCB Scene (React Three Fiber) ── */}
-          <div className="flex-1 flex items-center justify-center relative min-h-[480px] w-full md:w-auto">
-            {/* Soft breathing ambient aura behind canvas */}
+          {/* LEFT – 45%: Text + Buttons */}
+          <div className="flex items-center w-full md:w-[45%] px-8 md:px-12 lg:px-16 xl:px-24 py-20 md:py-0 shrink-0">
             <motion.div
-              animate={{ scale: [0.98, 1.04, 0.98], opacity: [0.35, 0.65, 0.35] }}
-              transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(200,16,46,0.35)_0%,_transparent_70%)] blur-[90px] pointer-events-none"
+              style={{ x: textX, y: textY }}
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+                }
+              }}
+              className="w-full max-w-2xl"
+            >
+              {/* Live Badge */}
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md mb-8"
+              >
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(200,16,46,0.8)]"></span>
+                <span className="font-mono-data text-xs text-primary tracking-widest uppercase font-semibold">IEEE PELS SSN CHAPTER</span>
+              </motion.div>
+
+              {/* Main Headline */}
+              <motion.h1
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="font-headline-xl text-headline-xl mb-6 text-white leading-[1.08] tracking-tight"
+              >
+                IEEE Power <br />
+                <span className="bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent">
+                  Electronics Society
+                </span>
+              </motion.h1>
+
+              {/* Tagline */}
+              <motion.p
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="font-body-lg text-lg text-on-surface-variant mb-10 max-w-xl font-light leading-relaxed"
+              >
+                {siteConfig.tagline}
+              </motion.p>
+
+              {/* CTA Buttons */}
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="flex flex-wrap items-center gap-4"
+              >
+                <Link
+                  to="/events"
+                  className="bg-primary text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-3 transition-all duration-200 hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_8px_25px_rgba(200,16,46,0.4)] group active:scale-100"
+                >
+                  Explore Events
+                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5" />
+                </Link>
+                <Link
+                  to="/projects"
+                  className="border border-white/15 bg-white/[0.04] text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-2 backdrop-blur-xl transition-all duration-200 hover:bg-white/[0.08] hover:border-white/30 hover:scale-[1.02] active:scale-100"
+                >
+                  Explore Projects
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* RIGHT – 55%: Full-height 3D canvas */}
+          <div className="relative w-full md:w-[55%] h-[60vw] md:h-full flex-1 min-h-[500px]">
+            {/* Breathing red aura */}
+            <motion.div
+              animate={{ scale: [0.95, 1.06, 0.95], opacity: [0.28, 0.55, 0.28] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(200,16,46,0.3)_0%,_transparent_68%)] blur-[100px] pointer-events-none z-0"
             />
             <Suspense
               fallback={
-                <div className="w-full h-[480px] flex items-center justify-center">
-                  <div className="flex flex-col items-center gap-3">
-                    <div className="w-14 h-14 border-2 border-primary/40 border-t-primary rounded-full animate-spin" />
-                    <span className="text-[10px] font-mono-data text-primary/50 tracking-[0.2em] uppercase">Loading 3D Scene</span>
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <div className="flex flex-col items-center gap-4">
+                    {/* Silhouette placeholder */}
+                    <div className="w-48 h-48 rounded-2xl bg-primary/[0.06] border border-primary/10 backdrop-blur-sm animate-pulse" />
+                    <span className="text-[10px] font-mono-data text-primary/40 tracking-[0.25em] uppercase mt-2">Initialising Scene</span>
                   </div>
                 </div>
               }
