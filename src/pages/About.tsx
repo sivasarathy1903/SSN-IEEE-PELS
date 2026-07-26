@@ -33,61 +33,75 @@ export default function About() {
             <div className="w-24 h-1 bg-primary mx-auto mb-8"></div>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-margin-lg mb-24">
+          {/* Vision & Mission Vertical Sections */}
+          <div className="space-y-16 mb-24">
+            {/* Vision Section */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="glass-card p-10 rounded-2xl"
+              transition={{ duration: 0.6 }}
+              className="glass-card p-8 md:p-12 rounded-3xl border border-primary/20 bg-gradient-to-r from-surface-container-high via-surface-container to-surface-container-high"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <Target className="text-primary w-10 h-10" />
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
+                  <Target className="w-6 h-6" />
+                </div>
                 <h2 className="font-headline-lg text-headline-lg text-white">Our Vision</h2>
               </div>
-              <p className="text-on-surface-variant font-body-lg leading-relaxed">
-                Create technically strong engineers through practical learning, innovation and collaboration in power electronics and emerging technologies.
+              <p className="text-on-surface-variant font-body-lg text-lg leading-relaxed max-w-4xl">
+                Create technically strong, innovative engineers through hands-on practical learning, cutting-edge research, and industry collaboration in power electronics and sustainable energy technologies.
               </p>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="glass-card p-10 rounded-2xl"
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <Lightbulb className="text-primary w-10 h-10" />
-                <h2 className="font-headline-lg text-headline-lg text-white">Our Mission</h2>
-              </div>
+            {/* Mission Section - Vertical Heading & Horizontally Aligned Card Grid */}
+            <div className="space-y-8">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="flex items-center gap-4"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
+                  <Lightbulb className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="font-headline-lg text-headline-lg text-white">Our Mission</h2>
+                  <p className="text-on-surface-variant text-sm mt-1">Key objectives driving our student branch chapter forward</p>
+                </div>
+              </motion.div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                { title: "Technical Workshops", desc: "Hands-on sessions on power electronics and related technologies.", icon: "Hardware" },
-                { title: "Guest Lectures", desc: "Insights from industry experts and renowned academicians.", icon: "School" },
-                { title: "Project Competitions", desc: "Showcase your innovative ideas and build practical solutions.", icon: "Emoji_Objects" },
-                { title: "Industrial Visits", desc: "Bridging the gap between theoretical knowledge and practical applications.", icon: "Factory" },
-                { title: "Networking", desc: "Connect with peers, alumni, and professionals in the field.", icon: "Groups" },
-                { title: "Research Guidance", desc: "Support for paper presentations and research publications.", icon: "Menu_Book" }
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8, rotateX: 30 }}
-                  whileInView={{ opacity: 1, scale: 1, rotateX: 0 }}
-                  whileHover={{ scale: 1.05, translateY: -10, boxShadow: "0 20px 40px -10px rgba(227, 30, 36, 0.3)" }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: index * 0.1, type: "spring", bounce: 0.5 }}
-                  className="glass-card p-8 rounded-2xl border border-outline/10 group cursor-default"
-                >
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-500">
-                    <span className="material-symbols-outlined text-3xl">{item.icon.toLowerCase()}</span>
-                  </div>
-                  <h3 className="font-headline-md text-white mb-3 text-xl">{item.title}</h3>
-                  <p className="text-on-surface-variant leading-relaxed">
-                    {item.desc}
-                  </p>
-                </motion.div>
-              ))}
+                {[
+                  { title: "Technical Workshops", desc: "Hands-on sessions on power electronics and related technologies.", icon: "Hardware" },
+                  { title: "Guest Lectures", desc: "Insights from industry experts and renowned academicians.", icon: "School" },
+                  { title: "Project Competitions", desc: "Showcase your innovative ideas and build practical solutions.", icon: "Emoji_Objects" },
+                  { title: "Industrial Visits", desc: "Bridging the gap between theoretical knowledge and practical applications.", icon: "Factory" },
+                  { title: "Networking", desc: "Connect with peers, alumni, and professionals in the field.", icon: "Groups" },
+                  { title: "Research Guidance", desc: "Support for paper presentations and research publications.", icon: "Menu_Book" }
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    whileHover={{ y: -8, boxShadow: "0 20px 40px -10px rgba(200, 16, 46, 0.3)" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="glass-card p-6 rounded-2xl border border-outline/10 group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                        <span className="material-symbols-outlined text-2xl">{item.icon.toLowerCase()}</span>
+                      </div>
+                      <h3 className="font-headline-md text-white mb-2 text-xl font-bold">{item.title}</h3>
+                      <p className="text-on-surface-variant text-sm leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-            </motion.div>
           </div>
 
           <div className="text-center mb-16">

@@ -78,26 +78,34 @@ export default function Home() {
 
           {/* Massive Animated Logo */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.5, rotateY: 90 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 1.2, type: "spring", bounce: 0.4 }}
-            className="flex-1 flex justify-center perspective-1000"
+            initial={{ opacity: 0, scale: 0.3, rotate: -15, filter: "blur(10px)" }}
+            animate={{ opacity: 1, scale: 1, rotate: 0, filter: "blur(0px)" }}
+            transition={{ duration: 1.5, type: "spring", bounce: 0.5 }}
+            className="flex-1 flex justify-center relative group"
           >
+            {/* Multi-layered Animated Aura */}
+            <motion.div 
+              animate={{ 
+                scale: [1, 1.25, 1],
+                opacity: [0.3, 0.7, 0.3],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute w-[360px] h-[360px] md:w-[450px] md:h-[450px] bg-gradient-to-r from-primary via-red-600 to-amber-500 rounded-full blur-[80px] opacity-40 pointer-events-none"
+            ></motion.div>
+
             <motion.div
               animate={{ 
-                y: [0, -20, 0],
-                boxShadow: ["0px 0px 0px rgba(200,16,46,0)", "0px 20px 40px rgba(200,16,46,0.4)", "0px 0px 0px rgba(200,16,46,0)"]
+                y: [0, -18, 0],
+                rotateZ: [0, 1.5, -1.5, 0]
               }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-full max-w-[400px] aspect-square rounded-full flex items-center justify-center p-4"
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-full max-w-[420px] aspect-square rounded-3xl p-6 flex items-center justify-center bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_0_50px_rgba(200,16,46,0.3)] hover:shadow-[0_0_80px_rgba(200,16,46,0.6)] transition-all duration-500"
             >
               <img 
                 src="/logo.jpg" 
                 alt="IEEE PELS SSN Logo" 
-                className="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(200,16,46,0.8)] filter contrast-125"
-                onError={(e) => {
-                  e.currentTarget.src = "https://via.placeholder.com/400?text=Please+Add+logo.jpg+to+public+folder";
-                }}
+                className="w-full h-full object-contain rounded-2xl drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)] filter brightness-110 contrast-110 group-hover:scale-105 transition-transform duration-500" 
               />
             </motion.div>
           </motion.div>
