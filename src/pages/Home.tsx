@@ -30,9 +30,8 @@ export default function Home() {
     mouseY.set(0);
   };
 
-  // Scroll opacity/scale reaction
+  // Scroll opacity reaction
   const { scrollY } = useScroll();
-  const heroScale = useTransform(scrollY, [0, 500], [1, 0.96]);
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.4]);
 
   return (
@@ -45,7 +44,7 @@ export default function Home() {
 
       {/* Hero Section – Seamless Full-Bleed 3D Showcase */}
       <motion.section 
-        style={{ scale: heroScale, opacity: heroOpacity }}
+        style={{ opacity: heroOpacity }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         className="relative h-[calc(100vh-80px)] min-h-[460px] max-h-[640px] flex items-center overflow-hidden bg-[#050706] text-white select-none" 
