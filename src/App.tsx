@@ -7,7 +7,6 @@ import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
-import Gallery from "./pages/Gallery";
 import Team from "./pages/Team";
 import Contact from "./pages/Contact";
 
@@ -23,7 +22,6 @@ function App() {
             <Route path="events/:id" element={<EventDetail />} />
             <Route path="projects" element={<Projects />} />
             <Route path="projects/:id" element={<ProjectDetail />} />
-            <Route path="gallery" element={<Gallery />} />
             <Route path="team" element={<Team />} />
             <Route path="contact" element={<Contact />} />
           </Route>

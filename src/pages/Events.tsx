@@ -1,13 +1,14 @@
 import { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, Calendar, MapPin, Users } from "lucide-react";
 import { events } from "../data/events";
 
 const categories = ["All Events", "Upcoming", "Past Events", "Workshops", "Technical Talks", "Symposiums", "Competitions", "Quiz Events"];
 
 export default function Events() {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("All Events");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -91,11 +92,13 @@ export default function Events() {
                   <motion.div
                     key={event.id}
                     layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3 }}
-                    className="glass-card rounded-xl overflow-hidden group flex flex-col"
+                    initial={{ opacity: 0, scale: 0.8, rotateY: 30 }}
+                    animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                    exit={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
+                    transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
+                    className="glass-card rounded-2xl overflow-hidden flex flex-col group cursor-pointer"
+                    onClick={() => navigate(`/events/${event.id}`)}
+                    whileHover={{ y: -10, scale: 1.02, boxShadow: "0 20px 40px -10px rgba(227, 30, 36, 0.4)" }}
                   >
                     <div className="relative h-48 overflow-hidden">
                       <img 

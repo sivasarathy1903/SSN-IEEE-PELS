@@ -14,15 +14,6 @@ export default function About() {
     { title: "Technical Symposiums", icon: <Target className="w-8 h-8" />, desc: "Showcasing research and projects." },
   ];
 
-  const missions = [
-    "Conduct industry-oriented workshops",
-    "Promote hardware development",
-    "Encourage interdisciplinary engineering",
-    "Build research culture",
-    "Connect students with industry experts",
-    "Foster innovation through technical projects"
-  ];
-
   return (
     <>
       <Helmet>
@@ -68,14 +59,34 @@ export default function About() {
                 <Lightbulb className="text-primary w-10 h-10" />
                 <h2 className="font-headline-lg text-headline-lg text-white">Our Mission</h2>
               </div>
-              <ul className="space-y-4">
-                {missions.map((mission, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <span className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></span>
-                    <span className="text-on-surface-variant font-body-lg">{mission}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { title: "Technical Workshops", desc: "Hands-on sessions on power electronics and related technologies.", icon: "Hardware" },
+                { title: "Guest Lectures", desc: "Insights from industry experts and renowned academicians.", icon: "School" },
+                { title: "Project Competitions", desc: "Showcase your innovative ideas and build practical solutions.", icon: "Emoji_Objects" },
+                { title: "Industrial Visits", desc: "Bridging the gap between theoretical knowledge and practical applications.", icon: "Factory" },
+                { title: "Networking", desc: "Connect with peers, alumni, and professionals in the field.", icon: "Groups" },
+                { title: "Research Guidance", desc: "Support for paper presentations and research publications.", icon: "Menu_Book" }
+              ].map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.8, rotateX: 30 }}
+                  whileInView={{ opacity: 1, scale: 1, rotateX: 0 }}
+                  whileHover={{ scale: 1.05, translateY: -10, boxShadow: "0 20px 40px -10px rgba(227, 30, 36, 0.3)" }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: index * 0.1, type: "spring", bounce: 0.5 }}
+                  className="glass-card p-8 rounded-2xl border border-outline/10 group cursor-default"
+                >
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-500">
+                    <span className="material-symbols-outlined text-3xl">{item.icon.toLowerCase()}</span>
+                  </div>
+                  <h3 className="font-headline-md text-white mb-3 text-xl">{item.title}</h3>
+                  <p className="text-on-surface-variant leading-relaxed">
+                    {item.desc}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
             </motion.div>
           </div>
 

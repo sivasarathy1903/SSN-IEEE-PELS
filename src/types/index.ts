@@ -30,10 +30,20 @@ export interface TeamMember {
   role: string;
   department?: string;
   photo: string;
-  category: "Faculty Coordinator" | "Executive Committee" | "Core Team" | "Technical Team" | "Project Team" | "Web Team" | "Design Team" | "Documentation Team" | "PR Team";
+  category: TeamCategory;
   email?: string;
   linkedin?: string;
 }
+
+export type TeamCategory = 
+  | "Office Bearers"
+  | "Event Management"
+  | "Social Media & Marketing"
+  | "Content Team"
+  | "Design Team"
+  | "Web Development"
+  | "Technical Team"
+  | "Faculty Coordinator";
 
 export interface SiteConfig {
   tagline: string;

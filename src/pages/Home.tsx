@@ -16,37 +16,93 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center overflow-hidden" id="home">
         <div className="absolute inset-0 bg-gradient-to-b from-surface/40 via-transparent to-surface z-[1]"></div>
-        <div className="relative z-10 max-w-container-max mx-auto px-margin-lg w-full">
+        
+        {/* Animated Background Elements */}
+        <motion.div 
+          animate={{ rotate: 360, scale: [1, 1.2, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute right-[-10%] top-[10%] w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none z-0"
+        ></motion.div>
+        
+        <div className="relative z-10 max-w-container-max mx-auto px-margin-lg w-full flex flex-col md:flex-row items-center gap-12">
+          
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-3xl"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, staggerChildren: 0.2 }}
+            className="flex-1 max-w-2xl"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-8">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-8"
+            >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
               <span className="font-label-caps text-label-caps text-primary uppercase tracking-[0.2em]">Live Energy Solutions</span>
-            </div>
-            <h1 className="font-headline-xl text-headline-xl mb-6 text-white leading-tight">
+            </motion.div>
+            
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="font-headline-xl text-headline-xl mb-6 text-white leading-tight"
+            >
               IEEE Power <br/>Electronics Society
-            </h1>
-            <h2 className="font-headline-md text-headline-md text-on-surface-variant mb-8 font-light">
+            </motion.h1>
+            
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="font-headline-md text-headline-md text-on-surface-variant mb-8 font-light"
+            >
               {siteConfig.tagline}
-            </h2>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/events" className="bg-primary-container text-white px-8 py-4 rounded-lg font-label-caps text-label-caps hover:brightness-125 transition-all flex items-center gap-2 group">
+            </motion.h2>
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              className="flex flex-wrap gap-4"
+            >
+              <Link to="/events" className="bg-primary-container text-white px-8 py-4 rounded-lg font-label-caps text-label-caps hover:brightness-125 transition-all flex items-center gap-2 group shadow-[0_0_20px_rgba(200,16,46,0.4)]">
                 Explore Events
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link to="/projects" className="border border-outline/20 hover:border-primary/50 text-white px-8 py-4 rounded-lg font-label-caps text-label-caps transition-all flex items-center gap-2 bg-white/5 backdrop-blur-md">
                 Explore Projects
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
+
+          {/* Massive Animated Logo */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.5, rotateY: 90 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1.2, type: "spring", bounce: 0.4 }}
+            className="flex-1 flex justify-center perspective-1000"
+          >
+            <motion.div
+              animate={{ 
+                y: [0, -20, 0],
+                boxShadow: ["0px 0px 0px rgba(200,16,46,0)", "0px 20px 40px rgba(200,16,46,0.4)", "0px 0px 0px rgba(200,16,46,0)"]
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-full max-w-[400px] aspect-square rounded-full flex items-center justify-center p-4"
+            >
+              <img 
+                src="/logo.jpg" 
+                alt="IEEE PELS SSN Logo" 
+                className="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(200,16,46,0.8)] filter contrast-125"
+                onError={(e) => {
+                  e.currentTarget.src = "https://via.placeholder.com/400?text=Please+Add+logo.jpg+to+public+folder";
+                }}
+              />
+            </motion.div>
+          </motion.div>
+
         </div>
-        
-        {/* Background Decorative element */}
-        <div className="absolute right-[-10%] top-[20%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
       </section>
 
       {/* About Preview Section */}

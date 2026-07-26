@@ -27,17 +27,19 @@ export default function Projects() {
             {projects.map((project, idx) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                layout
+                initial={{ opacity: 0, y: 50, rotateX: 15 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass-card rounded-xl p-8 flex flex-col hover:live-wire-hover group"
+                transition={{ duration: 0.6, delay: idx * 0.1, type: "spring" }}
+                whileHover={{ scale: 1.03, zIndex: 10, boxShadow: "0 30px 60px -15px rgba(227, 30, 36, 0.3)" }}
+                className="glass-card rounded-2xl p-6 flex flex-col relative overflow-hidden group cursor-default"
               >
                 <div className="flex justify-between items-start mb-6">
-                  <div className="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                    <Settings className="w-6 h-6" />
+                  <div className="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-500">
+                    <Settings className="w-6 h-6 animate-spin-slow" />
                   </div>
-                  <span className={`text-xs font-label-caps px-3 py-1 rounded-full border ${
+                  <span className={`text-[10px] font-label-caps px-3 py-1 rounded-full border uppercase tracking-widest ${
                     project.status === "Completed" ? "bg-green-900/20 text-green-400 border-green-500/30" :
                     project.status === "In Progress" ? "bg-primary/20 text-primary border-primary/30" :
                     "bg-gray-800 text-gray-400 border-gray-600"
