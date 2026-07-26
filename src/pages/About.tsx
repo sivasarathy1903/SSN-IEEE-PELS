@@ -34,66 +34,77 @@ export default function About() {
           </motion.div>
 
           {/* Vision & Mission Vertical Sections */}
-          <div className="space-y-16 mb-24">
-            {/* Vision Section */}
+          <div className="space-y-12 mb-20">
+            {/* Vision & Mission Hero Banner */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="glass-card p-8 md:p-12 rounded-3xl border border-primary/20 bg-gradient-to-r from-surface-container-high via-surface-container to-surface-container-high"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
             >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
-                  <Target className="w-6 h-6" />
+              {/* Vision Card */}
+              <div className="glass-card p-8 md:p-10 rounded-3xl border border-primary/20 bg-gradient-to-br from-surface-container-high via-surface-container to-surface-container-lowest">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
+                    <Target className="w-6 h-6" />
+                  </div>
+                  <h2 className="font-headline-lg text-headline-lg text-white">Our Vision</h2>
                 </div>
-                <h2 className="font-headline-lg text-headline-lg text-white">Our Vision</h2>
+                <p className="text-on-surface-variant font-body-md text-base md:text-lg leading-relaxed">
+                  To cultivate technically proficient, innovative engineers through hands-on practical learning, cutting-edge research, and active industry collaboration in power electronics and sustainable energy.
+                </p>
               </div>
-              <p className="text-on-surface-variant font-body-lg text-lg leading-relaxed max-w-4xl">
-                Create technically strong, innovative engineers through hands-on practical learning, cutting-edge research, and industry collaboration in power electronics and sustainable energy technologies.
-              </p>
+
+              {/* Mission Statement Card */}
+              <div className="glass-card p-8 md:p-10 rounded-3xl border border-outline/10 bg-gradient-to-br from-surface-container-high via-surface-container to-surface-container-lowest">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
+                    <Lightbulb className="w-6 h-6" />
+                  </div>
+                  <h2 className="font-headline-lg text-headline-lg text-white">Our Mission</h2>
+                </div>
+                <p className="text-on-surface-variant font-body-md text-base md:text-lg leading-relaxed">
+                  Empowering student members with practical technical skills, industry mentorship, research guidance, and collaborative project platforms to bridge academia with real-world engineering excellence.
+                </p>
+              </div>
             </motion.div>
 
-            {/* Mission Section - Vertical Heading & Horizontally Aligned Card Grid */}
-            <div className="space-y-8">
+            {/* Core Pillars / Strategic Initiatives */}
+            <div className="space-y-6">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="flex items-center gap-4"
+                className="text-center max-w-2xl mx-auto"
               >
-                <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
-                  <Lightbulb className="w-6 h-6" />
-                </div>
-                <div>
-                  <h2 className="font-headline-lg text-headline-lg text-white">Our Mission</h2>
-                  <p className="text-on-surface-variant text-sm mt-1">Key objectives driving our student branch chapter forward</p>
-                </div>
+                <h3 className="font-headline-md text-2xl font-bold text-white mb-2">Chapter Initiatives & Activities</h3>
+                <p className="text-on-surface-variant text-sm">Key pillars driving our student chapter forward</p>
               </motion.div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[
-                  { title: "Technical Workshops", desc: "Hands-on sessions on power electronics and related technologies.", icon: "Hardware" },
-                  { title: "Guest Lectures", desc: "Insights from industry experts and renowned academicians.", icon: "School" },
-                  { title: "Project Competitions", desc: "Showcase your innovative ideas and build practical solutions.", icon: "Emoji_Objects" },
-                  { title: "Industrial Visits", desc: "Bridging the gap between theoretical knowledge and practical applications.", icon: "Factory" },
-                  { title: "Networking", desc: "Connect with peers, alumni, and professionals in the field.", icon: "Groups" },
-                  { title: "Research Guidance", desc: "Support for paper presentations and research publications.", icon: "Menu_Book" }
+                  { title: "Technical Workshops", desc: "Hands-on sessions on power electronics, circuit design, and simulation tools.", icon: "Hardware" },
+                  { title: "Guest Lectures & FDP", desc: "Expert talks and faculty programs by industry leaders and academicians.", icon: "School" },
+                  { title: "Project Competitions", desc: "Hardware challenges and hackathons to transform ideas into working prototypes.", icon: "Emoji_Objects" },
+                  { title: "Industrial Visits", desc: "Field visits bridging classroom concepts with industrial power applications.", icon: "Factory" },
+                  { title: "Interdisciplinary Learning", desc: "Cross-departmental collaborative technical events and workshops.", icon: "Groups" },
+                  { title: "Research & Publications", desc: "Guidance for technical paper presentations, journals, and project publications.", icon: "Menu_Book" }
                 ].map((item, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    whileHover={{ y: -8, boxShadow: "0 20px 40px -10px rgba(200, 16, 46, 0.3)" }}
+                    whileHover={{ y: -6, boxShadow: "0 20px 40px -10px rgba(200, 16, 46, 0.25)" }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    transition={{ duration: 0.4, delay: index * 0.08 }}
                     className="glass-card p-6 rounded-2xl border border-outline/10 group flex flex-col justify-between"
                   >
                     <div>
                       <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
                         <span className="material-symbols-outlined text-2xl">{item.icon.toLowerCase()}</span>
                       </div>
-                      <h3 className="font-headline-md text-white mb-2 text-xl font-bold">{item.title}</h3>
+                      <h4 className="font-headline-md text-white mb-2 text-xl font-bold">{item.title}</h4>
                       <p className="text-on-surface-variant text-sm leading-relaxed">
                         {item.desc}
                       </p>

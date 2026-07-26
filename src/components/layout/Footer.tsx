@@ -7,17 +7,18 @@ export function Footer() {
       <div className="max-w-container-max mx-auto px-margin-lg">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-margin-lg mb-margin-lg">
           <div className="md:col-span-2">
-            <Link to="/" className="flex items-center gap-4 mb-6">
-              <div className="w-10 h-10 bg-primary-container flex items-center justify-center rounded-lg shadow-[0_0_15px_rgba(200,16,46,0.4)]">
-                <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
+            <Link to="/" className="flex items-center gap-3.5 mb-6 group">
+              <div className="w-10 h-10 rounded-xl overflow-hidden bg-black p-0.5 border border-[#C8102E]/60 shadow-[0_0_15px_rgba(200,16,46,0.6)] group-hover:scale-105 transition-transform duration-200">
+                <img src="/logo.jpg" alt="IEEE PELS SSN Logo" className="w-full h-full object-cover rounded-lg" />
               </div>
               <span className="font-headline-md text-headline-md font-bold text-on-surface tracking-tighter">IEEE PELS SSN</span>
             </Link>
-            <p className="text-on-surface-variant font-body-md max-w-md">
-              IEEE Power Electronics Society<br/>
-              Student Branch Chapter<br/>
-              {siteConfig.contact.location}
-            </p>
+            <div className="text-on-surface-variant font-body-md max-w-md space-y-1">
+              <p className="font-semibold text-white">IEEE Power Electronics Society</p>
+              <p className="text-sm">Student Branch Chapter</p>
+              <p className="text-sm text-neutral-400">Sri Sivasubramaniya Nadar College of Engineering</p>
+              <p className="text-sm text-neutral-400">SH 49A, Kalavakkam, Thaiyur, Tamil Nadu 603110</p>
+            </div>
           </div>
           
           <div>
