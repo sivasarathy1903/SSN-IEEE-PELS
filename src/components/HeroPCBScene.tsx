@@ -28,7 +28,7 @@ function getPCBTexture() {
   ctx.fillRect(0, 0, 1024, 1024);
 
   // Fiber weave pattern on right 60%
-  ctx.fillStyle = "rgba(255, 255, 255, 0.012)";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.025)";
   for (let i = 400; i < 1024; i += 8) {
     ctx.fillRect(i, 0, 4, 1024);
     ctx.fillRect(0, i, 1024, 4);
@@ -48,7 +48,7 @@ function getPCBTexture() {
 
   // Copper traces
   ctx.lineWidth = 4;
-  ctx.strokeStyle = "#4a2a18";
+  ctx.strokeStyle = "#8b4822";
   ctx.lineCap = "round";
   nodes.forEach((node) => {
     ctx.beginPath();
@@ -62,7 +62,7 @@ function getPCBTexture() {
 
   // Glowing red power traces
   ctx.lineWidth = 5;
-  ctx.strokeStyle = "rgba(200, 16, 46, 0.7)";
+  ctx.strokeStyle = "rgba(235, 25, 55, 0.9)";
   nodes.forEach((node) => {
     ctx.beginPath();
     ctx.moveTo(chipCenterX, chipCenterY);
@@ -75,14 +75,14 @@ function getPCBTexture() {
 
   // Vias & Solder Pads
   nodes.forEach((node) => {
-    ctx.fillStyle = "#c89632";
+    ctx.fillStyle = "#e5a83b";
     ctx.beginPath();
-    ctx.arc(node.x, node.y, 8, 0, Math.PI * 2);
+    ctx.arc(node.x, node.y, 9, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.fillStyle = "#050706";
     ctx.beginPath();
-    ctx.arc(node.x, node.y, 3, 0, Math.PI * 2);
+    ctx.arc(node.x, node.y, 3.5, 0, Math.PI * 2);
     ctx.fill();
   });
 
@@ -90,18 +90,18 @@ function getPCBTexture() {
   for (let i = 0; i < 70; i++) {
     const rx = Math.random() * 600 + 400;
     const ry = Math.random() * 900 + 50;
-    ctx.fillStyle = "#b58428";
-    ctx.fillRect(rx, ry, 8, 4);
-    ctx.fillRect(rx + 12, ry, 8, 4);
+    ctx.fillStyle = "#d49b2c";
+    ctx.fillRect(rx, ry, 9, 4.5);
+    ctx.fillRect(rx + 13, ry, 9, 4.5);
   }
 
-  // Soft gradient overlay fading left side (0..550px) to pure #050706
-  const fadeGrad = ctx.createLinearGradient(0, 0, 580, 0);
+  // Soft gradient overlay fading left side (0..520px) to pure #050706
+  const fadeGrad = ctx.createLinearGradient(0, 0, 520, 0);
   fadeGrad.addColorStop(0, "#050706");
-  fadeGrad.addColorStop(0.65, "#050706");
+  fadeGrad.addColorStop(0.55, "#050706");
   fadeGrad.addColorStop(1, "rgba(5, 7, 6, 0)");
   ctx.fillStyle = fadeGrad;
-  ctx.fillRect(0, 0, 580, 1024);
+  ctx.fillRect(0, 0, 520, 1024);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.RepeatWrapping;
@@ -528,13 +528,13 @@ function Scene({ mx, my }: { mx: number; my: number }) {
   return (
     <>
       {/* Realistic Cinematic Lighting */}
-      <ambientLight intensity={0.35} />
+      <ambientLight intensity={0.5} />
       {/* Key Light: Soft White positioned overhead center-right */}
-      <directionalLight position={[4, 8, 5]} intensity={2.2} color="#ffffff" castShadow />
+      <directionalLight position={[4, 8, 5]} intensity={3.2} color="#ffffff" castShadow />
       {/* Fill Light: IEEE Red bottom-right */}
-      <pointLight position={[8, -5, 4]} intensity={5.0} color="#C8102E" distance={18} />
+      <pointLight position={[8, -5, 4]} intensity={7.0} color="#C8102E" distance={20} />
       {/* Rim Light: White behind chip */}
-      <pointLight position={[1.8, 3, -6]} intensity={3.0} color="#ffffff" distance={12} />
+      <pointLight position={[1.8, 3, -6]} intensity={4.5} color="#ffffff" distance={15} />
 
       <CameraRig mx={mx} my={my} />
 
