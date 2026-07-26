@@ -36,11 +36,11 @@ export function Navbar() {
       scrolled ? "bg-surface/80 backdrop-blur-xl border-b border-outline/10 h-20 shadow-sm" : "bg-transparent h-24"
     )}>
       <div className="max-w-container-max mx-auto px-margin-lg flex justify-between items-center h-full">
-        <Link to="/" className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-primary-container flex items-center justify-center rounded-lg shadow-[0_0_15px_rgba(200,16,46,0.4)]">
-            <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
+        <Link to="/" className="flex items-center gap-3.5 group">
+          <div className="w-10 h-10 rounded-xl overflow-hidden bg-black p-0.5 border border-[#C8102E]/60 shadow-[0_0_20px_rgba(200,16,46,0.7)] group-hover:scale-105 transition-transform duration-200">
+            <img src="/logo.jpg" alt="IEEE PELS SSN Logo" className="w-full h-full object-cover rounded-lg" />
           </div>
-          <span className="font-headline-md text-headline-md font-bold text-on-surface tracking-tighter">IEEE PELS SSN</span>
+          <span className="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tight group-hover:text-primary transition-colors">IEEE PELS SSN</span>
         </Link>
         
         <div className="hidden md:flex items-center gap-margin-md">

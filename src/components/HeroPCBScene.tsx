@@ -171,24 +171,28 @@ function CentralChip({ mx, my }: { mx: number; my: number }) {
         />
       </RoundedBox>
 
-      {/* Crisp IEEE PELS SSN Logo Printed Flat on Surface */}
+      {/* Crisp IEEE PELS SSN Logo Printed Flat on Surface with Vibrant Self-Glow */}
       <mesh position={[0, 0, 0.17]}>
         <planeGeometry args={[3.6, 3.6]} />
         <meshStandardMaterial
           map={logoTexture}
-          roughness={0.45}
-          metalness={0.15}
+          emissiveMap={logoTexture}
+          emissive="#ffffff"
+          emissiveIntensity={0.6}
+          roughness={0.1}
+          metalness={0.0}
         />
       </mesh>
 
       {/* Soft Ambient Red Under-Edge Glow Lip */}
       <mesh position={[0, 0, -0.08]}>
         <planeGeometry args={[4.8, 4.8]} />
-        <meshBasicMaterial color="#C8102E" transparent opacity={0.5} depthWrite={false} />
+        <meshBasicMaterial color="#C8102E" transparent opacity={0.6} depthWrite={false} />
       </mesh>
 
-      {/* Direct Point Light under Chip casting intense red glow onto PCB */}
-      <pointLight color="#C8102E" intensity={5.5} distance={6} position={[0, 0, 0.4]} />
+      {/* Direct Point Light under Chip & onto Logo casting intense vivid glow */}
+      <pointLight color="#ffffff" intensity={6.0} distance={5} position={[0, 0, 1.2]} />
+      <pointLight color="#C8102E" intensity={8.0} distance={7} position={[0, 0, 0.4]} />
     </group>
   );
 }
