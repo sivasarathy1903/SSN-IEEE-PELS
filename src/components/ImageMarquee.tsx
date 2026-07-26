@@ -30,60 +30,78 @@ export const galleryImages: GalleryItem[] = [
 ];
 
 export function ImageMarquee() {
-  // Duplicate images for seamless infinite loop
-  const duplicatedImages = [...galleryImages, ...galleryImages];
-
   return (
-    <section className="py-12 bg-[#080b09] border-y border-white/5 overflow-hidden select-none relative">
-      <div className="max-w-container-max mx-auto px-6 mb-8 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
-          <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Chapter Event Gallery & Highlights</h2>
+    <section className="py-20 bg-[#080b09] border-t border-white/10 relative overflow-hidden">
+      <div className="max-w-container-max mx-auto px-6">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div>
+            <div className="flex items-center gap-2.5 mb-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#C8102E] animate-pulse"></span>
+              <span className="font-mono-data text-xs text-[#C8102E] uppercase tracking-widest font-semibold">CHAPTER GALLERY</span>
+            </div>
+            <h2 className="font-headline-xl text-3xl md:text-4xl text-white font-extrabold tracking-tight">
+              Event <span className="text-[#C8102E]">Highlights</span> & Showcase
+            </h2>
+          </div>
+          <p className="text-neutral-400 text-sm max-w-md font-light">
+            An interactive visual archive of our workshops, competitions, and technical summits at IEEE PELS SSN.
+          </p>
         </div>
-      </div>
 
-      {/* Edge Fades */}
-      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#080b09] to-transparent z-10 pointer-events-none"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#080b09] to-transparent z-10 pointer-events-none"></div>
-
-      {/* Infinite Moving Marquee Container */}
-      <div className="flex overflow-hidden">
-        <motion.div
-          className="flex gap-6 shrink-0"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            ease: "linear",
-            duration: 35,
-            repeat: Infinity,
-          }}
-        >
-          {duplicatedImages.map((img, idx) => (
-            <div
+        {/* Professional Staggered Reveal Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          {galleryImages.map((img, idx) => (
+            <motion.div
               key={idx}
-              className="relative w-[320px] sm:w-[380px] h-[220px] sm:h-[250px] rounded-2xl overflow-hidden group shrink-0 border border-white/10 glass-card bg-neutral-900"
+              initial={{ opacity: 0, y: 35, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                duration: 0.45,
+                delay: (idx % 4) * 0.08,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
+              whileHover={{ 
+                y: -8, 
+                scale: 1.02,
+                transition: { duration: 0.2, ease: "easeOut" }
+              }}
+              className={`relative overflow-hidden rounded-2xl group border border-white/10 bg-neutral-900 shadow-lg cursor-pointer ${
+                idx % 7 === 0 ? "sm:col-span-2 sm:row-span-2 min-h-[360px]" : "min-h-[220px]"
+              }`}
             >
+              {/* Background Image */}
               <img
                 src={img.src}
                 alt={img.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-90 group-hover:brightness-105"
+                className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 ease-out brightness-90 group-hover:brightness-105"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-              
-              <div className="absolute top-3 left-3">
-                <span className="px-3 py-1 rounded-full text-[11px] font-mono font-semibold bg-primary/80 text-white backdrop-blur-md shadow-md border border-white/20">
+
+              {/* Dynamic Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-300"></div>
+
+              {/* Top Category Badge */}
+              <div className="absolute top-3.5 left-3.5 z-10">
+                <span className="px-3 py-1 rounded-full text-[11px] font-mono-data font-semibold bg-[#C8102E]/80 text-white backdrop-blur-md border border-white/20 shadow-sm">
                   {img.tag}
                 </span>
               </div>
 
-              <div className="absolute bottom-3 left-3 right-3">
-                <p className="text-white text-sm font-semibold truncate group-hover:text-primary transition-colors">
+              {/* Bottom Caption on Hover/Reveal */}
+              <div className="absolute bottom-0 inset-x-0 p-4 z-10 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                <h3 className="text-white text-sm font-semibold leading-snug drop-shadow-md group-hover:text-[#C8102E] transition-colors">
                   {img.title}
-                </p>
+                </h3>
               </div>
-            </div>
+
+              {/* Hover Glow Edge */}
+              <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-[#C8102E]/50 transition-colors pointer-events-none"></div>
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
