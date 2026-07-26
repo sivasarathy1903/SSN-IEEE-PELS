@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 
 export interface GalleryItem {
   src: string;
