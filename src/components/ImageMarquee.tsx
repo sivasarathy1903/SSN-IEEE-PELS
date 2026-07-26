@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 
 export interface GalleryItem {
   src: string;
@@ -32,6 +31,21 @@ export function ImageMarquee() {
 
   return (
     <section className="py-12 bg-[#080b09] border-y border-white/5 overflow-hidden select-none relative">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes marquee-scroll {
+          0% { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .animate-marquee-scroll {
+          display: flex;
+          gap: 1.5rem;
+          animation: marquee-scroll 80s linear infinite;
+        }
+        .animate-marquee-scroll:hover {
+          animation-play-state: paused;
+        }
+      ` }} />
+
       <div className="max-w-container-max mx-auto px-6 mb-8 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
@@ -46,19 +60,11 @@ export function ImageMarquee() {
 
       {/* Infinite Moving Marquee Container */}
       <div className="flex overflow-hidden">
-        <motion.div
-          className="flex gap-6 shrink-0"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            ease: "linear",
-            duration: 35,
-            repeat: Infinity,
-          }}
-        >
+        <div className="animate-marquee-scroll shrink-0">
           {duplicatedImages.map((img, idx) => (
             <div
               key={idx}
-              className="relative w-[320px] sm:w-[380px] h-[220px] sm:h-[250px] rounded-2xl overflow-hidden group shrink-0 border border-white/10 glass-card bg-neutral-900"
+              className="relative w-[320px] sm:w-[380px] h-[220px] sm:h-[250px] rounded-2xl overflow-hidden group shrink-0 border border-white/10 glass-card bg-neutral-900 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(200,16,46,0.3)] transition-all duration-300"
             >
               <img
                 src={img.src}
@@ -81,7 +87,7 @@ export function ImageMarquee() {
               </div>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
