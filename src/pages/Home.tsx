@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
 import { ArrowRight, ChevronRight, Zap } from "lucide-react";
 import { siteConfig } from "../data/site";
-import { lazy, Suspense } from "react";
-
-const HeroPCBScene = lazy(() => import("../components/HeroPCBScene"));
+import HeroPCBScene from "../components/HeroPCBScene";
 
 export default function Home() {
   // Mouse position tracking for ultra-smooth 3D parallax
@@ -144,7 +142,7 @@ export default function Home() {
                 hidden: { opacity: 0 },
                 visible: {
                   opacity: 1,
-                  transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+                  transition: { staggerChildren: 0.05, delayChildren: 0 }
                 }
               }}
               className="w-full max-w-xl"
@@ -152,8 +150,8 @@ export default function Home() {
               {/* Live Pill Badge */}
               <motion.div
                 variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                  hidden: { opacity: 0, y: 15 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } }
                 }}
                 className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-8"
               >
@@ -164,8 +162,8 @@ export default function Home() {
               {/* Main Headline with Red Accent matching screenshot */}
               <motion.h1
                 variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+                  hidden: { opacity: 0, y: 15 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
                 }}
                 className="font-headline-xl text-5xl lg:text-6xl xl:text-7xl mb-6 text-white leading-[1.08] tracking-tight font-extrabold"
               >
@@ -179,8 +177,8 @@ export default function Home() {
               {/* Tagline */}
               <motion.p
                 variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+                  hidden: { opacity: 0, y: 15 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
                 }}
                 className="font-body-lg text-lg text-neutral-400 mb-10 max-w-lg font-light leading-relaxed"
               >
@@ -191,8 +189,8 @@ export default function Home() {
               {/* CTA Buttons */}
               <motion.div
                 variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+                  hidden: { opacity: 0, y: 15 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
                 }}
                 className="flex flex-wrap items-center gap-4"
               >
@@ -222,18 +220,7 @@ export default function Home() {
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(200,16,46,0.35)_0%,_transparent_70%)] blur-[110px] pointer-events-none z-0"
             />
-            <Suspense
-              fallback={
-                <div className="absolute inset-0 flex items-center justify-center z-10">
-                  <div className="flex flex-col items-center gap-4">
-                    <div className="w-48 h-48 rounded-2xl bg-primary/[0.06] border border-primary/10 backdrop-blur-sm animate-pulse" />
-                    <span className="text-[10px] font-mono-data text-primary/40 tracking-[0.25em] uppercase mt-2">Initialising 3D Showcase</span>
-                  </div>
-                </div>
-              }
-            >
-              <HeroPCBScene />
-            </Suspense>
+            <HeroPCBScene />
           </div>
 
         </div>

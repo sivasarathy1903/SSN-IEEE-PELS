@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   RoundedBox,
@@ -8,13 +8,105 @@ import {
   Line,
 } from "@react-three/drei";
 import * as THREE from "three";
-import { motion } from "framer-motion";
+
+// Preload logo texture immediately on script parse
+useTexture.preload("/logo.jpg");
+
+// Global cached PCB texture for instant 0ms mount
+let globalPCBTexture: THREE.CanvasTexture | null = null;
+
+function getPCBTexture() {
+  if (globalPCBTexture) return globalPCBTexture;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 1024;
+  canvas.height = 1024;
+  const ctx = canvas.getContext("2d")!;
+
+  // Matte black PCB base
+  ctx.fillStyle = "#050706";
+  ctx.fillRect(0, 0, 1024, 1024);
+
+  // Subtle fiberglass weave texture
+  ctx.fillStyle = "rgba(255, 255, 255, 0.015)";
+  for (let i = 0; i < 1024; i += 8) {
+    ctx.fillRect(i, 0, 4, 1024);
+    ctx.fillRect(0, i, 1024, 4);
+  }
+
+  // Copper traces routing network
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#4a2a18";
+  ctx.lineCap = "round";
+
+  const chipCenterX = 590;
+  const chipCenterY = 512;
+
+  const nodes = [
+    { x: 290, y: 240 },   // Inductor
+    { x: 860, y: 210 },   // MOSFET
+    { x: 920, y: 540 },   // Capacitor
+    { x: 825, y: 825 },   // Gate Driver
+    { x: 360, y: 810 },   // Diode
+    { x: 210, y: 550 },   // Left bus
+  ];
+
+  nodes.forEach((node) => {
+    ctx.beginPath();
+    ctx.moveTo(chipCenterX, chipCenterY);
+    const midX = (chipCenterX + node.x) / 2;
+    ctx.lineTo(midX, chipCenterY);
+    ctx.lineTo(midX + (node.y > chipCenterY ? 40 : -40), node.y);
+    ctx.lineTo(node.x, node.y);
+    ctx.stroke();
+  });
+
+  // Glowing red power traces
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = "rgba(200, 16, 46, 0.75)";
+  nodes.forEach((node) => {
+    ctx.beginPath();
+    ctx.moveTo(chipCenterX, chipCenterY);
+    const midX = (chipCenterX + node.x) / 2;
+    ctx.lineTo(midX, chipCenterY);
+    ctx.lineTo(midX + (node.y > chipCenterY ? 40 : -40), node.y);
+    ctx.lineTo(node.x, node.y);
+    ctx.stroke();
+  });
+
+  // Vias & Solder Pads
+  nodes.forEach((node) => {
+    ctx.fillStyle = "#c89632";
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, 8, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "#050706";
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, 3, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Scattered SMD 0805 pads
+  for (let i = 0; i < 80; i++) {
+    const rx = Math.random() * 900 + 50;
+    const ry = Math.random() * 900 + 50;
+    ctx.fillStyle = "#b58428";
+    ctx.fillRect(rx, ry, 8, 4);
+    ctx.fillRect(rx + 12, ry, 8, 4);
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  globalPCBTexture = texture;
+  return texture;
+}
 
 // ─── Camera Rig (Mouse Parallax: Max 2° tilt / 8px translation) ─────────────
 function CameraRig({ mx, my }: { mx: number; my: number }) {
   const { camera } = useThree();
   useFrame(() => {
-    // Gentle parallax according to user specs
     camera.position.x += (mx * 0.4 - camera.position.x) * 0.04;
     camera.position.y += (-my * 0.3 - camera.position.y) * 0.04;
     camera.rotation.x = -my * 0.025;
@@ -23,109 +115,9 @@ function CameraRig({ mx, my }: { mx: number; my: number }) {
   return null;
 }
 
-// ─── High-Detail Procedural PCB Texture Generator ────────────────────────────
-function usePCBTexture() {
-  return useMemo(() => {
-    const canvas = document.createElement("canvas");
-    canvas.width = 2048;
-    canvas.height = 2048;
-    const ctx = canvas.getContext("2d")!;
-
-    // Matte black PCB base
-    ctx.fillStyle = "#050706";
-    ctx.fillRect(0, 0, 2048, 2048);
-
-    // Subtle fiberglass weave texture
-    ctx.fillStyle = "rgba(255, 255, 255, 0.015)";
-    for (let i = 0; i < 2048; i += 8) {
-      ctx.fillRect(i, 0, 4, 2048);
-      ctx.fillRect(0, i, 2048, 4);
-    }
-
-    // Copper traces routing network
-    ctx.lineWidth = 6;
-    ctx.strokeStyle = "#4a2a18";
-    ctx.lineCap = "round";
-
-    const chipCenterX = 1180;
-    const chipCenterY = 1024;
-
-    // Component target nodes on PCB
-    const nodes = [
-      { x: 580, y: 480 },   // Inductor
-      { x: 1720, y: 420 },  // MOSFET
-      { x: 1840, y: 1080 }, // Capacitor
-      { x: 1650, y: 1650 }, // Gate Driver
-      { x: 720, y: 1620 },  // Diode
-      { x: 420, y: 1100 },  // Left bus
-    ];
-
-    // Draw main copper traces with 45-degree bends
-    nodes.forEach((node) => {
-      ctx.beginPath();
-      ctx.moveTo(chipCenterX, chipCenterY);
-      const midX = (chipCenterX + node.x) / 2;
-      ctx.lineTo(midX, chipCenterY);
-      ctx.lineTo(midX + (node.y > chipCenterY ? 80 : -80), node.y);
-      ctx.lineTo(node.x, node.y);
-      ctx.stroke();
-
-      // Parallel secondary traces
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = "rgba(180, 90, 40, 0.4)";
-      ctx.beginPath();
-      ctx.moveTo(chipCenterX, chipCenterY + 24);
-      ctx.lineTo(midX, chipCenterY + 24);
-      ctx.lineTo(midX + (node.y > chipCenterY ? 80 : -80), node.y + 24);
-      ctx.lineTo(node.x, node.y + 24);
-      ctx.stroke();
-    });
-
-    // Glowing red power traces
-    ctx.lineWidth = 8;
-    ctx.strokeStyle = "rgba(200, 16, 46, 0.7)";
-    nodes.forEach((node) => {
-      ctx.beginPath();
-      ctx.moveTo(chipCenterX, chipCenterY);
-      const midX = (chipCenterX + node.x) / 2;
-      ctx.lineTo(midX, chipCenterY);
-      ctx.lineTo(midX + (node.y > chipCenterY ? 80 : -80), node.y);
-      ctx.lineTo(node.x, node.y);
-      ctx.stroke();
-    });
-
-    // Vias & Solder Pads
-    nodes.forEach((node) => {
-      ctx.fillStyle = "#c89632";
-      ctx.beginPath();
-      ctx.arc(node.x, node.y, 14, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#050706";
-      ctx.beginPath();
-      ctx.arc(node.x, node.y, 6, 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    // Scattered SMD 0805 pads
-    for (let i = 0; i < 120; i++) {
-      const rx = Math.random() * 1800 + 100;
-      const ry = Math.random() * 1800 + 100;
-      ctx.fillStyle = "#b58428";
-      ctx.fillRect(rx, ry, 12, 6);
-      ctx.fillRect(rx + 18, ry, 12, 6);
-    }
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    return texture;
-  }, []);
-}
-
 // ─── PCB Surface Mesh ────────────────────────────────────────────────────────
 function PCBSurface() {
-  const pcbTexture = usePCBTexture();
+  const pcbTexture = getPCBTexture();
   return (
     <mesh position={[0, -0.6, -0.4]} rotation={[-0.55, 0.12, 0.04]} receiveShadow>
       <planeGeometry args={[26, 18]} />
@@ -565,11 +557,8 @@ export default function HeroPCBScene() {
   const [my, setMy] = useState(0);
 
   return (
-    <motion.div
+    <div
       className="w-full h-full absolute inset-0 pointer-events-auto"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.2, ease: "easeOut" }}
     >
       <Canvas
         camera={{ position: [0, 0, 10.5], fov: 46 }}
@@ -587,8 +576,10 @@ export default function HeroPCBScene() {
         }}
         onPointerLeave={() => { setMx(0); setMy(0); }}
       >
-        <Scene mx={mx} my={my} />
+        <Suspense fallback={null}>
+          <Scene mx={mx} my={my} />
+        </Suspense>
       </Canvas>
-    </motion.div>
+    </div>
   );
 }
