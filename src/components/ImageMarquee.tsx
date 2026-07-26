@@ -7,6 +7,10 @@ export interface GalleryItem {
 }
 
 export const galleryImages: GalleryItem[] = [
+  { src: "/gallery/first-%20Varghese%20James.jpg", title: "Behind The Circuits – 1st Place (Varghese James)", tag: "Behind The Circuits" },
+  { src: "/gallery/second%20-%20Deepak%20S.jpg", title: "Behind The Circuits – 2nd Place (Deepak S)", tag: "Behind The Circuits" },
+  { src: "/gallery/third%20Malleshkumar%20K.jpeg", title: "Behind The Circuits – 3rd Place (Malleshkumar K)", tag: "Behind The Circuits" },
+  { src: "/gallery/Behind%20the%20Circuits%20(1)%20(1).png", title: "Behind The Circuits Event Banner", tag: "Behind The Circuits" },
   { src: "/gallery/synapse_0.jpg", title: "Synapse '25 Flagship Event", tag: "Synapse '25" },
   { src: "/gallery/ltspice_6.jpg", title: "LTSpice Circuit Simulation", tag: "LTSpice Workshop" },
   { src: "/gallery/synapse_1.jpg", title: "Technical Workshop Session", tag: "Synapse '25" },
@@ -17,7 +21,6 @@ export const galleryImages: GalleryItem[] = [
   { src: "/gallery/ltspice_9.jpg", title: "Workshop Mentorship & Demo", tag: "LTSpice Workshop" },
   { src: "/gallery/synapse_4.jpg", title: "Firmware & Embedded Systems", tag: "Synapse '25" },
   { src: "/gallery/synapse_5.jpg", title: "Interactive Learning & Team", tag: "Synapse '25" },
-  { src: "/gallery/synapse_10.jpg", title: "Microcontroller Hands-on", tag: "LTSpice Workshop" },
   { src: "/gallery/deadend_firstprize.jpg", title: "Dead End Ahead – First Prize Winners", tag: "Dead End Ahead" },
   { src: "/gallery/deadend_secondprize.jpg", title: "Dead End Ahead – Second Prize Winners", tag: "Dead End Ahead" },
   { src: "/gallery/deadend_thirdprize.jpg", title: "Dead End Ahead – Third Prize Winners", tag: "Dead End Ahead" },
@@ -37,7 +40,6 @@ export function ImageMarquee() {
           <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
           <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Chapter Event Gallery & Highlights</h2>
         </div>
-        <span className="font-mono text-xs text-neutral-400 uppercase tracking-widest hidden sm:inline-block">Synapse '25 & LTSpice Workshops</span>
       </div>
 
       {/* Edge Fades */}
