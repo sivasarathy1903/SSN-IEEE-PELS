@@ -3,6 +3,41 @@ import type { TeamMember } from "../types";
 export const team: TeamMember[] = [
   // Office Bearers
   {
+    id: "chindhana-k",
+    name: "Chindhana K",
+    role: "Chair Person",
+    category: "Office Bearers",
+    photo: "https://ui-avatars.com/api/?name=Chindhana+K&background=C8102E&color=fff&size=256",
+  },
+  {
+    id: "harvin-vardhan",
+    name: "Harvin Vardhan",
+    role: "Vice Chair Person",
+    category: "Office Bearers",
+    photo: "https://ui-avatars.com/api/?name=Harvin+Vardhan&background=111827&color=fff&size=256",
+  },
+  {
+    id: "kathirvel",
+    name: "Kathirvel",
+    role: "Secretary",
+    category: "Office Bearers",
+    photo: "https://ui-avatars.com/api/?name=Kathirvel&background=C8102E&color=fff&size=256",
+  },
+  {
+    id: "kalyani",
+    name: "Kalyani",
+    role: "Treasurer",
+    category: "Office Bearers",
+    photo: "https://ui-avatars.com/api/?name=Kalyani&background=111827&color=fff&size=256",
+  },
+  {
+    id: "kishore-r",
+    name: "Kishore R",
+    role: "Project Chair",
+    category: "Office Bearers",
+    photo: "https://ui-avatars.com/api/?name=Kishore+R&background=C8102E&color=fff&size=256",
+  },
+  {
     id: "sanjaynath",
     name: "Sanjaynath",
     role: "Joint Secretary",
