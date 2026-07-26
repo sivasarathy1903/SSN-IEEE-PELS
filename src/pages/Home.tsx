@@ -1,10 +1,44 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, useScroll } from "framer-motion";
 import { ArrowRight, ChevronRight, Zap } from "lucide-react";
 import { siteConfig } from "../data/site";
 
 export default function Home() {
+  // Mouse position tracking for ultra-smooth 3D parallax
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Parallax layers
+  const textX = useTransform(mouseX, [-500, 500], [-2, 2]);
+  const textY = useTransform(mouseY, [-500, 500], [-2, 2]);
+  
+  const logoX = useTransform(mouseX, [-500, 500], [-6, 6]);
+  const logoY = useTransform(mouseY, [-500, 500], [-6, 6]);
+  const logoRotateX = useTransform(mouseY, [-500, 500], [3, -3]);
+  const logoRotateY = useTransform(mouseX, [-500, 500], [-3, 3]);
+
+  const bgX = useTransform(mouseX, [-500, 500], [-10, 10]);
+  const bgY = useTransform(mouseY, [-500, 500], [-10, 10]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - (rect.left + rect.width / 2);
+    const y = e.clientY - (rect.top + rect.height / 2);
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  // Scroll opacity/scale reaction
+  const { scrollY } = useScroll();
+  const heroScale = useTransform(scrollY, [0, 500], [1, 0.96]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.4]);
+
   return (
     <>
       <Helmet>
@@ -13,141 +47,231 @@ export default function Home() {
         <meta name="keywords" content="IEEE PELS, Power Electronics, SSN, MATLAB, Simulink, Embedded Systems, Hardware Design" />
       </Helmet>
 
-      {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center overflow-hidden" id="home">
-        <div className="absolute inset-0 bg-gradient-to-b from-surface/40 via-transparent to-surface z-[1]"></div>
-        
-        {/* Falling Light Emojis Animation */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-          {[
-            { emoji: "⚡", left: "10%", duration: 6, delay: 0 },
-            { emoji: "💡", left: "25%", duration: 8, delay: 2 },
-            { emoji: "✨", left: "40%", duration: 5, delay: 1 },
-            { emoji: "⚡", left: "55%", duration: 7, delay: 3 },
-            { emoji: "💡", left: "70%", duration: 9, delay: 0.5 },
-            { emoji: "✨", left: "85%", duration: 6, delay: 2.5 },
-            { emoji: "⚡", left: "92%", duration: 8, delay: 1.5 },
-            { emoji: "💡", left: "18%", duration: 7, delay: 4 },
-            { emoji: "✨", left: "62%", duration: 5.5, delay: 3.5 }
-          ].map((item, idx) => (
+      {/* Hero Section - Engineering Excellence & Motion Design */}
+      <motion.section 
+        style={{ scale: heroScale, opacity: heroOpacity }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="relative h-[92vh] min-h-[650px] flex items-center overflow-hidden bg-black text-white select-none" 
+        id="home"
+      >
+        {/* Layer 0: Faint Engineering Grid (<3% opacity) */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.8) 1px, transparent 0),
+                              linear-gradient(to right, rgba(200, 16, 46, 0.15) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(200, 16, 46, 0.15) 1px, transparent 1px)`,
+            backgroundSize: '40px 40px, 80px 80px, 80px 80px',
+            maskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 80%)'
+          }}
+        ></div>
+
+        {/* Layer 1: Ambient Slow Red Glow (20-30s cycle) */}
+        <motion.div 
+          style={{ x: bgX, y: bgY }}
+          animate={{ opacity: [0.12, 0.18, 0.12], scale: [1, 1.08, 1] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,_rgba(200,16,46,0.25)_0%,_transparent_70%)] blur-[140px] pointer-events-none z-0"
+        ></motion.div>
+
+        {/* Layer 2: Moving Studio Spotlight (20s cycle, 5% opacity) */}
+        <motion.div
+          animate={{ 
+            x: ["-30%", "30%", "-30%"],
+            y: ["-20%", "20%", "-20%"]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.05)_0%,_transparent_60%)] pointer-events-none z-0"
+        ></motion.div>
+
+        {/* Layer 3: PCB Circuit Traces & Dynamic Current Signals (SVG) */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none z-[2] opacity-[0.08]" xmlns="http://www.w3.org/2000/svg">
+          {/* Circuit Lines */}
+          <path d="M 0 150 H 300 L 400 250 H 800" stroke="#C8102E" strokeWidth="1" fill="none" />
+          <path d="M 200 0 V 200 L 350 350 V 700" stroke="#C8102E" strokeWidth="1" fill="none" strokeDasharray="4 4" />
+          <path d="M 1200 100 H 900 L 750 250 H 500" stroke="#C8102E" strokeWidth="1" fill="none" />
+          <path d="M 1000 800 V 500 L 850 350 V 0" stroke="#C8102E" strokeWidth="1" fill="none" />
+          
+          {/* Circuit Nodes */}
+          <circle cx="300" cy="150" r="3" fill="#C8102E" />
+          <circle cx="400" cy="250" r="3" fill="#C8102E" />
+          <circle cx="900" cy="100" r="3" fill="#C8102E" />
+          <circle cx="750" cy="250" r="3" fill="#C8102E" />
+        </svg>
+
+        {/* Electrical Wave Pulsing Energy Effect */}
+        <div className="absolute inset-0 pointer-events-none z-[3] overflow-hidden opacity-20">
+          <motion.div 
+            animate={{ x: ["-100%", "200%"] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+            className="w-1/2 h-full bg-gradient-to-r from-transparent via-primary/40 to-transparent transform -skew-x-12 blur-md"
+          ></motion.div>
+        </div>
+
+        {/* Layer 4: Floating Laboratory Dust Particles (Parallax, No cartoon emojis) */}
+        <div className="absolute inset-0 pointer-events-none z-[3]">
+          {[...Array(16)].map((_, i) => (
             <motion.div
-              key={idx}
-              initial={{ y: "-10vh", opacity: 0, scale: 0.5 }}
+              key={i}
+              initial={{ 
+                x: `${(i * 6.5) % 100}%`, 
+                y: `${(i * 7.2) % 100}%`,
+                opacity: 0.04 + (i % 4) * 0.02 
+              }}
               animate={{ 
-                y: "105vh", 
-                opacity: [0, 1, 1, 0],
-                rotate: [0, 180, 360],
-                scale: [0.6, 1.2, 0.8]
+                y: [`${(i * 7.2) % 100}%`, `${((i * 7.2) % 100) - 8}%`, `${(i * 7.2) % 100}%`],
+                x: [`${(i * 6.5) % 100}%`, `${((i * 6.5) % 100) + 4}%`, `${(i * 6.5) % 100}%`]
               }}
               transition={{ 
-                duration: item.duration, 
+                duration: 14 + (i % 5) * 3, 
                 repeat: Infinity, 
-                delay: item.delay,
-                ease: "linear"
+                ease: "easeInOut" 
               }}
-              className="absolute text-2xl md:text-3xl filter drop-shadow-[0_0_12px_rgba(255,215,0,0.8)] select-none"
-              style={{ left: item.left }}
-            >
-              {item.emoji}
-            </motion.div>
+              className="absolute w-[2px] h-[2px] rounded-full bg-white/60 shadow-[0_0_4px_white]"
+            ></motion.div>
           ))}
         </div>
 
-        {/* Animated Background Elements */}
-        <motion.div 
-          animate={{ rotate: 360, scale: [1, 1.2, 1] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute right-[-10%] top-[10%] w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none z-0"
-        ></motion.div>
-        
-        <div className="relative z-10 max-w-container-max mx-auto px-margin-lg w-full flex flex-col md:flex-row items-center gap-12">
+        {/* Main Content Layout */}
+        <div className="relative z-10 max-w-container-max mx-auto px-margin-lg w-full flex flex-col md:flex-row items-center justify-between gap-12">
           
+          {/* Text Container with Precise Motion Staggering */}
           <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, staggerChildren: 0.2 }}
+            style={{ x: textX, y: textY }}
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+              }
+            }}
             className="flex-1 max-w-2xl"
           >
+            {/* Live Badge */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-8"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+              }}
+              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md mb-8"
             >
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-              <span className="font-label-caps text-label-caps text-primary uppercase tracking-[0.2em]">Live Energy Solutions</span>
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(200,16,46,0.8)]"></span>
+              <span className="font-mono-data text-xs text-primary tracking-widest uppercase font-semibold">IEEE PELS SSN CHAPTER</span>
             </motion.div>
             
+            {/* Main Title - Lines fading in with Y translation */}
             <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="font-headline-xl text-headline-xl mb-6 text-white leading-tight"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+              }}
+              className="font-headline-xl text-headline-xl mb-6 text-white leading-[1.08] tracking-tight"
             >
-              IEEE Power <br/>Electronics Society
+              IEEE Power <br/>
+              <span className="bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent">
+                Electronics Society
+              </span>
             </motion.h1>
             
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="font-headline-md text-headline-md text-on-surface-variant mb-8 font-light"
+            {/* Tagline */}
+            <motion.p 
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+              }}
+              className="font-body-lg text-lg text-on-surface-variant mb-10 max-w-xl font-light leading-relaxed"
             >
               {siteConfig.tagline}
-            </motion.h2>
+            </motion.p>
             
+            {/* Buttons */}
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-              className="flex flex-wrap gap-4"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
+              }}
+              className="flex flex-wrap items-center gap-4"
             >
-              <Link to="/events" className="bg-primary-container text-white px-8 py-4 rounded-lg font-label-caps text-label-caps hover:brightness-125 transition-all flex items-center gap-2 group shadow-[0_0_20px_rgba(200,16,46,0.4)]">
+              <Link 
+                to="/events" 
+                className="bg-primary text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-3 transition-all duration-200 hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_8px_25px_rgba(200,16,46,0.4)] group active:scale-100"
+              >
                 Explore Events
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5" />
               </Link>
-              <Link to="/projects" className="border border-outline/20 hover:border-primary/50 text-white px-8 py-4 rounded-lg font-label-caps text-label-caps transition-all flex items-center gap-2 bg-white/5 backdrop-blur-md">
+              <Link 
+                to="/projects" 
+                className="border border-white/15 bg-white/[0.04] text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-2 backdrop-blur-xl transition-all duration-200 hover:bg-white/[0.08] hover:border-white/30 hover:scale-[1.02] active:scale-100"
+              >
                 Explore Projects
               </Link>
             </motion.div>
           </motion.div>
 
-          {/* Animated Compact Logo */}
+          {/* Premium Logo Breathing & 3D Tilt Card */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.3, rotate: -15, filter: "blur(10px)" }}
-            animate={{ opacity: 1, scale: 1, rotate: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1.5, type: "spring", bounce: 0.5 }}
-            className="flex-1 flex justify-center relative group"
+            style={{ 
+              x: logoX, 
+              y: logoY,
+              rotateX: logoRotateX,
+              rotateY: logoRotateY,
+              transformStyle: "preserve-3d"
+            }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+            className="flex-1 flex justify-center relative perspective-1000"
           >
-            {/* Multi-layered Animated Aura */}
+            {/* Layer 4: Soft Breathing Red Radial Aura (8s cycle) */}
             <motion.div 
               animate={{ 
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.6, 0.3],
-                rotate: [0, 180, 360]
+                scale: [0.98, 1.02, 0.98],
+                opacity: [0.4, 0.7, 0.4]
               }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute w-[260px] h-[260px] md:w-[320px] md:h-[320px] bg-gradient-to-r from-primary via-red-600 to-amber-500 rounded-full blur-[60px] opacity-40 pointer-events-none"
+              className="absolute w-[280px] h-[280px] md:w-[340px] md:h-[340px] bg-[radial-gradient(circle,_rgba(200,16,46,0.45)_0%,_transparent_70%)] blur-[70px] pointer-events-none"
             ></motion.div>
 
+            {/* Apple-style Glassmorphism Breathing Card */}
             <motion.div
               animate={{ 
-                y: [0, -12, 0],
-                rotateZ: [0, 1, -1, 0]
+                scale: [1, 1.02, 1]
               }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-full max-w-[280px] md:max-w-[310px] aspect-square rounded-3xl p-5 flex items-center justify-center bg-black/50 backdrop-blur-xl border border-white/15 shadow-[0_0_40px_rgba(200,16,46,0.35)] hover:shadow-[0_0_60px_rgba(200,16,46,0.6)] transition-all duration-500"
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-full max-w-[280px] md:max-w-[310px] aspect-square rounded-3xl p-6 flex items-center justify-center bg-black/60 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-300"
             >
+              {/* Subtle top reflection edge */}
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
               <img 
                 src="/logo.jpg" 
                 alt="IEEE PELS SSN Logo" 
-                className="w-full h-full object-contain rounded-2xl drop-shadow-[0_8px_20px_rgba(0,0,0,0.8)] filter brightness-110 contrast-110 group-hover:scale-105 transition-transform duration-500" 
+                className="w-full h-full object-contain rounded-2xl filter brightness-[1.05] contrast-[1.05]" 
               />
             </motion.div>
           </motion.div>
 
         </div>
-      </section>
+
+        {/* Premium Scroll Indicator */}
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 0.4, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none"
+        >
+          <div className="w-5 h-8 rounded-full border-2 border-white/40 flex justify-center p-1">
+            <motion.div 
+              animate={{ y: [0, 10, 0], opacity: [0.8, 0.2, 0.8] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="w-1 h-1.5 rounded-full bg-white"
+            ></motion.div>
+          </div>
+        </motion.div>
+      </motion.section>
 
       {/* About Preview Section */}
       <section className="py-margin-lg relative">
