@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact Us | IEEE PELS SSN</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(192, 192, 192, 0.1);
+        }
+        .live-wire-focus:focus-within {
+            border-color: #c8102e;
+            box-shadow: 0 0 8px rgba(200, 16, 46, 0.3);
+        }
+        .energy-gradient {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), #000000);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#b8b8b8",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-highest": "#353535",
+                    "primary-fixed-dim": "#ffb3b1",
+                    "inverse-primary": "#bf0229",
+                    "on-tertiary": "#2f3131",
+                    "on-primary-fixed-variant": "#92001c",
+                    "outline": "#ac8887",
+                    "background": "#000000",
+                    "surface": "#131313",
+                    "surface-variant": "#353535",
+                    "primary": "#ffb3b1",
+                    "on-primary-fixed": "#410007",
+                    "inverse-on-surface": "#303030",
+                    "on-primary": "#680011",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "surface-tint": "#ffb3b1",
+                    "outline-variant": "#5c403f",
+                    "on-surface-variant": "#e5bdbb",
+                    "secondary-container": "#484949",
+                    "on-primary-container": "#ffdad8",
+                    "tertiary-container": "#636565",
+                    "surface-bright": "#393939",
+                    "secondary": "#c6c6c6",
+                    "tertiary": "#c6c6c7",
+                    "surface-container-high": "#2a2a2a",
+                    "surface-container-lowest": "#0e0e0e",
+                    "surface-container": "#1f1f1f",
+                    "tertiary-fixed": "#e2e2e2",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "inverse-surface": "#e2e2e2",
+                    "secondary-fixed-dim": "#c6c6c6",
+                    "error-container": "#93000a",
+                    "surface-dim": "#131313",
+                    "primary-fixed": "#ffdad8",
+                    "secondary-fixed": "#e3e2e2",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "error": "#ffb4ab",
+                    "on-secondary-fixed-variant": "#464747",
+                    "on-error": "#690005",
+                    "on-tertiary-container": "#e2e3e3",
+                    "primary-container": "#c8102e",
+                    "on-secondary": "#2f3131",
+                    "on-background": "#e2e2e2",
+                    "surface-container-low": "#1b1b1b",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "on-surface": "#e2e2e2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-lg": "64px",
+                    "container-max": "1200px",
+                    "margin-md": "32px",
+                    "gutter": "24px",
+                    "unit": "4px",
+                    "margin-sm": "16px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Space Grotesk"],
+                    "headline-lg": ["Space Grotesk"],
+                    "label-caps": ["Space Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Space Grotesk"],
+                    "mono-data": ["Inter"],
+                    "headline-md": ["Space Grotesk"]
+            },
+            "fontSize": {
+                    "headline-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "mono-data": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-secondary/10 shadow-sm">
+<div class="max-w-container-max mx-auto px-margin-lg flex justify-between items-center h-20">
+<div class="font-headline-md text-headline-md font-bold text-on-surface tracking-tighter">IEEE PELS SSN</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="index.html">Home</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="team.html">Team</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="events.html">Events</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="projects.html">Projects</a>
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1" href="contact.html">Contact</a>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 font-label-caps text-label-caps hover:brightness-110 transition-all active:scale-95">Join Us</button>
+</div>
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative h-[614px] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A highly detailed, high-contrast digital rendering of abstract electrical energy filaments in a vibrant primary red color. These glowing, lightning-like structures are interconnected like high-tech circuit board traces on a deep, obsidian black background. The lighting is dramatic, with the red glow reflecting off subtle metallic micro-textures in the environment. The overall mood is futuristic, engineering-focused, and high-energy, perfectly capturing the essence of power electronics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa9g0Lf4nYw7gC_ZmThuFP5yR_egzNPUGxo4nVCZFrdaypYaWjEJQjfjod4ygwJ5oYYLLuVyTcTiRRb65NaFGKeC78s7oioanTJ1lbIbVzRkva2Ah9I8Mu1nkApcQL0U-XgnpN_8JmfpXHwdYZ2GzbvgcsJSNN5hvBUfI5i-C_cOLfjh8Nw8nzAsrqUzmfgoAacZDOWsnoOVFLEq4Gi4OMmPatLpFHVlDLEqwxlp0Rsn3yNHF-G9Ah"/>
+<div class="absolute inset-0 energy-gradient"></div>
+</div>
+<div class="relative z-10 text-center px-margin-sm">
+<h1 class="font-headline-xl text-headline-xl md:text-headline-xl text-headline-lg-mobile text-on-background mb-4">Get in Touch</h1>
+<p class="font-body-lg text-body-lg text-secondary max-w-xl mx-auto">Collaborating for the future of Power Electronics Society and sustainable energy.</p>
+</div>
+</section>
+<!-- Contact Content -->
+<section class="max-w-container-max mx-auto px-margin-lg py-margin-lg grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Side: Contact Form -->
+<div class="lg:col-span-7">
+<div class="glass-card p-margin-md">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-8">Send us a message</h2>
+<form class="space-y-6" id="contactForm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2 group live-wire-focus">
+<label class="font-label-caps text-label-caps text-secondary ml-1">Full Name</label>
+<input class="w-full bg-[#0A0A0A] border border-silver/10 px-4 py-3 text-on-surface placeholder:text-on-surface-variant/30 focus:ring-0 focus:border-primary-container transition-all" placeholder="Nikola Tesla" type="text"/>
+</div>
+<div class="space-y-2 group live-wire-focus">
+<label class="font-label-caps text-label-caps text-secondary ml-1">Email Address</label>
+<input class="w-full bg-[#0A0A0A] border border-silver/10 px-4 py-3 text-on-surface placeholder:text-on-surface-variant/30 focus:ring-0 focus:border-primary-container transition-all" placeholder="nikola@ac.current" type="email"/>
+</div>
+</div>
+<div class="space-y-2 group live-wire-focus">
+<label class="font-label-caps text-label-caps text-secondary ml-1">Subject</label>
+<input class="w-full bg-[#0A0A0A] border border-silver/10 px-4 py-3 text-on-surface placeholder:text-on-surface-variant/30 focus:ring-0 focus:border-primary-container transition-all" placeholder="Project Inquiry" type="text"/>
+</div>
+<div class="space-y-2 group live-wire-focus">
+<label class="font-label-caps text-label-caps text-secondary ml-1">Message</label>
+<textarea class="w-full bg-[#0A0A0A] border border-silver/10 px-4 py-3 text-on-surface placeholder:text-on-surface-variant/30 focus:ring-0 focus:border-primary-container transition-all resize-none" placeholder="Your technical proposal or inquiry..." rows="6"></textarea>
+</div>
+<button class="w-full bg-primary-container text-on-primary-container py-4 font-label-caps text-label-caps tracking-widest hover:brightness-125 transition-all active:scale-[0.98] mt-4" type="submit">DISPATCH ENQUIRY</button>
+</form>
+</div>
+</div>
+<!-- Right Side: Info Cards -->
+<div class="lg:col-span-5 space-y-gutter">
+<!-- Location Card -->
+<div class="glass-card p-8 group hover:border-primary/30 transition-all duration-300">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface mb-2">Office Location</h3>
+<p class="text-secondary font-body-md">SSN College of Engineering,<br/>Kalavakkam, Old Mahabalipuram Road,<br/>Chennai, Tamil Nadu 603110</p>
+</div>
+</div>
+</div>
+<!-- Email Card -->
+<div class="glass-card p-8 group hover:border-primary/30 transition-all duration-300">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">alternate_email</span>
+</div>
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface mb-2">Electronic Mail</h3>
+<p class="text-secondary font-body-md">ieee-pels@ssn.edu.in</p>
+<p class="text-secondary font-body-md mt-1">support.pels@ssn.edu.in</p>
+</div>
+</div>
+</div>
+<!-- Socials Card -->
+<div class="glass-card p-8 group hover:border-primary/30 transition-all duration-300">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">hub</span>
+</div>
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface mb-4">Connect with us</h3>
+<div class="flex gap-4">
+<a class="w-10 h-10 border border-silver/20 flex items-center justify-center hover:border-primary hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">public</span>
+</a>
+<a class="w-10 h-10 border border-silver/20 flex items-center justify-center hover:border-primary hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</a>
+<a class="w-10 h-10 border border-silver/20 flex items-center justify-center hover:border-primary hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">video_call</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Map Section -->
+<section class="w-full h-[400px] relative overflow-hidden grayscale invert">
+<div class="absolute inset-0 pointer-events-none z-10 bg-gradient-to-t from-background via-transparent to-background"></div>
+<div class="w-full h-full" data-location="SSN College of Engineering Chennai">
+<!-- Map placeholder logic will inject here -->
+<div class="w-full h-full bg-cover bg-center" data-alt="A stylized, dark-themed satellite map of a modern university campus with clean architectural layouts. The map features high-contrast lines, deep charcoal and black tones, and minimal labels. Subtle glowing red points indicate key locations. The aesthetic is clean, professional, and consistent with a high-end engineering laboratory documentation style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAG-zUkOhiBLfFW8nB2VFEXrsEWaZvRV4AYj9h0E76v1JrZ2aetw9CZxYrA6bVCi1GUFntAkWGxtgALxlIz4gBfGnyxLFhzGZVFddSz9_vCEGKGhhFYBVfFE7YzE5VnZcrZPlKmA3wto4mkVdDEwSj9wvWNIcABYAk1ly6eu_1j4UlDY7_8drp8XmIy_wP4IBYpOuNxf6hCXT7l3NiksDZIE5T3MIH2lxxJITgRPkOWaPDpNunUDwyT')"></div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full pt-margin-lg pb-margin-md border-t border-secondary/10">
+<div class="max-w-container-max mx-auto px-margin-lg grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="space-y-4">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">IEEE PELS SSN</div>
+<p class="font-body-md text-body-md text-secondary-fixed-dim">Advancing technology for humanity through the IEEE Power Electronics Society.</p>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-primary mb-6">Explore</h4>
+<ul class="space-y-3">
+<li><a class="font-body-md text-body-md text-secondary-fixed-dim hover:text-on-surface transition-colors duration-200" href="#">PELS Global</a></li>
+<li><a class="font-body-md text-body-md text-secondary-fixed-dim hover:text-on-surface transition-colors duration-200" href="#">SSN Institutions</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-primary mb-6">Legal</h4>
+<ul class="space-y-3">
+<li><a class="font-body-md text-body-md text-secondary-fixed-dim hover:text-on-surface transition-colors duration-200" href="#">Privacy Policy</a></li>
+<li><a class="font-body-md text-body-md text-secondary-fixed-dim hover:text-on-surface transition-colors duration-200" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-primary mb-6">Newsletter</h4>
+<div class="flex gap-2">
+<input class="bg-surface-container border border-silver/10 px-4 py-2 w-full focus:border-primary-container outline-none text-on-surface" placeholder="Email" type="email"/>
+<button class="bg-primary-container p-2 text-on-primary-container hover:brightness-110">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-lg mt-12 pt-8 border-t border-secondary/5 text-center md:text-left">
+<p class="font-body-md text-body-md text-secondary-fixed-dim opacity-50">© 2024 IEEE PELS SSN Student Branch. Engineered for Excellence.</p>
+</div>
+</footer>
+<script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = 'TRANSMITTING...';
+            btn.classList.add('opacity-70');
+            
+            setTimeout(() => {
+                btn.innerText = 'ENQUIRY DISPATCHED';
+                btn.style.backgroundColor = '#10b981'; // Green success state
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.backgroundColor = '';
+                    btn.classList.remove('opacity-70');
+                    e.target.reset();
+                }, 3000);
+            }, 1500);
+        });
+
+        // Add subtle mouse-parallax effect to hero background image
+        window.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            const heroImg = document.querySelector('section img');
+            if (heroImg) {
+                heroImg.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+    </script>
+</body></html>
