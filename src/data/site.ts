@@ -11,9 +11,9 @@ export const siteConfig: SiteConfig = {
     { label: "Technical Projects", value: "5+" }
   ],
   contact: {
-    email: "pels@ssn.edu.in",
-    linkedin: "https://www.linkedin.com/company/ieee-pels-ssn",
-    instagram: "https://www.instagram.com/ieee_pels_ssn",
+    email: "ieeepels@ssn.edu.in",
+    linkedin: "https://www.linkedin.com/company/ssn-ieee-power-electronics-society/",
+    instagram: "https://www.instagram.com/ssn_ieee_pels/",
     location: "Sri Sivasubramaniya Nadar College of Engineering, Kalavakkam",
     googleMapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.3129849202573!2d80.19472301482046!3d12.756187790980838!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52512f04729e11%3A0xbc4ea0ae50ca1aaa!2sSri%20Sivasubramaniya%20Nadar%20College%20of%20Engineering!5e0!3m2!1sen!2sin!4v1689254000000!5m2!1sen!2sin"
   }
