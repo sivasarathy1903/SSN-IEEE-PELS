@@ -43,12 +43,12 @@ export default function Home() {
         <meta name="keywords" content="IEEE PELS, Power Electronics, SSN, MATLAB, Simulink, Embedded Systems, Hardware Design" />
       </Helmet>
 
-      {/* Hero Section - Engineering Excellence & Motion Design */}
+      {/* Hero Section – Seamless Full-Bleed 3D Showcase */}
       <motion.section 
         style={{ scale: heroScale, opacity: heroOpacity }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative h-[100vh] min-h-[700px] flex items-center overflow-hidden bg-black text-white select-none" 
+        className="relative h-[calc(100vh-80px)] min-h-[460px] max-h-[640px] flex items-center overflow-hidden bg-[#050706] text-white select-none" 
         id="home"
       >
         {/* Layer 0: Faint Engineering Grid (<3% opacity) */}
@@ -68,72 +68,21 @@ export default function Home() {
           style={{ x: bgX, y: bgY }}
           animate={{ opacity: [0.12, 0.18, 0.12], scale: [1, 1.08, 1] }}
           transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,_rgba(200,16,46,0.25)_0%,_transparent_70%)] blur-[140px] pointer-events-none z-0"
+          className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(200,16,46,0.25)_0%,_transparent_70%)] blur-[100px] pointer-events-none z-0"
         ></motion.div>
 
-        {/* Layer 2: Moving Studio Spotlight (20s cycle, 5% opacity) */}
-        <motion.div
-          animate={{ 
-            x: ["-30%", "30%", "-30%"],
-            y: ["-20%", "20%", "-20%"]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.05)_0%,_transparent_60%)] pointer-events-none z-0"
-        ></motion.div>
-
-        {/* Layer 3: PCB Circuit Traces & Dynamic Current Signals (SVG) */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-[2] opacity-[0.08]" xmlns="http://www.w3.org/2000/svg">
-          {/* Circuit Lines */}
-          <path d="M 0 150 H 300 L 400 250 H 800" stroke="#C8102E" strokeWidth="1" fill="none" />
-          <path d="M 200 0 V 200 L 350 350 V 700" stroke="#C8102E" strokeWidth="1" fill="none" strokeDasharray="4 4" />
-          <path d="M 1200 100 H 900 L 750 250 H 500" stroke="#C8102E" strokeWidth="1" fill="none" />
-          <path d="M 1000 800 V 500 L 850 350 V 0" stroke="#C8102E" strokeWidth="1" fill="none" />
-          
-          {/* Circuit Nodes */}
-          <circle cx="300" cy="150" r="3" fill="#C8102E" />
-          <circle cx="400" cy="250" r="3" fill="#C8102E" />
-          <circle cx="900" cy="100" r="3" fill="#C8102E" />
-          <circle cx="750" cy="250" r="3" fill="#C8102E" />
-        </svg>
-
-        {/* Electrical Wave Pulsing Energy Effect */}
-        <div className="absolute inset-0 pointer-events-none z-[3] overflow-hidden opacity-20">
-          <motion.div 
-            animate={{ x: ["-100%", "200%"] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
-            className="w-1/2 h-full bg-gradient-to-r from-transparent via-primary/40 to-transparent transform -skew-x-12 blur-md"
-          ></motion.div>
+        {/* Seamless 3D Canvas spanning full-width of Hero with gradient blend */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <HeroPCBScene />
+          {/* Subtle gradient to merge left content and 3D animation smoothly without a vertical split */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050706] via-[#050706]/50 to-transparent pointer-events-none" />
         </div>
 
-        {/* Layer 4: Floating Laboratory Dust Particles (Parallax, No cartoon emojis) */}
-        <div className="absolute inset-0 pointer-events-none z-[3]">
-          {[...Array(16)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ 
-                x: `${(i * 6.5) % 100}%`, 
-                y: `${(i * 7.2) % 100}%`,
-                opacity: 0.04 + (i % 4) * 0.02 
-              }}
-              animate={{ 
-                y: [`${(i * 7.2) % 100}%`, `${((i * 7.2) % 100) - 8}%`, `${(i * 7.2) % 100}%`],
-                x: [`${(i * 6.5) % 100}%`, `${((i * 6.5) % 100) + 4}%`, `${(i * 6.5) % 100}%`]
-              }}
-              transition={{ 
-                duration: 14 + (i % 5) * 3, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-              className="absolute w-[2px] h-[2px] rounded-full bg-white/60 shadow-[0_0_4px_white]"
-            ></motion.div>
-          ))}
-        </div>
+        {/* Main Content Layout – Left Content overlay */}
+        <div className="relative z-10 w-full h-full max-w-container-max mx-auto px-6 md:px-12 flex items-center">
 
-        {/* Main Content Layout – Seamless Split */}
-        <div className="relative z-10 w-full h-full flex flex-col md:flex-row items-stretch">
-
-          {/* LEFT – 45%: Text + Buttons */}
-          <div className="flex items-center w-full md:w-[45%] px-8 md:px-12 lg:px-16 xl:px-24 py-20 md:py-0 shrink-0 z-10">
+          {/* LEFT – Text + Buttons */}
+          <div className="w-full md:w-[52%] lg:w-[48%] shrink-0">
             <motion.div
               style={{ x: textX, y: textY }}
               initial="hidden"
@@ -145,7 +94,7 @@ export default function Home() {
                   transition: { staggerChildren: 0.05, delayChildren: 0 }
                 }
               }}
-              className="w-full max-w-xl"
+              className="w-full max-w-xl pointer-events-auto"
             >
               {/* Live Pill Badge */}
               <motion.div
@@ -153,19 +102,19 @@ export default function Home() {
                   hidden: { opacity: 0, y: 15 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } }
                 }}
-                className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-8"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-md mb-4"
               >
                 <span className="w-2 h-2 rounded-full bg-[#C8102E] animate-pulse shadow-[0_0_8px_rgba(200,16,46,0.9)]"></span>
-                <span className="font-mono-data text-xs text-neutral-300 tracking-widest uppercase font-semibold">IEEE PELS SSN CHAPTER</span>
+                <span className="font-mono-data text-[11px] sm:text-xs text-neutral-300 tracking-widest uppercase font-semibold">IEEE PELS SSN CHAPTER</span>
               </motion.div>
 
-              {/* Main Headline with Red Accent matching screenshot */}
+              {/* Main Headline with Red Accent */}
               <motion.h1
                 variants={{
                   hidden: { opacity: 0, y: 15 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
                 }}
-                className="font-headline-xl text-5xl lg:text-6xl xl:text-7xl mb-6 text-white leading-[1.08] tracking-tight font-extrabold"
+                className="font-headline-xl text-3xl sm:text-4xl lg:text-5xl mb-3 text-white leading-[1.1] tracking-tight font-extrabold"
               >
                 IEEE Power <br />
                 <span className="text-[#C8102E]">
@@ -180,7 +129,7 @@ export default function Home() {
                   hidden: { opacity: 0, y: 15 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
                 }}
-                className="font-body-lg text-lg text-neutral-400 mb-10 max-w-lg font-light leading-relaxed"
+                className="font-body-lg text-sm sm:text-base text-neutral-400 mb-6 max-w-lg font-light leading-relaxed"
               >
                 Innovating Power Electronics.<br />
                 Inspiring Future Engineers.
@@ -192,18 +141,18 @@ export default function Home() {
                   hidden: { opacity: 0, y: 15 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
                 }}
-                className="flex flex-wrap items-center gap-4"
+                className="flex flex-wrap items-center gap-3.5"
               >
                 <Link
                   to="/events"
-                  className="bg-[#C8102E] text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-3 transition-all duration-200 hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_8px_25px_rgba(200,16,46,0.5)] group active:scale-100 font-semibold"
+                  className="bg-[#C8102E] text-white px-6 py-3 rounded-xl font-label-caps text-xs sm:text-sm tracking-wider uppercase flex items-center gap-2.5 transition-all duration-200 hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_8px_25px_rgba(200,16,46,0.5)] group active:scale-100 font-semibold"
                 >
                   Explore Events
                   <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5" />
                 </Link>
                 <Link
                   to="/projects"
-                  className="border border-white/15 bg-white/[0.04] text-white px-8 py-4 rounded-xl font-label-caps text-sm tracking-wider uppercase flex items-center gap-2 backdrop-blur-xl transition-all duration-200 hover:bg-white/[0.08] hover:border-white/30 hover:scale-[1.02] active:scale-100 font-semibold"
+                  className="border border-white/15 bg-white/[0.04] text-white px-7 py-3.5 rounded-xl font-label-caps text-xs sm:text-sm tracking-wider uppercase flex items-center gap-2 backdrop-blur-xl transition-all duration-200 hover:bg-white/[0.08] hover:border-white/30 hover:scale-[1.02] active:scale-100 font-semibold"
                 >
                   Explore Projects
                   <ArrowRight className="w-4 h-4" />
@@ -212,21 +161,10 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* RIGHT – 55%: Full-height 3D Canvas Scene */}
-          <div className="relative w-full md:w-[55%] h-[60vw] md:h-full flex-1 min-h-[550px]">
-            {/* Ambient Red Studio Aura */}
-            <motion.div
-              animate={{ scale: [0.95, 1.05, 0.95], opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(200,16,46,0.35)_0%,_transparent_70%)] blur-[110px] pointer-events-none z-0"
-            />
-            <HeroPCBScene />
-          </div>
-
         </div>
 
         {/* Bottom Feature Metrics Bar & Scroll Indicator matching screenshot */}
-        <div className="absolute bottom-6 inset-x-0 z-20 px-8 md:px-16 pointer-events-none flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="absolute bottom-3 inset-x-0 z-20 px-8 md:px-16 pointer-events-none flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Feature Pillars */}
           <div className="flex items-center gap-8 text-neutral-400 text-xs font-mono-data">
             <div className="flex items-center gap-2.5">
@@ -257,16 +195,16 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 0.6, y: 0 }}
             transition={{ delay: 1.2, duration: 0.8 }}
-            className="flex flex-col items-center gap-1.5"
+            className="flex flex-col items-center gap-1"
           >
-            <div className="w-5 h-8 rounded-full border border-white/30 flex justify-center p-1">
+            <div className="w-4 h-7 rounded-full border border-white/30 flex justify-center p-1">
               <motion.div
-                animate={{ y: [0, 8, 0], opacity: [0.8, 0.2, 0.8] }}
+                animate={{ y: [0, 6, 0], opacity: [0.8, 0.2, 0.8] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="w-1 h-1.5 rounded-full bg-white"
+                className="w-1 h-1 rounded-full bg-white"
               ></motion.div>
             </div>
-            <span className="text-[9px] font-mono-data tracking-[0.25em] text-neutral-400 uppercase">SCROLL TO EXPLORE</span>
+            <span className="text-[9px] font-mono-data tracking-[0.25em] text-neutral-400 uppercase">SCROLL</span>
           </motion.div>
         </div>
       </motion.section>

@@ -23,34 +23,33 @@ function getPCBTexture() {
   canvas.height = 1024;
   const ctx = canvas.getContext("2d")!;
 
-  // Matte black PCB base
+  // Matte black PCB base matching #050706 exactly
   ctx.fillStyle = "#050706";
   ctx.fillRect(0, 0, 1024, 1024);
 
-  // Subtle fiberglass weave texture
-  ctx.fillStyle = "rgba(255, 255, 255, 0.015)";
-  for (let i = 0; i < 1024; i += 8) {
+  // Fiber weave pattern on right 60%
+  ctx.fillStyle = "rgba(255, 255, 255, 0.012)";
+  for (let i = 400; i < 1024; i += 8) {
     ctx.fillRect(i, 0, 4, 1024);
     ctx.fillRect(0, i, 1024, 4);
   }
 
-  // Copper traces routing network
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = "#4a2a18";
-  ctx.lineCap = "round";
-
-  const chipCenterX = 590;
+  // Draw copper traces with fade-in gradient from left to right
+  const chipCenterX = 640;
   const chipCenterY = 512;
 
   const nodes = [
-    { x: 290, y: 240 },   // Inductor
-    { x: 860, y: 210 },   // MOSFET
-    { x: 920, y: 540 },   // Capacitor
-    { x: 825, y: 825 },   // Gate Driver
-    { x: 360, y: 810 },   // Diode
-    { x: 210, y: 550 },   // Left bus
+    { x: 340, y: 240 },   // Inductor
+    { x: 880, y: 210 },   // MOSFET
+    { x: 940, y: 540 },   // Capacitor
+    { x: 845, y: 825 },   // Gate Driver
+    { x: 420, y: 810 },   // Diode
   ];
 
+  // Copper traces
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#4a2a18";
+  ctx.lineCap = "round";
   nodes.forEach((node) => {
     ctx.beginPath();
     ctx.moveTo(chipCenterX, chipCenterY);
@@ -63,7 +62,7 @@ function getPCBTexture() {
 
   // Glowing red power traces
   ctx.lineWidth = 5;
-  ctx.strokeStyle = "rgba(200, 16, 46, 0.75)";
+  ctx.strokeStyle = "rgba(200, 16, 46, 0.7)";
   nodes.forEach((node) => {
     ctx.beginPath();
     ctx.moveTo(chipCenterX, chipCenterY);
@@ -87,14 +86,22 @@ function getPCBTexture() {
     ctx.fill();
   });
 
-  // Scattered SMD 0805 pads
-  for (let i = 0; i < 80; i++) {
-    const rx = Math.random() * 900 + 50;
+  // Scattered SMD 0805 pads on right side
+  for (let i = 0; i < 70; i++) {
+    const rx = Math.random() * 600 + 400;
     const ry = Math.random() * 900 + 50;
     ctx.fillStyle = "#b58428";
     ctx.fillRect(rx, ry, 8, 4);
     ctx.fillRect(rx + 12, ry, 8, 4);
   }
+
+  // Soft gradient overlay fading left side (0..550px) to pure #050706
+  const fadeGrad = ctx.createLinearGradient(0, 0, 580, 0);
+  fadeGrad.addColorStop(0, "#050706");
+  fadeGrad.addColorStop(0.65, "#050706");
+  fadeGrad.addColorStop(1, "rgba(5, 7, 6, 0)");
+  ctx.fillStyle = fadeGrad;
+  ctx.fillRect(0, 0, 580, 1024);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.RepeatWrapping;
@@ -103,14 +110,14 @@ function getPCBTexture() {
   return texture;
 }
 
-// ─── Camera Rig (Mouse Parallax: Max 2° tilt / 8px translation) ─────────────
+// ─── Camera Rig (Mouse Parallax) ─────────────────────────────────────────────
 function CameraRig({ mx, my }: { mx: number; my: number }) {
   const { camera } = useThree();
   useFrame(() => {
-    camera.position.x += (mx * 0.4 - camera.position.x) * 0.04;
-    camera.position.y += (-my * 0.3 - camera.position.y) * 0.04;
-    camera.rotation.x = -my * 0.025;
-    camera.rotation.y = mx * 0.025;
+    camera.position.x += (mx * 0.3 - camera.position.x) * 0.04;
+    camera.position.y += (-my * 0.2 - camera.position.y) * 0.04;
+    camera.rotation.x = -my * 0.02;
+    camera.rotation.y = mx * 0.02;
   });
   return null;
 }
@@ -120,12 +127,11 @@ function PCBSurface() {
   const pcbTexture = getPCBTexture();
   return (
     <mesh position={[0, -0.6, -0.4]} rotation={[-0.55, 0.12, 0.04]} receiveShadow>
-      <planeGeometry args={[26, 18]} />
+      <planeGeometry args={[32, 20]} />
       <meshStandardMaterial
         map={pcbTexture}
-        roughness={0.42}
-        metalness={0.3}
-        bumpScale={0.02}
+        roughness={0.75}
+        metalness={0.15}
       />
     </mesh>
   );
@@ -138,17 +144,15 @@ function CentralChip({ mx, my }: { mx: number; my: number }) {
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
-    // Very slow float (max 0.08 units)
-    group.current.position.y = 0.15 + Math.sin(t * 0.35) * 0.06;
-    // Micro tilt
-    group.current.rotation.x = -0.55 + (-my * 0.015);
-    group.current.rotation.y = 0.12 + (mx * 0.015);
+    group.current.position.y = 0.1 + Math.sin(t * 0.35) * 0.05;
+    group.current.rotation.x = -0.55 + (-my * 0.012);
+    group.current.rotation.y = 0.12 + (mx * 0.012);
   });
 
   return (
-    <group ref={group} position={[1.8, 0.15, 0.2]} rotation={[-0.55, 0.12, 0.04]}>
+    <group ref={group} position={[2.5, 0.1, 0.2]} rotation={[-0.55, 0.12, 0.04]}>
       {/* Black Ceramic Base Substrate */}
-      <RoundedBox args={[5.2, 5.2, 0.38]} radius={0.4} smoothness={8}>
+      <RoundedBox args={[4.2, 4.2, 0.32]} radius={0.35} smoothness={8}>
         <meshStandardMaterial
           color="#0a0b0e"
           roughness={0.25}
@@ -157,7 +161,7 @@ function CentralChip({ mx, my }: { mx: number; my: number }) {
       </RoundedBox>
 
       {/* Brushed Metal Bevel Outer Ring */}
-      <RoundedBox args={[5.38, 5.38, 0.12]} radius={0.42} smoothness={8} position={[0, 0, 0.12]}>
+      <RoundedBox args={[4.34, 4.34, 0.10]} radius={0.38} smoothness={8} position={[0, 0, 0.1]}>
         <meshStandardMaterial
           color="#1b1c24"
           metalness={0.92}
@@ -168,8 +172,8 @@ function CentralChip({ mx, my }: { mx: number; my: number }) {
       </RoundedBox>
 
       {/* Crisp IEEE PELS SSN Logo Printed Flat on Surface */}
-      <mesh position={[0, 0, 0.201]}>
-        <planeGeometry args={[4.5, 4.5]} />
+      <mesh position={[0, 0, 0.17]}>
+        <planeGeometry args={[3.6, 3.6]} />
         <meshStandardMaterial
           map={logoTexture}
           roughness={0.45}
@@ -178,13 +182,13 @@ function CentralChip({ mx, my }: { mx: number; my: number }) {
       </mesh>
 
       {/* Soft Ambient Red Under-Edge Glow Lip */}
-      <mesh position={[0, 0, -0.1]}>
-        <planeGeometry args={[5.8, 5.8]} />
-        <meshBasicMaterial color="#C8102E" transparent opacity={0.55} depthWrite={false} />
+      <mesh position={[0, 0, -0.08]}>
+        <planeGeometry args={[4.8, 4.8]} />
+        <meshBasicMaterial color="#C8102E" transparent opacity={0.5} depthWrite={false} />
       </mesh>
 
       {/* Direct Point Light under Chip casting intense red glow onto PCB */}
-      <pointLight color="#C8102E" intensity={6.5} distance={7} position={[0, 0, 0.5]} />
+      <pointLight color="#C8102E" intensity={5.5} distance={6} position={[0, 0, 0.4]} />
     </group>
   );
 }
@@ -524,13 +528,13 @@ function Scene({ mx, my }: { mx: number; my: number }) {
   return (
     <>
       {/* Realistic Cinematic Lighting */}
-      <ambientLight intensity={0.2} />
-      {/* Key Light: Soft White top-left */}
-      <directionalLight position={[-6, 9, 6]} intensity={3.0} color="#ffffff" castShadow />
+      <ambientLight intensity={0.35} />
+      {/* Key Light: Soft White positioned overhead center-right */}
+      <directionalLight position={[4, 8, 5]} intensity={2.2} color="#ffffff" castShadow />
       {/* Fill Light: IEEE Red bottom-right */}
-      <pointLight position={[8, -5, 4]} intensity={6.0} color="#C8102E" distance={18} />
+      <pointLight position={[8, -5, 4]} intensity={5.0} color="#C8102E" distance={18} />
       {/* Rim Light: White behind chip */}
-      <pointLight position={[1.8, 3, -6]} intensity={3.5} color="#ffffff" distance={12} />
+      <pointLight position={[1.8, 3, -6]} intensity={3.0} color="#ffffff" distance={12} />
 
       <CameraRig mx={mx} my={my} />
 
@@ -542,11 +546,11 @@ function Scene({ mx, my }: { mx: number; my: number }) {
       <CentralChip mx={mx} my={my} />
 
       {/* 5 Surrounding Engineering Components matching screenshot */}
-      <ToroidalInductor position={[-2.4, 2.6, 0.5]} label="INDUCTOR" />
-      <MOSFETComponent position={[5.8, 3.2, 0.6]} label="MOSFET" />
-      <ElectrolyticCapacitor position={[7.5, -0.1, 0.7]} label="CAPACITOR" />
-      <GateDriverIC position={[5.6, -3.4, 0.5]} label="GATE DRIVER" />
-      <AxialDiode position={[-1.2, -3.2, 0.6]} label="DIODE" />
+      <ToroidalInductor position={[-1.4, 2.2, 0.4]} label="INDUCTOR" />
+      <MOSFETComponent position={[5.8, 2.5, 0.5]} label="MOSFET" />
+      <ElectrolyticCapacitor position={[6.8, -0.4, 0.6]} label="CAPACITOR" />
+      <GateDriverIC position={[5.2, -2.8, 0.4]} label="GATE DRIVER" />
+      <AxialDiode position={[-0.4, -2.7, 0.5]} label="DIODE" />
     </>
   );
 }
@@ -561,7 +565,7 @@ export default function HeroPCBScene() {
       className="w-full h-full absolute inset-0 pointer-events-auto"
     >
       <Canvas
-        camera={{ position: [0, 0, 10.5], fov: 46 }}
+        camera={{ position: [0, 0, 12.8], fov: 42 }}
         gl={{
           antialias: true,
           toneMapping: THREE.ACESFilmicToneMapping,
