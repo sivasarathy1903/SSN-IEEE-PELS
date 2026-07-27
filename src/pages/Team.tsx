@@ -51,7 +51,7 @@ function TeamMemberCard({ member, delay, enableLayout }: { member: TeamMember; d
         )}
         <span
           className={`absolute bottom-3 left-3 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md ${
-            isLead ? "bg-primary text-white" : "bg-black/60 backdrop-blur-md text-white"
+            isLead ? "bg-white text-primary" : "bg-black/60 backdrop-blur-md text-white"
           }`}
         >
           {member.role}
