@@ -133,7 +133,7 @@ export default function Team() {
           </div>
 
           {/* Featured Faculty Coordinator Card */}
-          {activeCategory === "All Members" && (
+          {(activeCategory === "All Members" || activeCategory === "Faculty Coordinator") && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -210,7 +210,7 @@ export default function Team() {
                 );
               })}
             </div>
-          ) : (
+          ) : activeCategory === "Faculty Coordinator" ? null : (
             <motion.div
               layout
               className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5"
