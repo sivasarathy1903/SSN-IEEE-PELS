@@ -50,10 +50,9 @@ function TeamMemberCard({ member, delay, enableLayout }: { member: TeamMember; d
           </div>
         )}
         <span
-          className={`absolute bottom-3 left-3 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md ${
-            isLead ? "bg-white text-primary" : "bg-black/60 backdrop-blur-md text-white"
-          }`}
+          className="absolute bottom-3 left-3 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md bg-black/60 backdrop-blur-md text-white"
         >
+          {isLead && <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>}
           {member.role}
         </span>
       </div>
