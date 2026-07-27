@@ -43,6 +43,7 @@ export type TeamCategory =
   | "Design Team"
   | "Web Development"
   | "Technical Team"
+  | "Project Team"
   | "Faculty Coordinator";
 
 export interface SiteConfig {
