@@ -132,9 +132,15 @@ export default function Events() {
 
                       {/* Upcoming / status badge */}
                       {event.statusBadge && (
-                        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm border border-[#E8172E]/60 px-2.5 py-1 rounded-full">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#E8172E] animate-pulse" />
-                          <span className="text-[#FF4D6D] font-extrabold text-[9px] tracking-widest uppercase">{event.statusBadge}</span>
+                        <div className={`absolute top-3 right-3 z-10 flex items-center gap-1.5 backdrop-blur-md px-3 py-1 rounded-full border shadow-lg ${
+                          event.statusBadge === "COMING SOON"
+                            ? "bg-amber-950/80 border-amber-500/60 text-amber-300"
+                            : "bg-black/80 border-[#E8172E]/60 text-[#FF4D6D]"
+                        }`}>
+                          <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                            event.statusBadge === "COMING SOON" ? "bg-amber-400" : "bg-[#E8172E]"
+                          }`} />
+                          <span className="font-extrabold text-[9px] tracking-widest uppercase">{event.statusBadge}</span>
                         </div>
                       )}
                     </div>
