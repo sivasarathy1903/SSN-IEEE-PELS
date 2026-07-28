@@ -13,6 +13,8 @@ export interface Event {
   externalUrl?: string;
   /** Badge shown on card — e.g. 'UPCOMING', 'REGISTER NOW' */
   statusBadge?: string;
+  /** When true, card image area displays a sleek 'POSTER COMING SOON' banner graphics box */
+  isPosterComingSoon?: boolean;
 }
 
 export interface Project {

@@ -113,15 +113,45 @@ export default function Events() {
                   >
                     {/* Primary Poster Image Container */}
                     <div className="relative h-72 sm:h-80 overflow-hidden bg-neutral-950 border-b border-white/10">
-                      <img 
-                        src={event.image} 
-                        alt={event.name} 
-                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 brightness-95 group-hover:brightness-100"
-                        loading="lazy"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = "/gallery/synapse_0.jpg";
-                        }}
-                      />
+                      {event.isPosterComingSoon ? (
+                        <div className="relative w-full h-full bg-gradient-to-br from-[#0D0507] via-[#1A0B10] to-[#05070A] flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                          {/* Radial Ambient Glow */}
+                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(200,16,46,0.25)_0%,_transparent_70%)] pointer-events-none" />
+                          
+                          {/* Subliminal Grid pattern */}
+                          <div 
+                            className="absolute inset-0 opacity-15 pointer-events-none" 
+                            style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)", backgroundSize: "24px 24px" }}
+                          />
+
+                          {/* IEEE PELS Badge */}
+                          <div className="relative z-10 w-12 h-12 mb-3 p-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-lg">
+                            <img src="/pels-favicon-v2.svg" alt="IEEE PELS SSN" className="w-full h-full object-contain" />
+                          </div>
+
+                          <div className="relative z-10 text-[10px] font-black text-[#FF4D6D] uppercase tracking-[0.25em] mb-1">
+                            OFFICIAL POSTER
+                          </div>
+                          
+                          <div className="relative z-10 text-2xl font-black text-white tracking-tight leading-none mb-3 font-mono">
+                            COMING SOON
+                          </div>
+
+                          <div className="relative z-10 text-[11px] text-gray-400 font-medium px-4 py-1 rounded-full bg-white/5 border border-white/10">
+                            {event.name}
+                          </div>
+                        </div>
+                      ) : (
+                        <img 
+                          src={event.image} 
+                          alt={event.name} 
+                          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 brightness-95 group-hover:brightness-100"
+                          loading="lazy"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = "/gallery/synapse_0.jpg";
+                          }}
+                        />
+                      )}
 
                       {/* Category badge */}
                       <div className="absolute top-3 left-3 z-10">
