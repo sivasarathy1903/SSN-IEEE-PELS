@@ -16,6 +16,39 @@ export interface EventFolder {
 
 export const eventFolders: EventFolder[] = [
   {
+    id: "simverse-2",
+    name: "SIMVERSE 2.0 - Phase I",
+    category: "MATLAB & Simulink Workshop",
+    date: "21st July 2026",
+    count: 4,
+    coverImage: "/gallery/simverse2_0.jpg",
+    description: "Hands-on MATLAB & Simulink Workshop focused on AC-DC Semi Converter, Buck-Boost Converter, Mobile Charging Circuit, Interleaved Boost, and SEPIC Converter.",
+    photos: [
+      { src: "/gallery/simverse2_0.jpg", title: "MATLAB & Simulink Lab Session" },
+      { src: "/gallery/simverse2_1.jpg", title: "Students Simulating Power Electronic Circuits" },
+      { src: "/gallery/simverse2_2.jpg", title: "Mentor Demonstration & Technical Discussion" },
+      { src: "/gallery/simverse2_3.jpg", title: "Personalized Hands-on Mentoring" }
+    ]
+  },
+  {
+    id: "simverse-1",
+    name: "SIMVERSE Phase I",
+    category: "Hands-on Workshop",
+    date: "14th July 2026",
+    count: 7,
+    coverImage: "/gallery/simverse1_0.jpg",
+    description: "Hands-on Simulink Workshop introducing Buck and Boost converter simulation, power electronics fundamentals, and practical mentor-guided modeling.",
+    photos: [
+      { src: "/gallery/simverse1_0.jpg", title: "Simulink Fundamentals Briefing" },
+      { src: "/gallery/simverse1_1.jpg", title: "Practical Converter Modeling" },
+      { src: "/gallery/simverse1_2.jpg", title: "Circuit Design & Parameters Analysis" },
+      { src: "/gallery/simverse1_3.jpg", title: "Interactive Workshop Guidance" },
+      { src: "/gallery/simverse1_4.jpg", title: "Simulink Block Interfacing Demonstration" },
+      { src: "/gallery/simverse1_5.jpg", title: "Hands-on Laboratory Practice" },
+      { src: "/gallery/simverse1_6.jpg", title: "Q&A Session & Practical Tips" }
+    ]
+  },
+  {
     id: "dead-end-ahead",
     name: "Dead End Ahead 2026",
     category: "Technical Quiz",
@@ -30,6 +63,21 @@ export const eventFolders: EventFolder[] = [
       { src: "/gallery/deadend_unnamed_1.jpg", title: "Buzzer Round Highlights" },
       { src: "/gallery/deadend_unnamed_2.jpg", title: "Strategic Bidding Segment" },
       { src: "/gallery/deadend_unnamed_3.jpg", title: "Rapid-Fire Final Round" },
+    ]
+  },
+  {
+    id: "behind-circuits",
+    name: "Behind The Circuits",
+    category: "Photography Contest",
+    date: "29th Jan 2026",
+    count: 4,
+    coverImage: "/gallery/first-%20Varghese%20James.jpg",
+    description: "Creative photography competition capturing hardware engineering moments and circuit aesthetic excellence.",
+    photos: [
+      { src: "/gallery/first-%20Varghese%20James.jpg", title: "1st Place – Varghese James (III EEE)" },
+      { src: "/gallery/second%20-%20Deepak%20S.jpg", title: "2nd Place – Deepak S" },
+      { src: "/gallery/third%20Malleshkumar%20K.jpeg", title: "3rd Place – Malleshkumar K" },
+      { src: "/gallery/Behind%20the%20Circuits%20(1)%20(1).png", title: "Official Behind The Circuits Banner" },
     ]
   },
   {
@@ -63,21 +111,6 @@ export const eventFolders: EventFolder[] = [
       { src: "/gallery/ltspice_8.jpg", title: "Interdisciplinary Hands-on Lab Session" },
       { src: "/gallery/ltspice_9.jpg", title: "Student Team Mentorship" },
       { src: "/gallery/synapse_10.jpg", title: "Closing Remarks & Certificate Distribution" },
-    ]
-  },
-  {
-    id: "behind-circuits",
-    name: "Behind The Circuits",
-    category: "Photography Contest",
-    date: "2025 - 2026",
-    count: 4,
-    coverImage: "/gallery/first-%20Varghese%20James.jpg",
-    description: "Creative photography competition capturing hardware engineering moments and circuit aesthetic excellence.",
-    photos: [
-      { src: "/gallery/first-%20Varghese%20James.jpg", title: "1st Place – Varghese James (III EEE)" },
-      { src: "/gallery/second%20-%20Deepak%20S.jpg", title: "2nd Place – Deepak S" },
-      { src: "/gallery/third%20Malleshkumar%20K.jpeg", title: "3rd Place – Malleshkumar K" },
-      { src: "/gallery/Behind%20the%20Circuits%20(1)%20(1).png", title: "Official Behind The Circuits Banner" },
     ]
   }
 ];
