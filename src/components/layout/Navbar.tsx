@@ -47,8 +47,17 @@ export function Navbar() {
         )}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Left: Logos */}
-          <div className="flex items-center gap-3.5 md:gap-5 py-1">
+          {/* Left: IEEE PELS Logo */}
+          <Link to="/" className="flex items-center group py-1">
+            <img
+              src="/ieee_pels_logo.svg"
+              alt="IEEE Power Electronics Society"
+              className="h-12 md:h-16 w-auto object-contain group-hover:scale-[1.01] transition-transform duration-200"
+            />
+          </Link>
+
+          {/* Right: IEEE Logo then SSN Logo */}
+          <div className="flex items-center gap-4 md:gap-6">
             {/* IEEE Logo */}
             <a href="https://www.ieee.org" target="_blank" rel="noopener noreferrer" className="block text-white hover:text-white/80 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40" className="h-7 md:h-9 w-auto fill-current">
@@ -65,20 +74,9 @@ export function Navbar() {
             </a>
 
             {/* Separator */}
-            <div className="h-6 md:h-8 w-[1px] bg-white/20"></div>
+            <div className="h-6 w-[1px] bg-white/20"></div>
 
-            {/* IEEE PELS Logo */}
-            <Link to="/" className="flex items-center group">
-              <img
-                src="/ieee_pels_logo.svg"
-                alt="IEEE Power Electronics Society"
-                className="h-10 md:h-13 w-auto object-contain group-hover:scale-102 transition-transform duration-200"
-              />
-            </Link>
-          </div>
-
-          {/* Right: SSN Logo */}
-          <div className="flex items-center gap-4">
+            {/* SSN Logo */}
             <a
               href="https://www.ssn.edu.in"
               target="_blank"
