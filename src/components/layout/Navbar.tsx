@@ -52,7 +52,7 @@ export function Navbar() {
             <img
               src="/ieee_pels_logo.svg"
               alt="IEEE Power Electronics Society"
-              className="h-12 md:h-16 w-auto object-contain group-hover:scale-[1.01] transition-transform duration-200"
+              className="h-9 md:h-11 w-auto object-contain group-hover:scale-[1.01] transition-transform duration-200"
             />
           </Link>
 
@@ -60,7 +60,7 @@ export function Navbar() {
           <div className="flex items-center gap-3.5 md:gap-5 text-white">
             {/* IEEE Logo */}
             <a href="https://www.ieee.org" target="_blank" rel="noopener noreferrer" className="block hover:text-white/80 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 36" className="h-9 md:h-11.5 w-auto fill-current">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 36" className="h-9 md:h-11 w-auto fill-current">
                 <g transform="translate(0, 0)">
                   <polygon points="18,0 36,18 18,36 0,18" fill="none" stroke="currentColor" strokeWidth="2.5"/>
                   <line x1="18" y1="30" x2="18" y2="9" stroke="currentColor" strokeWidth="2.5"/>
@@ -83,7 +83,7 @@ export function Navbar() {
               rel="noopener noreferrer"
               className="block hover:text-white/80 transition-colors"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 15 230 85" className="h-9 md:h-11.5 w-auto fill-current">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 15 230 85" className="h-9 md:h-11 w-auto fill-current">
                 <text x="0" y="95" fontFamily="'Arial Black', 'Impact', sans-serif" fontWeight="900" fontSize="110" fontStyle="italic" letterSpacing="-3">ssn</text>
               </svg>
             </a>
