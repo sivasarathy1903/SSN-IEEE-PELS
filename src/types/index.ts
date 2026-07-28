@@ -1,7 +1,7 @@
 export interface Event {
   id: string;
   name: string;
-  category: "Workshop" | "Technical Symposium" | "Technical Quiz" | "Technical Talk" | "Competition" | "Seminar" | "Hackathon";
+  category: "Workshop" | "Technical Symposium" | "Technical Quiz" | "Technical Talk" | "Competition" | "Seminar" | "Hackathon" | "Non-Tech Event";
   date: string;
   timestamp?: number;
   venue: string;

@@ -6,7 +6,7 @@ import { Search, Calendar, MapPin } from "lucide-react";
 import { events } from "../data/events";
 import { galleryImages } from "../components/ImageMarquee";
 
-const categories = ["All Events", "Upcoming", "Past Events", "Workshops", "Technical Talks", "Symposiums", "Competitions", "Quiz Events", "Hackathons"];
+const categories = ["All Events", "Upcoming", "Past Events", "Workshops", "Technical Talks", "Symposiums", "Competitions", "Quiz Events", "Hackathons", "Non-Tech Events"];
 
 export default function Events() {
   const navigate = useNavigate();
@@ -34,6 +34,7 @@ export default function Events() {
       if (activeCategory === "Competitions") return event.category === "Competition";
       if (activeCategory === "Quiz Events") return event.category === "Technical Quiz";
       if (activeCategory === "Hackathons") return event.category === "Hackathon";
+      if (activeCategory === "Non-Tech Events") return event.category === "Non-Tech Event";
 
       return true;
     });

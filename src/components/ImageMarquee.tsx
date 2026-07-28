@@ -51,7 +51,7 @@ export const eventFolders: EventFolder[] = [
   {
     id: "dead-end-ahead",
     name: "Dead End Ahead 2026",
-    category: "Technical Quiz",
+    category: "Non-Tech Event",
     date: "16th Feb 2026",
     count: 6,
     coverImage: "/gallery/deadend_firstprize.jpg",
@@ -68,7 +68,7 @@ export const eventFolders: EventFolder[] = [
   {
     id: "behind-circuits",
     name: "Behind The Circuits",
-    category: "Photography Contest",
+    category: "Non-Tech Event",
     date: "29th Jan 2026",
     count: 4,
     coverImage: "/gallery/first-%20Varghese%20James.jpg",

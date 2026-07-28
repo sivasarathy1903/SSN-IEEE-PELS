@@ -58,7 +58,7 @@ Reported by: Haripriya V H, Baraniidharan RV`,
   {
     id: "behind-the-circuits",
     name: "Behind the Circuits",
-    category: "Competition",
+    category: "Non-Tech Event",
     date: "29 January 2026",
     timestamp: new Date("2026-01-29").getTime(),
     venue: "SSN College of Engineering, Kalavakkam",
@@ -79,7 +79,7 @@ Capture the hidden beauty of PCB traces, component aesthetics, power electronics
   {
     id: "dead-end-ahead",
     name: "Dead End Ahead",
-    category: "Technical Quiz",
+    category: "Non-Tech Event",
     date: "16 February 2026",
     timestamp: new Date("2026-02-16").getTime(),
     venue: "ME Classroom",
