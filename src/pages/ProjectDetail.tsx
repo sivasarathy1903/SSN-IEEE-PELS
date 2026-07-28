@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, CheckCircle2, Cpu, MonitorPlay, Activity } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Cpu, MonitorPlay, Activity, Users, UserCheck } from "lucide-react";
 import { projects } from "../data/projects";
 
 export default function ProjectDetail() {
@@ -86,6 +86,30 @@ export default function ProjectDetail() {
             </div>
 
             <div className="space-y-6">
+              {/* Project Team Members */}
+              {project.team && project.team.length > 0 && (
+                <div className="glass-card p-6 rounded-xl border border-primary/20 bg-gradient-to-b from-[#C8102E]/10 to-transparent">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Users className="text-primary w-5 h-5" />
+                    <h3 className="font-headline-md text-white">Project Team</h3>
+                  </div>
+                  <div className="space-y-2.5">
+                    {project.team.map((member) => (
+                      <div
+                        key={member}
+                        className="flex items-center gap-3 p-2.5 rounded-lg bg-surface-container-high/80 border border-white/5 hover:border-primary/30 transition-colors"
+                      >
+                        <div className="w-7 h-7 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary text-xs font-bold">
+                          {member.charAt(0)}
+                        </div>
+                        <span className="text-white text-sm font-medium">{member}</span>
+                        <UserCheck className="w-3.5 h-3.5 text-green-400 ml-auto opacity-70" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="glass-card p-6 rounded-xl">
                 <h3 className="font-headline-md text-white mb-6">Technologies</h3>
                 <div className="flex flex-wrap gap-2">
@@ -114,3 +138,4 @@ export default function ProjectDetail() {
     </>
   );
 }
+

@@ -14,8 +14,8 @@ export const siteConfig: SiteConfig = {
     email: "ieeepels@ssn.edu.in",
     linkedin: "https://www.linkedin.com/company/ssn-ieee-power-electronics-society/",
     instagram: "https://www.instagram.com/ssn_ieee_pels/",
-    location: "SH 49A, Kalavakkam, Thaiyur, Tamil Nadu 603110",
-    googleMapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.3129849202573!2d80.19472301482046!3d12.756187790980838!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52512f04729e11%3A0xbc4ea0ae50ca1aaa!2sSri%20Sivasubramaniya%20Nadar%20College%20of%20Engineering!5e0!3m2!1sen!2sin!4v1689254000000!5m2!1sen!2sin"
+    location: "EEE Department - Sri Sivasubramaniya Nadar College of Engineering, P5XW+MG5, Rajiv Gandhi Salai, Kalavakkam, Tamil Nadu 603110",
+    googleMapsEmbed: "https://maps.google.com/maps?q=EEE%20Department%20-%20Sri%20Sivasubramaniya%20Nadar%20College%20of%20Engineering%20P5XW%2BMG5%20Kalavakkam%20Tamil%20Nadu%20603110&t=&z=18&ie=UTF8&iwloc=&output=embed"
   }
 };
 

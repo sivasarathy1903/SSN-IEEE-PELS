@@ -2,11 +2,11 @@ import { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, Calendar, MapPin, Users } from "lucide-react";
+import { Search, Calendar, MapPin } from "lucide-react";
 import { events } from "../data/events";
 import { galleryImages } from "../components/ImageMarquee";
 
-const categories = ["All Events", "Upcoming", "Past Events", "Workshops", "Technical Talks", "Symposiums", "Competitions", "Quiz Events"];
+const categories = ["All Events", "Upcoming", "Past Events", "Workshops", "Technical Talks", "Symposiums", "Competitions", "Quiz Events", "Hackathons"];
 
 export default function Events() {
   const navigate = useNavigate();
@@ -33,6 +33,7 @@ export default function Events() {
       if (activeCategory === "Symposiums") return event.category === "Technical Symposium";
       if (activeCategory === "Competitions") return event.category === "Competition";
       if (activeCategory === "Quiz Events") return event.category === "Technical Quiz";
+      if (activeCategory === "Hackathons") return event.category === "Hackathon";
 
       return true;
     });
@@ -89,54 +90,96 @@ export default function Events() {
           >
             <AnimatePresence mode="popLayout">
               {filteredEvents.length > 0 ? (
-                filteredEvents.map((event) => (
+                filteredEvents
+                  .slice()
+                  .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0))
+                  .map((event) => (
                   <motion.div
                     key={event.id}
                     layout
-                    initial={{ opacity: 0, scale: 0.8, rotateY: 30 }}
-                    animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                    exit={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
-                    transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
-                    className="glass-card rounded-2xl overflow-hidden flex flex-col group cursor-pointer"
-                    onClick={() => navigate(`/events/${event.id}`)}
-                    whileHover={{ y: -10, scale: 1.02, boxShadow: "0 20px 40px -10px rgba(227, 30, 36, 0.4)" }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3 }}
+                    className="glass-card rounded-2xl overflow-hidden flex flex-col group cursor-pointer border border-white/10 hover:border-[#C8102E]/40 relative"
+                    onClick={() => {
+                      if (event.externalUrl) {
+                        window.open(event.externalUrl, "_blank", "noopener,noreferrer");
+                      } else {
+                        navigate(`/events/${event.id}`);
+                      }
+                    }}
+                    whileHover={{ y: -4, boxShadow: "0 15px 30px -10px rgba(200, 16, 46, 0.3)" }}
                   >
-                    {/* Category tag only — no image */}
-                    <div className="relative h-14 overflow-hidden bg-gradient-to-r from-[#0d0e14] to-[#141620] flex items-center px-6 border-b border-white/5">
-                      <span className="font-label-caps text-xs text-primary bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">{event.category}</span>
+                    {/* Primary Poster Image Container */}
+                    <div className="relative h-56 overflow-hidden bg-neutral-900 border-b border-white/10">
+                      <img 
+                        src={event.image} 
+                        alt={event.name} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 group-hover:brightness-100"
+                        loading="lazy"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/gallery/synapse_0.jpg";
+                        }}
+                      />
+
+                      {/* Category badge */}
+                      <div className="absolute top-3 left-3 z-10">
+                        <span className="font-bold text-[10px] uppercase tracking-wider text-white bg-[#C8102E] px-3 py-1 rounded-full shadow-md">
+                          {event.category}
+                        </span>
+                      </div>
+
+                      {/* Upcoming / status badge */}
+                      {event.statusBadge && (
+                        <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm border border-[#E8172E]/60 px-2.5 py-1 rounded-full">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#E8172E] animate-pulse" />
+                          <span className="text-[#FF4D6D] font-extrabold text-[9px] tracking-widest uppercase">{event.statusBadge}</span>
+                        </div>
+                      )}
                     </div>
                     
                     <div className="p-6 flex-grow flex flex-col">
-                      <h3 className="font-headline-md text-headline-md text-white mb-4 group-hover:text-primary transition-colors line-clamp-2">
+                      <h3 className="font-extrabold text-xl text-white mb-3 group-hover:text-[#C8102E] transition-colors line-clamp-1">
                         {event.name}
                       </h3>
                       
-                      <div className="space-y-2 mb-6">
-                        <div className="flex items-center gap-2 text-on-surface-variant text-sm">
-                          <Calendar className="w-4 h-4 text-primary" />
+                      <div className="space-y-2 mb-4">
+                        <div className="flex items-center gap-2 text-gray-300 text-xs">
+                          <Calendar className="w-3.5 h-3.5 text-[#C8102E]" />
                           <span>{event.date}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-on-surface-variant text-sm">
-                          <MapPin className="w-4 h-4 text-primary" />
+                        <div className="flex items-center gap-2 text-gray-300 text-xs">
+                          <MapPin className="w-3.5 h-3.5 text-[#C8102E]" />
                           <span className="truncate">{event.venue}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-on-surface-variant text-sm">
-                          <Users className="w-4 h-4 text-primary" />
-                          <span>{event.participants} Participants</span>
                         </div>
                       </div>
 
-                      <p className="text-on-surface-variant text-sm line-clamp-3 mb-6 flex-grow">
+                      <p className="text-gray-400 text-xs line-clamp-2 mb-6 flex-grow leading-relaxed">
                         {event.description}
                       </p>
                       
                       <div className="mt-auto">
-                        <Link 
-                          to={`/events/${event.id}`}
-                          className="inline-block w-full text-center border border-primary text-primary hover:bg-primary hover:text-white py-3 rounded-lg font-label-caps text-sm transition-all"
-                        >
-                          Read More
-                        </Link>
+                        {event.externalUrl ? (
+                            <a
+                            href={event.externalUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#C8102E] to-[#E8172E] text-white py-2.5 px-4 rounded-lg font-extrabold text-xs tracking-wider uppercase transition-all hover:shadow-[0_0_20px_rgba(200,16,46,0.5)] hover:from-[#E8172E] hover:to-[#C8102E]"
+                          >
+                            <span>REGISTER NOW</span>
+                            <span>→</span>
+                          </a>
+                        ) : (
+                          <Link 
+                            to={`/events/${event.id}`}
+                            className="inline-flex items-center justify-between w-full border border-white/15 text-white group-hover:border-[#C8102E] group-hover:bg-[#C8102E] py-2.5 px-4 rounded-lg font-bold text-xs tracking-wider uppercase transition-all"
+                          >
+                            <span>READ MORE</span>
+                            <span className="transition-transform group-hover:translate-x-1">→</span>
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </motion.div>

@@ -1,7 +1,7 @@
 export interface Event {
   id: string;
   name: string;
-  category: "Workshop" | "Technical Symposium" | "Technical Quiz" | "Technical Talk" | "Competition" | "Seminar";
+  category: "Workshop" | "Technical Symposium" | "Technical Quiz" | "Technical Talk" | "Competition" | "Seminar" | "Hackathon";
   date: string;
   timestamp?: number;
   venue: string;
@@ -9,6 +9,10 @@ export interface Event {
   description: string;
   highlights: string[];
   image: string;
+  /** When set, 'Read More' opens this external URL instead of the internal detail page */
+  externalUrl?: string;
+  /** Badge shown on card — e.g. 'UPCOMING', 'REGISTER NOW' */
+  statusBadge?: string;
 }
 
 export interface Project {
@@ -22,6 +26,11 @@ export interface Project {
   simulation?: string;
   hardware?: string;
   status: "Completed" | "In Progress" | "Planned";
+  /** Team members for this project */
+  team?: string[];
+  /** Simulation and hardware deadlines */
+  simulationDeadline?: string;
+  hardwareDeadline?: string;
 }
 
 export interface TeamMember {

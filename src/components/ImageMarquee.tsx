@@ -16,21 +16,6 @@ export interface EventFolder {
 
 export const eventFolders: EventFolder[] = [
   {
-    id: "behind-circuits",
-    name: "Behind The Circuits",
-    category: "Photography Contest",
-    date: "2025 - 2026",
-    count: 4,
-    coverImage: "/gallery/first-%20Varghese%20James.jpg",
-    description: "Creative photography competition capturing hardware engineering moments and circuit aesthetic excellence.",
-    photos: [
-      { src: "/gallery/first-%20Varghese%20James.jpg", title: "1st Place – Varghese James (III EEE)" },
-      { src: "/gallery/second%20-%20Deepak%20S.jpg", title: "2nd Place – Deepak S" },
-      { src: "/gallery/third%20Malleshkumar%20K.jpeg", title: "3rd Place – Malleshkumar K" },
-      { src: "/gallery/Behind%20the%20Circuits%20(1)%20(1).png", title: "Official Behind The Circuits Banner" },
-    ]
-  },
-  {
     id: "dead-end-ahead",
     name: "Dead End Ahead 2026",
     category: "Technical Quiz",
@@ -45,6 +30,23 @@ export const eventFolders: EventFolder[] = [
       { src: "/gallery/deadend_unnamed_1.jpg", title: "Buzzer Round Highlights" },
       { src: "/gallery/deadend_unnamed_2.jpg", title: "Strategic Bidding Segment" },
       { src: "/gallery/deadend_unnamed_3.jpg", title: "Rapid-Fire Final Round" },
+    ]
+  },
+  {
+    id: "synapse-25",
+    name: "Synapse '25 Flagship Summit",
+    category: "Flagship Summit",
+    date: "26-27 Sept 2025",
+    count: 6,
+    coverImage: "/gallery/synapse_0.jpg",
+    description: "Annual IEEE PELS SSN technical symposium featuring hardware project demos and expert talks.",
+    photos: [
+      { src: "/gallery/synapse_0.jpg", title: "Synapse '25 Inaugural Ceremony" },
+      { src: "/gallery/synapse_1.jpg", title: "Hardware Prototype Showcase" },
+      { src: "/gallery/synapse_2.jpg", title: "Power Electronics Component Testbed" },
+      { src: "/gallery/synapse_3.jpg", title: "Technical Paper Presentations" },
+      { src: "/gallery/synapse_4.jpg", title: "Embedded Firmware Demonstration" },
+      { src: "/gallery/synapse_5.jpg", title: "Student Branch Interactive Networking" },
     ]
   },
   {
@@ -64,20 +66,18 @@ export const eventFolders: EventFolder[] = [
     ]
   },
   {
-    id: "synapse-25",
-    name: "Synapse '25 Flagship Summit",
-    category: "Flagship Summit",
-    date: "Academic Year 2025",
-    count: 6,
-    coverImage: "/gallery/synapse_0.jpg",
-    description: "Annual IEEE PELS SSN technical symposium featuring hardware project demos and expert talks.",
+    id: "behind-circuits",
+    name: "Behind The Circuits",
+    category: "Photography Contest",
+    date: "2025 - 2026",
+    count: 4,
+    coverImage: "/gallery/first-%20Varghese%20James.jpg",
+    description: "Creative photography competition capturing hardware engineering moments and circuit aesthetic excellence.",
     photos: [
-      { src: "/gallery/synapse_0.jpg", title: "Synapse '25 Inaugural Ceremony" },
-      { src: "/gallery/synapse_1.jpg", title: "Hardware Prototype Showcase" },
-      { src: "/gallery/synapse_2.jpg", title: "Power Electronics Component Testbed" },
-      { src: "/gallery/synapse_3.jpg", title: "Technical Paper Presentations" },
-      { src: "/gallery/synapse_4.jpg", title: "Embedded Firmware Demonstration" },
-      { src: "/gallery/synapse_5.jpg", title: "Student Branch Interactive Networking" },
+      { src: "/gallery/first-%20Varghese%20James.jpg", title: "1st Place – Varghese James (III EEE)" },
+      { src: "/gallery/second%20-%20Deepak%20S.jpg", title: "2nd Place – Deepak S" },
+      { src: "/gallery/third%20Malleshkumar%20K.jpeg", title: "3rd Place – Malleshkumar K" },
+      { src: "/gallery/Behind%20the%20Circuits%20(1)%20(1).png", title: "Official Behind The Circuits Banner" },
     ]
   }
 ];

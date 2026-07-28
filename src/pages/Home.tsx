@@ -1,12 +1,64 @@
+import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { motion, useTransform, useScroll } from "framer-motion";
-import { ArrowRight, ChevronRight, Zap } from "lucide-react";
+import { motion, useTransform, useScroll, AnimatePresence } from "framer-motion";
+import { ArrowRight, ChevronRight } from "lucide-react";
 import { siteConfig } from "../data/site";
-import HeroPCBScene from "../components/HeroPCBScene";
 import { ImageMarquee } from "../components/ImageMarquee";
 
+const aboutPhotos = [
+  { src: "/gallery/synapse_0.jpg", title: "Synapse Technical Session", tag: "Workshop" },
+  { src: "/gallery/synapse_1.jpg", title: "IEEE PELS SSN Chapter Event", tag: "Symposium" },
+  { src: "/gallery/ltspice_6.jpg", title: "Hands-on Hardware Lab", tag: "Hands-on" },
+  { src: "/gallery/deadend_firstprize.jpg", title: "Technical Competition", tag: "Competition" }
+];
+
+const heroVideos = [
+  "/hero-bg-2.mp4", // 277095_medium.mp4
+  "/hero-bg-3.mp4"  // 174086-850404739_medium.mp4
+];
+
 export default function Home() {
+  // Persistent refs for each video element — never changes across renders
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Hero background multi-video playlist rotation state
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+  // Smooth photo stack rotation state
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+
+  useEffect(() => {
+    const photoTimer = setInterval(() => {
+      setCurrentPhotoIndex((prev) => (prev + 1) % aboutPhotos.length);
+    }, 3500);
+    return () => clearInterval(photoTimer);
+  }, []);
+
+  // ─── CORE FIX: useEffect explicitly controls every video on index change ───
+  // This runs every time currentVideoIndex changes — including when it cycles
+  // back to 0 — which ref callbacks alone cannot reliably detect.
+  useEffect(() => {
+    const activeVideo = videoRefs.current[currentVideoIndex];
+
+    // First pause + reset all inactive videos
+    videoRefs.current.forEach((video, index) => {
+      if (!video) return;
+      if (index !== currentVideoIndex) {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+
+    if (!activeVideo) return;
+
+    // Reset and play the active video from the beginning
+    activeVideo.currentTime = 0;
+    activeVideo.play().catch((err) => {
+      console.warn("Hero video playback failed:", err);
+    });
+  }, [currentVideoIndex]);
+
   // Scroll opacity reaction
   const { scrollY } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.4]);
@@ -19,42 +71,75 @@ export default function Home() {
         <meta name="keywords" content="IEEE PELS, Power Electronics, SSN, MATLAB, Simulink, Embedded Systems, Hardware Design" />
       </Helmet>
 
-      {/* Hero Section – Seamless Full-Bleed 3D Showcase */}
+      {/* Hero Section – Seamless Full-Bleed Cinematic Showcase */}
       <motion.section 
         style={{ opacity: heroOpacity }}
-        className="relative h-[calc(100vh-80px)] min-h-[460px] max-h-[640px] flex items-center overflow-hidden bg-[#050706] text-white select-none" 
+        className="relative h-[calc(100vh-100px)] min-h-[500px] max-h-[720px] flex items-center overflow-hidden bg-[#05070A] text-white select-none" 
         id="home"
       >
-        {/* Layer 0: Faint Engineering Grid (<3% opacity) */}
+        {/* Layer 0: Restrained Technical Subliminal Overlay (<3-6% opacity) */}
         <div 
-          className="absolute inset-0 pointer-events-none z-0 opacity-[0.03]"
+          className="absolute inset-0 pointer-events-none z-0 opacity-[0.04]"
           style={{
             backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.8) 1px, transparent 0),
-                              linear-gradient(to right, rgba(200, 16, 46, 0.15) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(200, 16, 46, 0.15) 1px, transparent 1px)`,
+                              linear-gradient(to right, rgba(200, 16, 46, 0.2) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(200, 16, 46, 0.2) 1px, transparent 1px)`,
             backgroundSize: '40px 40px, 80px 80px, 80px 80px',
-            maskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 80%)'
+            maskImage: 'radial-gradient(circle at 50% 50%, black 40%, transparent 85%)'
           }}
         ></div>
 
-        {/* Layer 1: Ambient Slow Red Glow (20-30s cycle) */}
+        {/* Layer 1: Subtle Red Glow Ambient Accent */}
         <motion.div 
-          animate={{ opacity: [0.12, 0.18, 0.12], scale: [1, 1.08, 1] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,_rgba(200,16,46,0.25)_0%,_transparent_70%)] blur-[100px] pointer-events-none z-0"
+          animate={{ opacity: [0.1, 0.18, 0.1], scale: [1, 1.05, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,_rgba(200,16,46,0.2)_0%,_transparent_70%)] blur-[90px] pointer-events-none z-0"
         ></motion.div>
 
-        {/* Seamless 3D Canvas spanning full-width of Hero with gradient blend */}
-        <div className="absolute inset-0 -translate-x-[30%] w-[160%] md:translate-x-0 md:w-full z-0 pointer-events-none">
-          <HeroPCBScene />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#050706]/85 via-[#050706]/45 to-[#050706] md:bg-gradient-to-r md:from-[#050706] md:via-[#050706]/50 md:to-transparent pointer-events-none" />
+        {/* Right Side Background Video — both always mounted, opacity controls visibility */}
+        <div className="absolute inset-0 left-0 md:left-[38%] w-full md:w-[62%] h-full z-0 overflow-hidden pointer-events-none">
+          {/* Seamless Edge Gradient Blend Masks — always on top */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#05070A] via-transparent to-[#05070A] z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#05070A] via-[#05070A]/60 to-transparent z-10"></div>
+
+          {/* Poster fallback — sits behind all videos */}
+          <img 
+            src="/gallery/synapse_3.jpg" 
+            alt="IEEE PELS Hero Poster" 
+            className="absolute inset-0 w-full h-full object-cover brightness-75"
+            style={{ zIndex: 0 }}
+          />
+
+          {/* Both videos always mounted — opacity crossfade controls which is visible.
+              NO autoPlay attribute — playback is controlled entirely by the useEffect above. */}
+          {heroVideos.map((videoSrc, idx) => (
+            <video
+              key={videoSrc}
+              ref={(el) => { videoRefs.current[idx] = el; }}
+              muted
+              playsInline
+              preload="auto"
+              onEnded={() => {
+                setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length);
+              }}
+              className="absolute inset-0 w-full h-full object-cover scale-105 brightness-125 contrast-105"
+              style={{
+                zIndex: idx === currentVideoIndex ? 2 : 1,
+                opacity: idx === currentVideoIndex ? 1 : 0,
+                transition: "opacity 700ms ease-in-out",
+                pointerEvents: "none"
+              }}
+            >
+              <source src={videoSrc} type="video/mp4" />
+            </video>
+          ))}
         </div>
 
-        {/* Main Content Layout – Left Content overlay */}
-        <div className="relative z-10 w-full h-full max-w-container-max mx-auto px-6 md:px-12 flex items-center">
+        {/* Main Content Layout – Left 45% Content overlay */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex items-center h-full">
 
           {/* LEFT – Text + Buttons */}
-          <div className="w-full md:w-[52%] lg:w-[48%] shrink-0">
+          <div className="w-full md:w-[46%] lg:w-[44%] shrink-0">
             <motion.div
               initial="hidden"
               animate="visible"
@@ -62,35 +147,33 @@ export default function Home() {
                 hidden: { opacity: 0 },
                 visible: {
                   opacity: 1,
-                  transition: { staggerChildren: 0.05, delayChildren: 0 }
+                  transition: { staggerChildren: 0.08, delayChildren: 0.1 }
                 }
               }}
-              className="w-full max-w-xl pointer-events-auto"
+              className="w-full pointer-events-auto"
             >
-              {/* Live Pill Badge */}
+              {/* Minimal Chapter Badge */}
               <motion.div
                 variants={{
                   hidden: { opacity: 0, y: 15 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } }
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
                 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-md mb-4"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] border border-white/10 backdrop-blur-md mb-5"
               >
-                <span className="w-2 h-2 rounded-full bg-[#C8102E] animate-pulse shadow-[0_0_8px_rgba(200,16,46,0.9)]"></span>
-                <span className="font-mono-data text-[11px] sm:text-xs text-neutral-300 tracking-widest uppercase font-semibold">IEEE PELS SSN CHAPTER</span>
+                <span className="w-2 h-2 rounded-full bg-[#C8102E] shadow-[0_0_8px_rgba(200,16,46,0.9)]"></span>
+                <span className="text-[11px] text-gray-300 tracking-widest uppercase font-semibold">IEEE PELS SSN CHAPTER</span>
               </motion.div>
 
               {/* Main Headline with Red Accent */}
               <motion.h1
                 variants={{
                   hidden: { opacity: 0, y: 15 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
                 }}
-                className="font-headline-xl text-3xl sm:text-4xl lg:text-5xl mb-3 text-white leading-[1.1] tracking-tight font-extrabold"
+                className="text-4xl sm:text-5xl lg:text-[3.4rem] mb-4 text-white leading-[1.12] tracking-tight font-black"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
               >
-                IEEE Power <br />
-                <span className="text-[#C8102E]">
-                  Electronics
-                </span> <br />
+                IEEE <span className="text-[#C8102E] whitespace-nowrap">Power Electronics</span> <br />
                 Society
               </motion.h1>
 
@@ -98,9 +181,9 @@ export default function Home() {
               <motion.p
                 variants={{
                   hidden: { opacity: 0, y: 15 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
                 }}
-                className="font-body-lg text-sm sm:text-base text-neutral-400 mb-6 max-w-lg font-light leading-relaxed"
+                className="text-sm sm:text-base text-gray-300 mb-8 max-w-md font-normal leading-relaxed"
               >
                 Innovating Power Electronics.<br />
                 Inspiring Future Engineers.
@@ -110,22 +193,22 @@ export default function Home() {
               <motion.div
                 variants={{
                   hidden: { opacity: 0, y: 15 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
                 }}
-                className="flex flex-wrap items-center gap-3.5"
+                className="flex flex-wrap items-center gap-4"
               >
                 <Link
                   to="/events"
-                  className="bg-[#C8102E] text-white px-6 py-3 rounded-xl font-label-caps text-xs sm:text-sm tracking-wider uppercase flex items-center gap-2.5 transition-all duration-200 hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_8px_25px_rgba(200,16,46,0.5)] group active:scale-100 font-semibold"
+                  className="bg-[#C8102E] text-white px-6 py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase flex items-center gap-2.5 transition-all duration-200 hover:bg-[#E31837] hover:scale-[1.02] shadow-lg shadow-[#C8102E]/25 group font-bold"
                 >
-                  Explore Events
+                  EXPLORE EVENTS
                   <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5" />
                 </Link>
                 <Link
                   to="/projects"
-                  className="border border-white/15 bg-white/[0.04] text-white px-7 py-3.5 rounded-xl font-label-caps text-xs sm:text-sm tracking-wider uppercase flex items-center gap-2 backdrop-blur-xl transition-all duration-200 hover:bg-white/[0.08] hover:border-white/30 hover:scale-[1.02] active:scale-100 font-semibold"
+                  className="border border-white/20 bg-white/[0.05] text-white px-6 py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase flex items-center gap-2 backdrop-blur-md transition-all duration-200 hover:bg-white/[0.12] hover:border-white/40 hover:scale-[1.02] font-bold"
                 >
-                  Explore Projects
+                  EXPLORE PROJECTS
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </motion.div>
@@ -134,39 +217,13 @@ export default function Home() {
 
         </div>
 
-        {/* Bottom Feature Metrics Bar & Scroll Indicator matching screenshot */}
-        <div className="absolute bottom-3 inset-x-0 z-20 px-8 md:px-16 pointer-events-none flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Feature Pillars */}
-          <div className="flex items-center gap-8 text-neutral-400 text-xs font-mono-data">
-            <div className="flex items-center gap-2.5">
-              <Zap className="w-4 h-4 text-[#C8102E]" />
-              <div>
-                <div className="text-white font-semibold">Power Electronics</div>
-                <div className="text-neutral-500 text-[10px]">Innovation</div>
-              </div>
-            </div>
-            <div className="hidden sm:flex items-center gap-2.5">
-              <span className="material-symbols-outlined text-sm text-[#C8102E]">memory</span>
-              <div>
-                <div className="text-white font-semibold">Hands-on</div>
-                <div className="text-neutral-500 text-[10px]">Learning</div>
-              </div>
-            </div>
-            <div className="hidden lg:flex items-center gap-2.5">
-              <span className="material-symbols-outlined text-sm text-[#C8102E]">groups</span>
-              <div>
-                <div className="text-white font-semibold">Industry</div>
-                <div className="text-neutral-500 text-[10px]">Collaboration</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Scroll to Explore Mouse */}
+        {/* Minimal Scroll Indicator */}
+        <div className="absolute bottom-4 inset-x-0 z-20 pointer-events-none flex justify-center">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 0.6, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-            className="flex flex-col items-center gap-1"
+            transition={{ delay: 1, duration: 0.8 }}
+            className="flex flex-col items-center gap-1.5"
           >
             <div className="w-4 h-7 rounded-full border border-white/30 flex justify-center p-1">
               <motion.div
@@ -175,7 +232,6 @@ export default function Home() {
                 className="w-1 h-1 rounded-full bg-white"
               ></motion.div>
             </div>
-            <span className="text-[9px] font-mono-data tracking-[0.25em] text-neutral-400 uppercase">SCROLL</span>
           </motion.div>
         </div>
       </motion.section>
@@ -205,23 +261,62 @@ export default function Home() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-              className="relative h-[500px] glass-card overflow-hidden group rounded-xl"
+              className="relative h-[420px] md:h-[480px] flex items-center justify-center"
             >
-              <img 
-                src="/gallery/synapse_0.jpg" 
-                alt="IEEE PELS SSN Synapse Event" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 group-hover:brightness-105" 
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
-              <div className="absolute bottom-margin-md left-margin-md">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
-                    <Zap className="text-white" />
-                  </div>
-                  <div className="text-4xl font-bold text-white">SSN</div>
+              {/* Smooth Dynamic Photo Stack Showcase */}
+              <div className="relative w-full max-w-md h-[380px]">
+                <AnimatePresence mode="wait">
+                  <motion.div 
+                    key={currentPhotoIndex}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="absolute inset-0 rounded-2xl overflow-hidden border border-[#C8102E]/40 shadow-[0_20px_50px_rgba(0,0,0,0.8)] bg-neutral-900"
+                  >
+                    <img 
+                      src={aboutPhotos[currentPhotoIndex].src} 
+                      alt={aboutPhotos[currentPhotoIndex].title} 
+                      className="w-full h-full object-cover brightness-95" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent"></div>
+                    
+                    <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4">
+                      <div>
+                        <span className="text-[10px] font-bold text-white bg-[#C8102E] px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1.5 inline-block">
+                          {aboutPhotos[currentPhotoIndex].tag}
+                        </span>
+                        <div className="text-white font-extrabold text-lg leading-tight">IEEE PELS SSN</div>
+                        <div className="text-gray-300 text-xs font-medium tracking-wide">
+                          {aboutPhotos[currentPhotoIndex].title}
+                        </div>
+                      </div>
+
+                      {/* Official IEEE PELS Badge replacing lightning icon */}
+                      <div className="w-12 h-12 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-lg border border-gray-200 shrink-0">
+                        <img 
+                          src="/ieee_pels_logo.svg" 
+                          alt="IEEE PELS Logo" 
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Progress Indicators */}
+                <div className="absolute -bottom-6 left-0 right-0 flex justify-center gap-2 z-20">
+                  {aboutPhotos.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentPhotoIndex(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        idx === currentPhotoIndex ? "w-6 bg-[#C8102E]" : "w-2 bg-white/20 hover:bg-white/40"
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
                 </div>
-                <div className="font-label-caps text-label-caps text-primary tracking-widest uppercase">Student Branch Chapter</div>
               </div>
             </motion.div>
           </div>
