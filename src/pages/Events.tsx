@@ -112,11 +112,11 @@ export default function Events() {
                     whileHover={{ y: -4, boxShadow: "0 15px 30px -10px rgba(200, 16, 46, 0.3)" }}
                   >
                     {/* Primary Poster Image Container */}
-                    <div className="relative h-56 overflow-hidden bg-neutral-900 border-b border-white/10">
+                    <div className="relative h-72 sm:h-80 overflow-hidden bg-neutral-950 border-b border-white/10">
                       <img 
                         src={event.image} 
                         alt={event.name} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-90 group-hover:brightness-100"
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 brightness-95 group-hover:brightness-100"
                         loading="lazy"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = "/gallery/synapse_0.jpg";

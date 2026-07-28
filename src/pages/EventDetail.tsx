@@ -73,8 +73,23 @@ export default function EventDetail() {
               </div>
             </div>
 
-            {/* Sidebar Details */}
+            {/* Sidebar Details & Official Poster */}
             <div className="space-y-6">
+              {/* Event Poster Card */}
+              <div className="glass-card rounded-2xl overflow-hidden border border-[#C8102E]/30 p-2 bg-black/60 shadow-xl">
+                <div className="text-xs font-bold uppercase tracking-wider text-[#C8102E] px-3 py-2 flex items-center justify-between">
+                  <span>Official Event Poster</span>
+                  <span className="w-2 h-2 rounded-full bg-[#C8102E] animate-pulse"></span>
+                </div>
+                <div className="rounded-xl overflow-hidden border border-white/10 bg-neutral-950">
+                  <img 
+                    src={event.image} 
+                    alt={`${event.name} Official Poster`} 
+                    className="w-full h-auto object-contain hover:scale-[1.02] transition-transform duration-300"
+                  />
+                </div>
+              </div>
+
               <div className="glass-card p-6 rounded-xl">
                 <h3 className="font-headline-md text-white mb-4">Event Details</h3>
                 <div className="space-y-4">
