@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { motion, useTransform, useScroll, AnimatePresence } from "framer-motion";
@@ -13,18 +13,7 @@ const aboutPhotos = [
   { src: "/gallery/deadend_firstprize.jpg", title: "Technical Competition", tag: "Competition" }
 ];
 
-const heroVideos = [
-  "/hero-bg-2.mp4", // 277095_medium.mp4
-  "/hero-bg-3.mp4"  // 174086-850404739_medium.mp4
-];
-
 export default function Home() {
-  // Persistent refs for each video element — never changes across renders
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-
-  // Hero background multi-video playlist rotation state
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-
   // Smooth photo stack rotation state
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
@@ -34,30 +23,6 @@ export default function Home() {
     }, 3500);
     return () => clearInterval(photoTimer);
   }, []);
-
-  // ─── CORE FIX: useEffect explicitly controls every video on index change ───
-  // This runs every time currentVideoIndex changes — including when it cycles
-  // back to 0 — which ref callbacks alone cannot reliably detect.
-  useEffect(() => {
-    const activeVideo = videoRefs.current[currentVideoIndex];
-
-    // First pause + reset all inactive videos
-    videoRefs.current.forEach((video, index) => {
-      if (!video) return;
-      if (index !== currentVideoIndex) {
-        video.pause();
-        video.currentTime = 0;
-      }
-    });
-
-    if (!activeVideo) return;
-
-    // Reset and play the active video from the beginning
-    activeVideo.currentTime = 0;
-    activeVideo.play().catch((err) => {
-      console.warn("Hero video playback failed:", err);
-    });
-  }, [currentVideoIndex]);
 
   // Scroll opacity reaction
   const { scrollY } = useScroll();
