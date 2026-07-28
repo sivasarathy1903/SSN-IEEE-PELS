@@ -86,7 +86,7 @@ Capture the hidden beauty of PCB traces, component aesthetics, power electronics
     participants: "31",
     description: "A themed quiz competition inspired by Stranger Things and Harry Potter featuring buzzer rounds, bonus challenges and rapid-fire finals.",
     highlights: ["Team Quiz", "Online Buzzer", "Bonus Round", "Rapid Fire"],
-    image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    image: "/events/deadendaheadposter.jpeg"
   },
   {
     id: "synapse-2025",
@@ -98,7 +98,7 @@ Capture the hidden beauty of PCB traces, component aesthetics, power electronics
     participants: "100+",
     description: "Two-day technical symposium featuring experts from MathWorks, Microchip and Motherson Health & Medical on embedded systems, Simulink, firmware development and hardware design.",
     highlights: ["Simulink", "Embedded Systems", "Firmware", "Hardware Design", "PCB Design"],
-    image: "/gallery/synapse_0.jpg"
+    image: "/events/synapseevent.jpeg"
   },
   {
     id: "spice-it-up-2025",
