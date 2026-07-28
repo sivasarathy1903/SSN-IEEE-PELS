@@ -52,7 +52,7 @@ export function Navbar() {
             <img
               src="/ieee_pels_logo.svg"
               alt="IEEE Power Electronics Society"
-              className="h-9 md:h-11 w-auto object-contain group-hover:scale-[1.01] transition-transform duration-200"
+              className="h-14 md:h-18 w-auto object-contain group-hover:scale-[1.01] transition-transform duration-200"
             />
           </Link>
 
