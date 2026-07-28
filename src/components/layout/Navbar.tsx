@@ -57,37 +57,35 @@ export function Navbar() {
           </Link>
 
           {/* Right: IEEE Logo then SSN Logo */}
-          <div className="flex items-center gap-4 md:gap-6">
+          <div className="flex items-center gap-3 md:gap-4 text-white">
             {/* IEEE Logo */}
-            <a href="https://www.ieee.org" target="_blank" rel="noopener noreferrer" className="block text-white hover:text-white/80 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40" className="h-7 md:h-9 w-auto fill-current">
-                <g transform="translate(2, 2)">
-                  <polygon points="18,0 36,18 18,36 0,18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="miter"/>
+            <a href="https://www.ieee.org" target="_blank" rel="noopener noreferrer" className="block hover:text-white/80 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 36" className="h-7 md:h-8.5 w-auto fill-current">
+                <g transform="translate(0, 0)">
+                  <polygon points="18,0 36,18 18,36 0,18" fill="none" stroke="currentColor" strokeWidth="2.5"/>
                   <line x1="18" y1="30" x2="18" y2="9" stroke="currentColor" strokeWidth="2.5"/>
                   <polygon points="18,5 14,12 22,12" fill="currentColor"/>
                   <path d="M 7,18 C 7,13 29,13 29,18 C 29,23 7,23 7,18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeDasharray="14,10"/>
                   <path d="M 7,18 C 7,22.5 29,22.5 29,18" fill="none" stroke="currentColor" strokeWidth="1.8"/>
                   <polygon points="7,18 4,22 10,22" fill="currentColor" transform="rotate(-15, 7, 18)"/>
                 </g>
-                <text x="44" y="29" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="900" fontSize="28" letterSpacing="-1">IEEE</text>
+                <text x="42" y="28" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="900" fontSize="26" letterSpacing="-1">IEEE</text>
               </svg>
             </a>
 
             {/* Separator */}
-            <div className="h-6 w-[1px] bg-white/20"></div>
+            <div className="h-5 w-[1.5px] bg-white/20 self-center mx-1"></div>
 
             {/* SSN Logo */}
             <a
               href="https://www.ssn.edu.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="block hover:opacity-80 transition-opacity"
+              className="block hover:text-white/80 transition-colors"
             >
-              <img
-                src="/ssn_logo.svg"
-                alt="SSN Logo"
-                className="h-9 md:h-12 w-auto object-contain"
-              />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 15 190 85" className="h-7 md:h-8.5 w-auto fill-current">
+                <text x="0" y="95" fontFamily="'Arial Black', 'Impact', sans-serif" fontWeight="900" fontSize="110" fontStyle="italic" letterSpacing="-3">ssn</text>
+              </svg>
             </a>
           </div>
         </div>
