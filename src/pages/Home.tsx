@@ -96,43 +96,19 @@ export default function Home() {
           className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,_rgba(200,16,46,0.2)_0%,_transparent_70%)] blur-[90px] pointer-events-none z-0"
         ></motion.div>
 
-        {/* Right Side Background Video — both always mounted, opacity controls visibility */}
+        {/* Right Side Background Image */}
         <div className="absolute inset-0 left-0 md:left-[38%] w-full md:w-[62%] h-full z-0 overflow-hidden pointer-events-none">
           {/* Seamless Edge Gradient Blend Masks — always on top */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#05070A] via-transparent to-[#05070A] z-10"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#05070A] via-[#05070A]/60 to-transparent z-10"></div>
 
-          {/* Poster fallback — sits behind all videos */}
+          {/* Hero Background Image */}
           <img 
-            src="/gallery/synapse_3.jpg" 
-            alt="IEEE PELS Hero Poster" 
-            className="absolute inset-0 w-full h-full object-cover brightness-75"
+            src="/hero-synapse.jpg" 
+            alt="IEEE PELS SSN Chapter Team" 
+            className="absolute inset-0 w-full h-full object-cover object-center brightness-90"
             style={{ zIndex: 0 }}
           />
-
-          {/* Both videos always mounted — opacity crossfade controls which is visible.
-              NO autoPlay attribute — playback is controlled entirely by the useEffect above. */}
-          {heroVideos.map((videoSrc, idx) => (
-            <video
-              key={videoSrc}
-              ref={(el) => { videoRefs.current[idx] = el; }}
-              muted
-              playsInline
-              preload="auto"
-              onEnded={() => {
-                setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length);
-              }}
-              className="absolute inset-0 w-full h-full object-cover scale-105 brightness-125 contrast-105"
-              style={{
-                zIndex: idx === currentVideoIndex ? 2 : 1,
-                opacity: idx === currentVideoIndex ? 1 : 0,
-                transition: "opacity 700ms ease-in-out",
-                pointerEvents: "none"
-              }}
-            >
-              <source src={videoSrc} type="video/mp4" />
-            </video>
-          ))}
         </div>
 
         {/* Main Content Layout – Left 45% Content overlay */}
