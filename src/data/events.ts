@@ -13,7 +13,7 @@ export const events: Event[] = [
     highlights: ["MATLAB", "Simulink", "Power Electronics", "Hackathon", "Prizes Worth ₹10,000+", "Open to All"],
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     externalUrl: "https://simulink101-pels.vercel.app/",
-    statusBadge: "REGISTER NOW",
+    statusBadge: "EXPLORE",
     isPosterComingSoon: true
   },
   {

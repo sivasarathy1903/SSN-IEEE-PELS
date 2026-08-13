@@ -205,7 +205,7 @@ export default function Events() {
                             onClick={(e) => e.stopPropagation()}
                             className="inline-flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#C8102E] to-[#E8172E] text-white py-2.5 px-4 rounded-lg font-extrabold text-xs tracking-wider uppercase transition-all hover:shadow-[0_0_20px_rgba(200,16,46,0.5)] hover:from-[#E8172E] hover:to-[#C8102E]"
                           >
-                            <span>REGISTER NOW</span>
+                            <span>EXPLORE</span>
                             <span>→</span>
                           </a>
                         ) : (
