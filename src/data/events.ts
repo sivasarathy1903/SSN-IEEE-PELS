@@ -11,10 +11,10 @@ export const events: Event[] = [
     participants: "Open Registration",
     description: "IEEE PELS SSN presents SIMVERSE — a high-stakes MATLAB & Simulink hackathon challenging participants to model, simulate and optimise real-world power electronics systems. From Buck-Boost converters to inverter control strategies, push the boundaries of simulation. Build. Simulate. Dominate.",
     highlights: ["MATLAB", "Simulink", "Power Electronics", "Hackathon", "Prizes Worth ₹10,000+", "Open to All"],
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    image: "/events/simverse_hackathon_poster.jpg",
     externalUrl: "https://simulink101-pels.vercel.app/",
     statusBadge: "EXPLORE",
-    isPosterComingSoon: true
+    isPosterComingSoon: false
   },
   {
     id: "simverse-2-phase-1",

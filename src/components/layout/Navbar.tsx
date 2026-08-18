@@ -50,8 +50,8 @@ export function Navbar() {
           {/* Left: IEEE PELS Logo */}
           <Link to="/" className="flex items-center group py-1">
             <img
-              src="/ieee_pels_logo.svg"
-              alt="IEEE Power Electronics Society"
+              src="/pels_logo.png"
+              alt="IEEE PELS SSN"
               className="h-16 md:h-18 w-auto object-contain group-hover:scale-[1.01] transition-transform duration-200"
             />
           </Link>
