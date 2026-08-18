@@ -52,7 +52,7 @@ export function Navbar() {
             <img
               src="/pels_logo.png"
               alt="IEEE PELS SSN"
-              className="h-16 md:h-18 w-auto object-contain group-hover:scale-[1.01] transition-transform duration-200"
+              className="h-16 md:h-18 w-auto object-contain mix-blend-screen group-hover:scale-[1.01] transition-transform duration-200"
             />
           </Link>
 
