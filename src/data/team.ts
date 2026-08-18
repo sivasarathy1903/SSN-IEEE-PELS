@@ -118,7 +118,7 @@ export const team: TeamMember[] = [
   // Design Team
   { id: "deeksha-srinivasan", name: "Deeksha Srinivasan", role: "Head", category: "Design Team", department: "EEE, 3rd Year", photo: "/team-photos/DESIGN/Deeksha_EEE_3rdyear.jpg", email: "deeksha2410298@ssn.edu.in", linkedin: "" },
   { id: "avanthika-v", name: "Avanthika V", role: "Member", category: "Design Team", department: "M.Tech (Integrated) CSE, 3rd Year", photo: "/team-photos/DESIGN/Avanthika_MtechCSE_III.png", email: "avanthika2470011@ssn.edu.in", linkedin: "" },
-  { id: "devaharshaa-s", name: "Devaharshaa S", role: "Member", category: "Design Team", department: "ECE, 2nd Year", photo: "/team-photos/DESIGN/PRITIKA.EEE.2ND YEAR.jpeg", email: "devaharshaa2510482@ssn.edu.in", linkedin: "" },
+  { id: "pritika", name: "Pritika", role: "Member", category: "Design Team", department: "EEE, 2nd Year", photo: "/team-photos/DESIGN/PRITIKA.EEE.2ND YEAR.jpeg", email: "devaharshaa2510482@ssn.edu.in", linkedin: "" },
   { id: "carolin-r", name: "Carolin R", role: "Member", category: "Design Team", department: "ECE, 2nd Year", photo: "/team-photos/DESIGN/Carolin R_ECE_2nd year.jpg", email: "carolin2510492@ssn.edu.in", linkedin: "" },
   { id: "sasikiran-s-l", name: "Sasikiran S L", role: "Member", category: "Design Team", department: "Chemical Engineering, 2nd Year", photo: "/team-photos/DESIGN/Sasikiran S L_Chemical engineering_2nd year.png", linkedin: "" },
 
