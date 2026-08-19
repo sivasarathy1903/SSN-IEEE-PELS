@@ -96,7 +96,7 @@ export const team: TeamMember[] = [
   { id: "vennela-srpns-tech", name: "Vennela SRPNS", role: "Member", category: "Project Team", department: "EEE, 3rd Year", photo: "/team-photos/TECHNICAL/Vennela_SRPNS_EEE_3rdyear.jpg", email: "vennela2410199@ssn.edu.in", linkedin: "" },
   { id: "nithesh-kumar", name: "K. Nithesh Kumar", role: "Member", category: "Project Team", department: "EEE, 3rd Year", photo: "/team-photos/TECHNICAL/K.NITHESH KUMAR EEE 3rd Year.jpg", email: "nitheshkumar2410764@ssn.edu.in", linkedin: "" },
   { id: "thanuj-s", name: "Thanuj S", role: "Member", category: "Project Team", photo: "/team-photos/TECHNICAL/Thanuj_EEE_3rdyear.jpeg", email: "thanuj2410277@ssn.edu.in", linkedin: "" },
-  { id: "aravind-krishna", name: "Aravind Krishna", role: "Member", category: "Project Team", department: "ECE, 3rd Year", photo: "team-photos/TECHNICAL/Aravind_ECE_3.jpg", email: "aravindkrishna2410111@ssn.edu.in", linkedin: "" },
+  { id: "aravind-krishna", name: "Aravind Krishna", role: "Member", category: "Project Team", department: "ECE, 3rd Year", photo: "/team-photos/TECHNICAL/Aravind_ECE_3.jpg", email: "aravindkrishna2410111@ssn.edu.in", linkedin: "" },
   { id: "shakthivel-r", name: "Shakthivel R", role: "Member", category: "Project Team", department: "ECE, 3rd Year", photo: "/team-photos/TECHNICAL/Shakthivel_R_ECE_3rdyr.png", email: "shakthivel2410515@ssn.edu.in", linkedin: "" },
   { id: "muthu-palaniyappan", name: "Muthu Palaniyappan MV", role: "Member", category: "Project Team", photo: "/team-photos/TECHNICAL/Muthu Palaniyappan_EEE_2ndyear.jpg", email: "muthupalaniyappan2510287@ssn.edu.in", linkedin: "" },
   { id: "kishore-m", name: "M.Kishore", role: "Member", category: "Project Team", photo: "/team-photos/TECHNICAL/Kishore_EEE_2ndyear.jpg", email: "kishore2510503@ssn.edu.in", linkedin: "" },
@@ -121,6 +121,7 @@ export const team: TeamMember[] = [
   { id: "pritika", name: "Pritika", role: "Member", category: "Design Team", department: "EEE, 2nd Year", photo: "/team-photos/DESIGN/PRITIKA.EEE.2ND YEAR.jpeg", email: "devaharshaa2510482@ssn.edu.in", linkedin: "" },
   { id: "carolin-r", name: "Carolin R", role: "Member", category: "Design Team", department: "ECE, 2nd Year", photo: "/team-photos/DESIGN/Carolin R_ECE_2nd year.jpg", email: "carolin2510492@ssn.edu.in", linkedin: "" },
   { id: "sasikiran-s-l", name: "Sasikiran S L", role: "Member", category: "Design Team", department: "Chemical Engineering, 2nd Year", photo: "/team-photos/DESIGN/Sasikiran S L_Chemical engineering_2nd year.png", linkedin: "" },
+  { id: "devaharshaa-s", name: "Devaharshaa S", role: "Member", category: "Design Team", department: "ECE, 2nd Year", photo: "/team-photos/DESIGN/devaharshaa.jpeg", email: "devaharshaa2510482@ssn.edu.in", linkedin: "" },
 
   // Event Management
   { id: "viya-balaji", name: "Viya Balaji", role: "Head", category: "Event Management", department: "EEE, 3rd Year", photo: "/team-photos/EVENT MANAGEMENT/Viya Balaji - EEE 3rd year.jpg", email: "viya2410190@ssn.edu.in", linkedin: "" },
