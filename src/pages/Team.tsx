@@ -169,6 +169,10 @@ export default function Team() {
                     <p className="text-sm text-neutral-400">{facultyCoordinator.department}</p>
                   </div>
 
+                  {facultyCoordinator.bio && (
+                    <p className="text-sm text-neutral-300 leading-relaxed max-w-2xl">{facultyCoordinator.bio}</p>
+                  )}
+
                   <div className="pt-2 flex flex-wrap justify-center md:justify-start items-center gap-4">
                     <a
                       href={`mailto:${facultyCoordinator.email}`}

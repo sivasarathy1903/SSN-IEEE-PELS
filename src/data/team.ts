@@ -7,6 +7,7 @@ export const facultyCoordinator = {
   department: "Department of Electrical and Electronics Engineering",
   email: "seyezhair@ssn.edu.in",
   photo: "/faculty_seyezhai.png",
+  bio: "Dr. R. Seyezhai is a distinguished academic and researcher with 26+ years of teaching and research experience, specializing in Power Electronics and Renewable Energy Systems. She has 400+ research publications, 30+ best paper awards, 15 Ph.D. graduates, and has authored two textbooks in her field. She has established advanced renewable-energy laboratories at SSN, led multiple funded research projects, and mentored award-winning student innovations. An Innovation Ambassador and senior IEEE-PELS professional, she has also played a key role in organizing international conferences, workshops, and technical programs.",
 };
 
 export const team: TeamMember[] = [
